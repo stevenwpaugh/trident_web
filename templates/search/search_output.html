@@ -1,0 +1,47 @@
+{% extends "base_generic.html" %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+
+{% block content %}
+{% if not msg %}
+{% endif %}
+{% if msg %}
+<table>
+<tr>
+<td>MicroRNA name</td>
+<td>MicroRNA ID</td>
+</tr>
+{% for result in msg %}
+<tr>
+<td><a href="/detail/{{ result.mirbase_name }}">{{ result.mirbase_name }}</a></td>
+<td>{{ result.mirbase_id }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if not msg2 %}
+{% endif %}
+{% if msg2 %}
+<table>
+<tr>
+<td>Gene Symbol</td>
+<td>Probe Set ID</td>
+</tr>
+{% for result2 in msg2 %}
+<tr>
+<td>{{ result2.gene_symbol }}</a></td>
+<td><a href="/probedetail/{{ result2.probe_set_id }}">{{ result2.probe_set_id }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+
+{% endblock %}
+

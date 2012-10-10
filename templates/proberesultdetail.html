@@ -1,0 +1,151 @@
+
+{% extends "base_generic.html" %}
+{% load mytags %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<h2>Result detail</h2>
+{% if not latest_result_list %}
+<p>No results found</p>
+{% endif %}
+{% for result in latest_result_list %}
+<h3>{{ result.drug }}</h3>
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+<tr class="even">
+<td>Probe Set ID</td><td>{{ result.probe_set_id }}</a></td>
+</tr>
+<tr>
+<tr class="odd">
+<td>Meta analysis p-value</td><td>{{ result.meta_p }}</td>
+</tr>
+
+<tr class="even">
+<td>Meta analysis test statistic</td><td>{{ result.meta_stat }}</td>
+</tr>
+
+<tr class="odd">
+<td>St. Jude Protocol XV p-values</td><td>{{ result.totxv_t_p }}<br />{{ result.totxv_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>St. Jude Protocol XV test statistics</td><td>{{ result.totxvi_t_stat }}<br />{{ result.totxvi_w_stat }}</td>
+</tr>
+
+<tr class="odd">
+<td>St. Jude Protocol XVI p-values</td><td>{{ result.totxvi_t_p }}<br />{{ result.totxvi_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>St. Jude Protocol XVI test statistics</td><td>{{ result.totxvi_t_stat }}<br />{{ result.totxvi_w_stat }}</td>
+</tr>
+
+{% if not result.dutch_w_p = '' %}
+<tr class="odd">
+<td>European COALL Protocols p-values</td><td>{{ result.dutch_t_p }}<br />{{ result.dutch_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>European COALL Protocols test statistics</td><td>{{ result.dutch_t_stat }}<br />{{ result.dutch_w_stat }}</td>
+</tr>
+{% endif %}
+</table>
+{% endfor %}
+
+{% if meth_result_list %}
+<h3>DNA Methylation</h3>
+{% for result in meth_result_list %}
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+<tr class="even">
+<td>Probe Set ID</td><td>{{ result.probe_set_id }}</td>
+</tr>
+<tr class="odd">
+<td>IlmnID</td><td>{{ result.ilmn_id }}</td>
+</tr>
+<tr class="even">
+<td>Distance</td><td>{{ result.distance }} bases</td>
+<tr>
+<tr class="odd">
+<td>Meta analysis p-value</td><td>{{ result.meta_p }}</td>
+</tr>
+
+<tr class="even">
+<td>Meta analysis test statistic</td><td>{{ result.meta_stat }}</td>
+</tr>
+
+<tr class="odd">
+<td>St. Jude Protocol XV p-values</td><td>{{ result.totxv_t_p }}<br />{{ result.totxv_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>St. Jude Protocol XV test statistics</td><td>{{ result.totxvi_t_stat }}<br />{{ result.totxvi_w_stat }}</td>
+</tr>
+
+<tr class="odd">
+<td>St. Jude Protocol XVI p-values</td><td>{{ result.totxvi_t_p }}<br />{{ result.totxvi_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>St. Jude Protocol XVI test statistics</td><td>{{ result.totxvi_t_stat }}<br />{{ result.totxvi_w_stat }}</td>
+</tr>
+</table>
+{% endfor %}
+{% endif %}
+{% if mir_result_list %}
+<h3>MicroRNA</h3>
+{% for result in mir_result_list %}
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+<tr class="even">
+<td>Probe Set ID</td><td>{{ result.probe_set_id }}</td>
+</tr>
+<tr class="odd">
+<td>Exiqon ID</td><td>{{ result.exiqon_id }}</td>
+</tr>
+<tr class="even">
+<td>MicroRNA</td><td><a href="/detail/{{ result.microrna }}">{{ result.microrna }}</a></td>
+</tr>
+<tr class="odd">
+<td>Binding site</td><td><pre>{{ result.mirna_align }}<br />{{ result.align }}<br />{{ result.gene_align }}</pre></td></tr>
+
+<tr class="even">
+<td>Meta analysis p-value</td><td>{{ result.meta_p }}</td>
+</tr>
+
+<tr class="odd">
+<td>Meta analysis test statistic</td><td>{{ result.meta_stat }}</td>
+</tr>
+
+<tr class="odd">
+<td>St. Jude Protocol XV p-values</td><td>{{ result.totxv_t_p }}<br />{{ result.totxv_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>St. Jude Protocol XV test statistics</td><td>{{ result.totxvi_t_stat }}<br />{{ result.totxvi_w_stat }}</td>
+</tr>
+
+<tr class="odd">
+<td>St. Jude Protocol XVI p-values</td><td>{{ result.totxvi_t_p }}<br />{{ result.totxvi_w_p }}</td>
+</tr>
+
+<tr class="even">
+<td>St. Jude Protocol XVI test statistics</td><td>{{ result.totxvi_t_stat }}<br />{{ result.totxvi_w_stat }}</td>
+</tr>
+</table>
+{% endfor %}
+{% endif %}
+
+
+{% endblock %}

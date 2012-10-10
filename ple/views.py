@@ -13,7 +13,7 @@ from django.template import RequestContext
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from ple_interface import *
-
+from drresults.models import *
 
 def index(request):
 	return HttpResponse("Hello, World!")
@@ -64,6 +64,18 @@ def resultdetail(request, microrna_id, chr, start_pos):
 		'latest_result_list': result_list
     	})
     	return HttpResponse(t.render(c))
+
+def proberesultdetail(request, probe_set_id):
+        latest_result_list = geic50.objects.filter(probe_set_id = probe_set_id)
+	meth_result_list = gemeth.objects.filter(probe_set_id = probe_set_id)
+        mir_result_list = gemir.objects.filter(probe_set_id = probe_set_id)
+	t = loader.get_template('proberesultdetail.html')
+        c = Context({
+                'latest_result_list': latest_result_list,
+                'meth_result_list': meth_result_list,
+                'mir_result_list': mir_result_list
+        })
+        return HttpResponse(t.render(c))
 
 #class PleForm(forms.Form):
 #    nt1 = forms.CharField(max_length=100)

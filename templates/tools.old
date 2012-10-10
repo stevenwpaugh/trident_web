@@ -1,0 +1,91 @@
+
+{% extends "base_generic.html" %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="http://trident.stjude.org/detail2/hsa-miR-1224-3p/5/177968546/"></script> 
+<script>
+            window.onload = function () {
+                var paper = Raphael("canvas", 500, 500),
+                    btn = document.getElementById("run"),
+                    cd = document.getElementById("code");
+                (btn.onclick = function () {
+                    paper.clear();
+                    paper.rect(0, 0, 500, 500, 0).attr({fill: "#ddd", stroke: "none"});
+var width="500";
+var border="50";
+var xdist=(myxmax[0]-myxmin[0]);
+console.log(myxmax);
+console.log(myxmin);
+console.log(xdist);
+var spacer=xdist*0.05; 
+console.log(spacer);
+var spacexmin=(myxmin[0] - spacer);
+console.log(spacexmin);
+var spacexmax=(myxmax[0] + spacer);
+console.log(spacexmax);
+var xslope=(width-2*border)/(spacexmax-spacexmin);
+console.log(xslope);
+console.log(xslope);
+var xintercept=border-(spacexmin*xslope);
+console.log(xintercept);
+paper.path(["M", border, width-border, "L", border, 0+border]);
+paper.path(["M", width-border, width-border, "L", border, width-border]);
+paper.text((width)/2, width-0.5*border, "X label");
+paper.text(0.5*border, (width)/2, "Y label").attr({transform: "r" + 270});
+paper.circle(50,50, 2);
+
+// p.mouseover(function () {
+//                p.stop().animate({transform: "s1.1 1.1 " + cx + " " + cy}, ms, "elastic");
+//                txt.stop().animate({opacity: 1}, ms, "elastic");
+//            }).mouseout(function () {
+//                p.stop().animate({transform: ""}, ms, "elastic");
+//                txt.stop().animate({opacity: 0}, ms);
+//            });
+
+for (i=0;i<myx.length;i=i+1)
+  {
+  var px = myx[i]*xslope+xintercept;
+  var py = myy[i]; 
+  var ms = "500";
+  var p = paper.circle(px, py, 3).attr({stroke: '#000', fill: '#000'});
+  console.log(myx[i]*xslope+xintercept);
+    p.hover(
+     // When the mouse comes over the object //
+     // Stock the created "glow" object in myCircle.g
+     function() {
+         this.g = this.glow({
+             color: "#000",
+             width: 10
+         });
+     },
+     // When the mouse goes away //
+     // this.g was already created. Destroy it!
+     function() {
+         this.g.remove();
+     });
+
+  }
+//paper.circle(50, 240, 60).animate({fill: "#223fa3", stroke: "#000", "stroke-width": 80, "stroke-opacity": 0.5}, 2000);
+                    try {
+                        (new Function("paper", "window", "document", cd.value)).call(paper, paper);
+                    } catch (e) {
+                        alert(e.message || e);
+                    }
+                })();
+            };
+
+        </script>
+{% endblock %}
+{% block content %}
+<div id="canvas"></div>
+        <div><textarea id="code"></textarea></div>
+        <div><button id="run" type="button">Run</button></div>
+
+We could put the form based trident prediction here.
+{% endblock %}

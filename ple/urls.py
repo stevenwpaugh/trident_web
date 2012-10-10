@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import direct_to_template
 from ple.views import secure_required
 from ple.views import *
+from plotter.views import import_start
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -29,6 +30,7 @@ urlpatterns = patterns('django.views.generic.simple',
 urlpatterns += patterns('', 
     url(r'^tools/$', 'ple.sequence_submission.ple_me'),
     url(r'^search/$', 'ple.site_search.site_search'),
+    url(r'^myimport/$', 'plotter.views.import_start', name='import_start'),
     #url(r'^tools2/$', 'ple.views.pletool'),
     #url(r'^$', 'direct_to_template', {'template': 'index.html'}),
     #url(r'^search/$', 'ple.views.index'),
@@ -43,6 +45,7 @@ urlpatterns += patterns('',
    #url(r'^search/(?P<microrna_id>\S+)/$', 'ple.views.detail'),
    url(r'^detail/(?P<microrna_id>\S+)/(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'),
    url(r'^detail/(?P<microrna_id>\S+)/$', 'ple.views.micrornadetail'),
+   url(r'^probedetail/(?P<probe_set_id>\S+)/$', 'ple.views.proberesultdetail'),
 	#url(r'^ple/', 'ple.sequence_submission.ple_me', name='home'),   
    url(r'^detail2/(?P<microrna_id>\S+)/(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetailold'),
     # url(r'^ple/', include('ple.foo.urls')),

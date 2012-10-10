@@ -1,0 +1,7 @@
+db_engine = 'django.db.backends.postgresql_psycopg2'
+db_name = 'ple'
+db_user = 'ple'
+db_passwd = ''
+db_host = 'localhost'
+
+template_dir = '/apps/apache-2.4.2/trident_web/templates'
