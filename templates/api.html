@@ -1,0 +1,80 @@
+
+{% extends "base_generic.html" %}
+
+{% block title %}Home{% endblock %}
+
+
+ {% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+
+
+{% block content %}
+<div class="span-20 last">
+<div class="span-20">
+<h2>Install the Trident API R package</h2>
+			<p>
+			We are offering an application programming interface for R
+				(<a href="http://www.r-project.org" target="_blank">http://www.r-project.org</a>) which can be installed using the instruction below.
+			</p>
+
+			<p>
+			Use the <strong><em>trident.R</em></strong> script to install the API [TridentAPI version 1.0].
+			</p>
+
+
+			<div class="codeLabel">To install a particular package, e.g., TridentAPI, type (or copy and paste) the following in an R command window:</div>
+
+			<code>source("http://trident.stjude.org/static/trident.R");<br />tridentinstall("TridentAPI");</code>			
+
+
+
+			<div class="codeLabel">Once installed simply add the following line to the beginning of your scripts.</div>
+
+			<code>require("TridentAPI");</code>
+
+			<br />
+			<br />
+
+
+		
+
+			<h3>Examples of usage:</h3>
+
+			
+
+			<div class="codeLabel">Get all targets for a microRNA</div> 
+
+			<code>getTridentdata(microrna="hsa-miR-211-5p", datatype="targets");</code>
+
+
+			<div class="codeLabel">Get all microRNAs that target a gene</div>
+
+			<code>getTridentdata("TPMT", datatype="gene");</code>
+
+
+
+                        <div class="codeLabel">Get a listing of genomes with availble information</div>
+
+                        <code>getTridentgenomelist();</code>
+
+
+
+            		<div class="codeLabel">Get a listing of microRNAs with availble information</div>
+
+			<code>getTridentmicroRNAlist();</code>
+
+			
+
+			<div class="codeLabel">If you are interested in repackaging TridentAPI on other platforms, please download the source code using this link:  
+
+			<a href="/TridentAPI_1.0.tar.gz">Trident API Source Code</a></div>
+
+
+</div>
+</div>
+{% endblock %}

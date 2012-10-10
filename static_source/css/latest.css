@@ -1,0 +1,37 @@
+body {
+    padding:1em 0 1.5em 0; 
+}
+header { 
+/*border-top:2px solid #222;*/
+/*border-left:2px solid #222;*/	
+/*border-right:2px solid #222;*/
+/*border-bottom:2px solid #222;*/ 
+margin:0 auto; 
+background:white;
+}
+a#tridentLogo{
+float:left;
+}
+a#stjudeLogo{
+	float:right;
+	bottom:0px;
+}
+
+p.footer{
+text-align: center 
+}
+.codeLabel{
+font-weight:bold;
+margin-top:1.5em;
+margin-bottom:0}
+code{background-color:#e3e3e3;
+border:1px dashed #aaa;
+font-family:'Lucida Console',monaco,monospace;
+margin-bottom:0;
+margin-top:.5em;
+overflow-x:auto;
+padding:1em;
+white-space:pre;
+display:inline-block;
+color:#000;
+font-size:.9em}

@@ -1,0 +1,9 @@
+<h2>Genomes</h2>
+    <ul>
+        {% for genomes in object_list %}
+            <li>{{ genomes.genome_ver }}</li>
+	    <li>{{ genomes.genome_genus }}</li>
+	    <li>{{ genomes.genome_species }}</li>
+	    <li>{{ genomes.description }}</li>		
+        {% endfor %}
+    </ul>

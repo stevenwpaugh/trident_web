@@ -1,0 +1,50 @@
+
+{% extends "base_generic.html" %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<h2>MicroRNA detail</h2>
+{% for result in latest_result_list %}
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+<tr class="even">
+<td>MicroRNA name</td><td>{{ result.mirbase_name }}</td>
+</tr>
+<tr class="odd">
+<td>Chromosome</td><td>{{ result.chromosome }}</td>
+</tr>
+<tr class="even">
+<td>Genomic Start Position</td><td>{{ result.genomic_mir_start }}</td>
+</tr>
+<tr class="odd">
+<td>Genomic End Position</td><td>{{ result.genomic_mir_end }}</td>
+</tr>
+<tr class="even">
+<td>Primary Transcript?</td><td>{{ result.is_primary_transcript }}</td>
+</tr>
+<tr class="odd">
+<td>Positive Strand?</td><td>{{ result.is_on_positive_strand }}</td>
+</tr>
+<tr class="even">
+<td>MicroRNA sequence</td><td>{{ result.mirbase_seq }}</td>
+</tr>
+<tr class="odd">
+<td>miRBase ID</td><td>{{ result.mirbase_seq }}</td>
+</tr>
+<tr class="even">
+<td>Derived from</td><td>{{ result.mirbase_derives_from }}</td>
+</tr>
+<tr class="odd">
+<td>Genome</td><td>{{ result.genome }}</td>
+</tr>
+
+</table>
+{% endfor %}
+{% endblock %}

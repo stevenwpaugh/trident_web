@@ -1,0 +1,32 @@
+
+{% extends "base_generic.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<div class="span-20 last">
+<div class="span-20">
+<h2>Computing for a Cause</h2>
+			<p>
+			Our goal for Trident is to provide a comprehensive collection of results for analysis by scientists and non-scientists world-wide.<br />
+			You can help us accomplish this goal by participating in our volunteer grid computing project.<br />
+			Validated results will be made immediately availble here for viewing and analysis and will help fulfill Danny Thomas's vision that <br /><i>"No child should die in the dawn of life"</i>.<br />
+<br />
+To participate:
+<ol>
+<li><a href="/accounts/register">Register</a> with us</li>
+<li><a href="/compute/download">Download</a> the grid computing manager application</li>
+<li>Point your grid computing manager at: http://trident.stjude.org/</li>
+<li>Enter your registered credentials when prompted</ol>
+<br />  
+			</p>
+</div>
+</div>
+{% endblock %}

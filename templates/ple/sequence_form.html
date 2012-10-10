@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form action="." method="post">
+{% csrf_token %}
+{{ form.nt1 }} {{ form.nt2 }}
+<br/>
+<label for="use_miranda">Miranda Rules?</label>{{ form.use_miranda }}
+<br/>
+<input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+
+{% extends "base_generic.html" %}
+{% load mytags %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<h2>Result detail</h2>
+{% if not latest_result_list %}
+<p>No results found</p>
+{% endif %}
+{% for result in latest_result_list %}
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+{% if result|keyvalue:'microrna' %}
+<tr class="even">
+<td>microRNA</td><td><a href="{% url ple.views.micrornadetail microrna_id=result|keyvalue:'microrna' %}">{{ result|keyvalue:'microrna' }}</a></td>
+</tr>
+<tr>
+<tr class="odd">
+<td>Chromosome</td><td>{{ result|keyvalue:'chromosome' }}</td>
+</tr>
+{% endif %}
+<tr class="even">
+<td>Genomic Start Position</td><td>{{ result|keyvalue:'hit_genomic_start' }}</td>
+</tr>
+<tr class="odd">
+<td>Genomic End Position</td><td>{{ result|keyvalue:'hit_genomic_end' }}</td>
+</tr>
+<tr class="even">
+<td>Base Type</td><td>{{ result|keyvalue:'base_type' }}</td>
+</tr>
+<tr class="odd">
+<td>Hit Score</td><td>{{ result|keyvalue:'hit_score' }}</td>
+</tr>
+<tr class="even">
+<td>Hit Energy</td><td>{{ result|keyvalue:'hit_energy' }}</td>
+</tr>
+<tr class="odd">
+<td>Hit structure</td><td><pre>{{ result|keyvalue:'query_seq' }}<br />{{ result|keyvalue:'hit_string' }}<br />{{ result|keyvalue:'ref_seq' }}<br />{% complement result|keyvalue:'ref_seq' %}</pre></td>
+</tr>
+<tr class="even">
+<td>Match Type</td><td>{{ result|keyvalue:'match_type' }}</td>
+</tr>
+{% if result|keyvalue:'genome' %}
+<tr class="odd">
+<td>Genome</td><td>{{ result|keyvalue:'genome' }}</td>
+</tr>
+{% endif %}
+
+</table>
+{% endfor %}
+{% endblock %}

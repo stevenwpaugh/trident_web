@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>  
+	<title>{% block title %}Trident{% endblock %}</title>
+	{% block style %}{% endblock %}    
+	<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/screen.css" type="text/css" media="screen, projection"></link>
+	<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/print.css" type="text/css" media="print"> </link>
+	<!--[if lt IE 8]>
+		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/ie.css" type="text/css" media="screen, projection"></link>
+	<![endif]-->
+	
+	<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection"></link>
+	<link rel="stylesheet" href="{% get_static_prefix %}css/latest.css" type="text/css" media="screen, projection"></link>
+	<script src="{% get_static_prefix %}raphael.js"></script>
+	{% block javascript %}{% endblock %}
+	<!-- <scheduler>http://stjudeathome.stjude.org/stjudeathome_cgi/cgi</scheduler> -->
+  </head>
+  <body>
+	<div class="container">
+	  {% block header %}
+	  <div class="span-24" id="header">
+		{% block headertext %}
+		<div style="position:relative; top: 300px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
+		  <h2>We're helping treat<br />Childhood Cancer.</h2>
+		</div>
+		<div style="position:relative; top: 325px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
+		  <h3>You can help!</h3>
+		</div>
+		{% endblock %}
+	  </div>
+	  {% endblock %}
+
+		<div class="span-24" id="menubar">
+		  <a href="/" class="menu">Home</a>| 
+		  <a href="/static/tridentbrowse/" class="menu">Browse</a>| 
+		  <a href="/search" class="menu">Search</a>|
+		  <a href="/tools" class="menu">Tools</a>| 
+		  <a href="/compute" class="menu">Compute</a>| 
+		  <a href="/api" class="menu">API</a>|
+		  <a href="/about" class="menu">About</a>
+		  {% if user.is_authenticated %}
+		  | <a href="/accounts/logout" class="menu">Logout</a>
+		  {% else %}
+		  |<a href="/accounts/login" class="menu">Login</a>
+		  {% endif %}
+		</div>
+		
+		<div class="span-24", id="content">
+		{% if user.is_authenticated %}
+		<h5 style="text-align:right;">Logged in as: {{ user.email}}</h5>
+		{% else %}
+		{% endif %}
+		{% block content %}{% endblock %}
+		</div>		
+	  
+		<div class="span-24">
+		  <p class="footerbar"><a href="http://www.stjude.org" alt="St. Jude Children's Research Hospital" rel="external" class="footer">St. Jude Children's Research Hospital</a> | <a href="http://www.stjuderesearch.org" rel="external" class="footer">St. Jude Research</a></p>
+		</div>
+	</div>
+  </body>
+</html>	

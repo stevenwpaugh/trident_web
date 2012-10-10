@@ -1,0 +1,35 @@
+{% extends "base_generic.html" %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+
+{% block content %}
+<div class="span-20 last">
+<h2>MicroRNAs</h2>
+    <ul>
+<table>
+<tr>
+<th>MicroRNA Name</th>
+<th>Chromosome</th>
+<th>Genomic start</th>
+<th>Genomic end</th>
+<th>MicroRNA sequence</th>
+<th>Predictions</th>
+</tr>  
+{% for micrornas in object_list %}
+<tr>
+<td>{{ micrornas.mirbase_name }}</td>
+<td>{{ micrornas.chromosome }}</td>
+<td>{{ micrornas.genomic_mir_start }}</td>		
+<td>{{ micrornas.genomic_mir_end }}</td>
+<td>{{ micrornas.mirbase_seq }}</td>
+<td><a href="/search/{{ micrornas.mirbase_name }}">Top 5 predictions</a></td>
+</tr>
+        {% endfor %}
+</table>
+</div>
+{% endblock %}
