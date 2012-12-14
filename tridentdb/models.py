@@ -84,6 +84,11 @@ class AffymetrixID(models.Model):
 
 
 def insert_score(score):
+
+    def error_msg(err_msg):
+        from sys import stderr
+        stderr.write(err_msg)
+
     ref_id_tokens = score['reference_id'].split('|')
     chunkid = ref_id_tokens[1]
     chromosome = ref_id_tokens[0]
@@ -121,11 +126,15 @@ def insert_score(score):
     else:
         base_type = base_type[0]
 
-    genome_version = score['reference_id'].split('|')[6]
+    genome_tokens = score['reference_id'].split('|')
+    if len(genome_tokens) < 6:
+        error_msg("Reference data is missing the genome version information.\nReference Data: %s" % score['reference_id'])
+        exit(1)
+    else:
+        genome_version = [6]
     genome = Genome.objects.filter(genome_ver = genome_version)
     if len(genome) != 1:
-        from sys import stderr
-        stderr.write("Genome, '%s', has not yet been loaded into the database." % genome_version)
+        error_msg("Genome, '%s', has not yet been loaded into the database." % genome_version)
         return False
     
     r = Results(chunkid = chunkid, chromosome = chromosome, hit_genomic_start = hit_genomic_start, hit_genomic_end = hit_genomic_end, hit_score = hit_score, hit_energy = hit_energy, hit_mir_start = hit_mir_start, hit_mir_end = hit_mir_end, query_seq = query_seq, ref_seq = ref_seq, hit_string = hit_string, is_parallel = is_parallel, match_type = match_type, base_type = base_type, microrna = microrna, genome = genome[0])
