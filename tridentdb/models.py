@@ -88,6 +88,7 @@ def insert_score(score):
     def error_msg(err_msg):
         from sys import stderr
         stderr.write(err_msg)
+        stderr.write("\n")
 
     ref_id_tokens = score['reference_id'].split('|')
     chunkid = ref_id_tokens[1]
@@ -131,7 +132,7 @@ def insert_score(score):
         error_msg("Reference data is missing the genome version information.\nReference Data: %s" % score['reference_id'])
         exit(1)
     else:
-        genome_version = [6]
+        genome_version = genome_tokens[6]
     genome = Genome.objects.filter(genome_ver = genome_version)
     if len(genome) != 1:
         error_msg("Genome, '%s', has not yet been loaded into the database." % genome_version)
