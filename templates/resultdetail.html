@@ -53,6 +53,11 @@
 <td>Genome</td><td>{{ result|keyvalue:'genome' }}</td>
 </tr>
 {% endif %}
+{% if result|keyvalue:'grade' %}
+<tr class="even">
+<td>Grade</td><td>{{ result|keyvalue:'grade' }}</td>
+</tr>
+{% endif %}
 
 </table>
 {% endfor %}
