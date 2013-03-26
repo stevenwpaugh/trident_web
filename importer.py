@@ -37,7 +37,7 @@ def import_gff(file, genome_version):
         lineno += 1
         if len(line) == 0:
             continue
-        line.strip()
+        line = line.strip()
         if line[0] == '#':
             continue
         info = line.split('\t')
