@@ -42,11 +42,12 @@ def footer():
 
 def run_ple(form):
     import tempfile
-
+    from subprocess import Popen,PIPE
+    
     pid = os.getpid()
     ple_path = "/opt/miranda/trident/bin/trident"
     init()
-
+    
     tmpfiles = {}
     for i in ["nt1", "nt2"]:
         if len(re.findall(r"[^agcutnAGCUTN\s]",form[i])):
@@ -70,7 +71,7 @@ def run_ple(form):
         opts += " -miranda "
 
     from sys import stderr
-    stdout_file = os.popen("%s %s %s %s 2>&1" % (ple_path, tmpfiles["nt1"].name, tmpfiles["nt2"].name, opts),"r")
+    stdout_file = Popen("{0} {1} {2} {3} 2>&1".format(ple_path, tmpfiles["nt1"].name, tmpfiles["nt2"].name, opts),shell=True,bufsize=0,stdout=PIPE).stdout
 
     tmpfiles["nt1"].close()
     tmpfiles["nt2"].close()
