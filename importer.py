@@ -20,6 +20,7 @@ def import_gff(file, genome_version):
     
     from tridentdb import models
     import re
+    from django.db.utils import DatabaseError
     
     if genome_version == None:
         print("Genome Version is needed for loading a gff file.")
@@ -40,7 +41,7 @@ def import_gff(file, genome_version):
         if line[0] == '#':
             continue
         info = line.split('\t')
-        chromosome = info[0]
+        chromosome = info[0].replace("chr","")
         is_primary_transcript = (info[2] == 'miRNA_primary_transcript')
         genomic_mir_start = info[3]
         genomic_mir_end = info[4]
@@ -64,7 +65,12 @@ def import_gff(file, genome_version):
 
         mirna = models.MicroRNA(chromosome=chromosome, is_primary_transcript = is_primary_transcript, genomic_mir_start = genomic_mir_start, genomic_mir_end = genomic_mir_end, is_on_positive_strand = is_on_positive_strand, mirbase_id = mirbase_id, mirbase_acc = mirbase_acc, mirbase_name = mirbase_name, mirbase_derives_from = mirbase_derives_from, genome = genomes[0] )
         
-        mirna.save()
+        try:
+            mirna.save()
+        except DatabaseError as de:
+            from sys import stderr
+            stderr.write("Error loading GFF line: {0}\n".format(line))
+            raise de
         ##end of import_gff
 
 def load_file(filename, file_type, genome_version = None, verbose = False):
