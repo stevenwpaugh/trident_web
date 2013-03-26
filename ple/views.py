@@ -14,6 +14,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from ple_interface import *
 from drresults.models import *
+from local_settings import interpolator_filename
 
 def index(request):
 	return HttpResponse("Hello, World!")
@@ -37,7 +38,26 @@ def resultdetailold(request, microrna_id, chr, start_pos):
         #output = "var myx = [%s];\nvar myy = [%s];" % (myx,myy)
         return HttpResponse(output)
 
+def get_grade(log_value):
+	if log_value <= 1e-5:
+		return 1
+	elif log_value <= 1e-4:
+		return 2
+	elif log_value <= 1e-3:
+		return 3
+	elif log_value <= 1e-2:
+		return 4
+	return 5
+
 def resultdetail(request, microrna_id, chr, start_pos):
+	import os.path as OP
+	interp = None
+	if interpolator_filename and OP.isfile(interpolator_filename):
+		import pickle
+		interp = pickle.load(open(interpolator_filename,"rb"))
+		if interp:
+			if not hasattr(interp,"__call__"):
+				interp = None
         latest_result_list = Results.objects.filter(microrna = microrna_id)
         latest_result_list = latest_result_list.filter(chromosome = chr)
         latest_result_list = latest_result_list.filter(hit_genomic_start = start_pos)
@@ -57,6 +77,8 @@ def resultdetail(request, microrna_id, chr, start_pos):
 		result_dict['ref_seq'] = result.ref_seq
 		result_dict['match_type'] = result.match_type
 		result_dict['genome'] = result.genome.__unicode__()
+		if interp:
+			result_dict['grade'] = get_grade(interp(result.hit_energy,result.hit_score))
 		result_list.append(result_dict)
 		
  	c = Context({
