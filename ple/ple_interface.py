@@ -71,8 +71,13 @@ def run_ple(form):
         opts += " -miranda "
 
     from sys import stderr
-    stdout_file = Popen("{0} {1} {2} {3} 2>&1".format(ple_path, tmpfiles["nt1"].name, tmpfiles["nt2"].name, opts),shell=True,bufsize=0,stdout=PIPE).stdout
+    proc = Popen("{0} {1} {2} {3} 2>&1".format(ple_path, tmpfiles["nt1"].name, tmpfiles["nt2"].name, opts),shell=True,bufsize=0,stdout=PIPE)
+    proc.wait()
+    stdout_file = proc.stdout
 
+    if proc.returncode:
+        print("Trident process exited with value {0}".format(proc.returncode))
+    
     tmpfiles["nt1"].close()
     tmpfiles["nt2"].close()
 
