@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 import ple_interface
 
-default_nts = {'nt1': 'UGAGGUAGUAAGUUGUAUUGUU', 'nt2': 'TCATCGATCGTCAAGAAAAGAAGAAAGAAGGAGATCATCGATCGTC', 'long_format': False}
+default_nts = {'nt1': 'UGGAAUGUAAAGAAGUAUGUAU', 'nt2': 'CTGCTAGCTACTAGGAAAGAAAAGAAGAAAGAAACTGCTAGCTACT', 'long_format': False}
 
 class SequenceForm(forms.Form):
     nt1 = forms.CharField(max_length=30,widget=forms.Textarea(attrs={'cols':30,'rows':10}))
