@@ -49,7 +49,24 @@ def get_grade(log_value):
 		return 4
 	return 5
 
-def resultdetail(request, microrna_id, chr, start_pos):
+def result_to_dict(result):
+	result_dict = {}
+	result_dict['microrna'] = result.microrna
+	result_dict['chromosome'] = result.chromosome
+	result_dict['hit_genomic_start'] = result.hit_genomic_start
+	result_dict['hit_genomic_end'] = result.hit_genomic_end
+	result_dict['base_type'] = result.base_type
+	result_dict['hit_score'] = result.hit_score
+	result_dict['hit_energy'] = result.hit_energy
+	result_dict['query_seq'] = result.query_seq
+	result_dict['hit_string'] = result.hit_string
+	result_dict['ref_seq'] = result.ref_seq
+	result_dict['match_type'] = result.match_type
+	result_dict['genome'] = result.genome.__unicode__()
+
+	return result_dict
+
+def get_interpolator():
 	import os.path as OP
 	interp = None
 	if interpolator_filename and OP.isfile(interpolator_filename):
@@ -58,25 +75,18 @@ def resultdetail(request, microrna_id, chr, start_pos):
 		if interp:
 			if not hasattr(interp,"__call__"):
 				interp = None
+	return interp
+
+def resultdetail(request, microrna_id, chr, start_pos):
+	interp = get_interpolator()
+	
         latest_result_list = Results.objects.filter(microrna = microrna_id)
         latest_result_list = latest_result_list.filter(chromosome = chr)
         latest_result_list = latest_result_list.filter(hit_genomic_start = start_pos)
 	t = loader.get_template('resultdetail.html')
 	result_list = []
 	for result in latest_result_list:
-		result_dict = {}
-		result_dict['microrna'] = result.microrna
-		result_dict['chromosome'] = result.chromosome
-		result_dict['hit_genomic_start'] = result.hit_genomic_start
-		result_dict['hit_genomic_end'] = result.hit_genomic_end
-		result_dict['base_type'] = result.base_type
-		result_dict['hit_score'] = result.hit_score
-		result_dict['hit_energy'] = result.hit_energy
-		result_dict['query_seq'] = result.query_seq
-		result_dict['hit_string'] = result.hit_string
-		result_dict['ref_seq'] = result.ref_seq
-		result_dict['match_type'] = result.match_type
-		result_dict['genome'] = result.genome.__unicode__()
+		result_dict = result_to_dict(result)
 		if interp:
 			result_dict['grade'] = get_grade(interp(result.hit_energy,result.hit_score))
 		result_list.append(result_dict)
@@ -147,18 +157,25 @@ def secure_required(view_func):
 
 def jsondetail(request, search_string):
 	from django.utils import simplejson
-	result_list = MicroRNA.objects.filter(mirbase_name = search_string)
+	mirna_list = MicroRNA.objects.filter(mirbase_name = search_string)
 
 	json_array = []
-
-	for res in result_list:
+	#interp = get_interpolator()
+	for res in mirna_list:
+		result_list = Results.objects.filter(microrna = search_string)
 		json_dict = {}
 		for key in ["mirbase_name","chromosome","genomic_mir_start","genomic_mir_end","is_primary_transcript","is_on_positive_strand","mirbase_seq","mirbase_id","mirbase_derives_from","genome_id"]:
 			val = getattr(res,key)
 			if val == None:
 				continue
 			json_dict[key] = val
-		json_array.append(json_dict)
+		#result_array = []
+		#for result in result_list:
+		#	result_dict = result_to_dict(result)
+		#	if interp:
+		#		result_dict['grade'] = get_grade(interp(result.hit_energy,result.hit_score))
+		#	result_array.append(result_dict)
+		json_array.append({"mirna": json_dict, "num_results": len(result_list)})
 	
-	return HttpResponse(simplejson.dumps(json_array),mimetype="application/json")
+	return HttpResponse(simplejson.dumps({search_string: json_array}),mimetype="application/json")
 
