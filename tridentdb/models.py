@@ -35,7 +35,7 @@ class MicroRNA(models.Model):
     genome = models.ForeignKey(Genome)
     
 class Results(models.Model):
-    chunkid = models.CharField(max_length=3)# parse from reference_id (field 2)
+    chunkid = models.CharField(max_length=6)# parse from reference_id (field 2)
     chromosome = models.CharField(max_length=2)# parse from reference_id (field 1)
     hit_genomic_start = models.IntegerField()# ref_coords[0]
     hit_genomic_end = models.IntegerField()# ref_coords[1]
@@ -84,7 +84,8 @@ class AffymetrixID(models.Model):
 
 
 def insert_score(score):
-
+    from django.db.utils import DatabaseError
+    
     def error_msg(err_msg):
         from sys import stderr
         stderr.write(err_msg)
@@ -136,10 +137,18 @@ def insert_score(score):
     genome = Genome.objects.filter(genome_ver = genome_version)
     if len(genome) != 1:
         error_msg("Genome, '%s', has not yet been loaded into the database." % genome_version)
+        error_msg("Hit: {0}".format(score))
         return False
     
     r = Results(chunkid = chunkid, chromosome = chromosome, hit_genomic_start = hit_genomic_start, hit_genomic_end = hit_genomic_end, hit_score = hit_score, hit_energy = hit_energy, hit_mir_start = hit_mir_start, hit_mir_end = hit_mir_end, query_seq = query_seq, ref_seq = ref_seq, hit_string = hit_string, is_parallel = is_parallel, match_type = match_type, base_type = base_type, microrna = microrna, genome = genome[0])
-    r.save()
+
+    try:
+        r.save()
+    except DatabaseError as de:
+        from sys import stderr
+        stderr.write("Error loading score line: {0}\n".format(score))
+        raise de
+
     
     return True
 
