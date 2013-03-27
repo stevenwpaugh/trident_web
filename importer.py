@@ -3,11 +3,26 @@
 def import_scores(file, verbose = False):
     import tridentdb.models
     from trident import parser
+    from hashlib import md5
+    
+    ignore_counter = 0
+    result_hashes = []
     p = parser.Parser(file)
     for score in p:
+        s = parser.str_score(score)
+        hash = md5(s).digest()
+        if hash in result_hashes:
+            if verbose:
+                print("Ignoring duplicate entry: {0}".format(s))
+            ignore_counter += 1
+            continue
+        result_hashes.append(hash)
         if verbose:
-            print(parser.str_score(score))
+            print(s)
         tridentdb.models.insert_score(score)
+
+    if ignore_counter:
+        print("Ignored {0} duplicate entries".format(ignore_counter))
         
 
 def import_gff(file, genome_version):
@@ -76,9 +91,9 @@ def import_gff(file, genome_version):
 def load_file(filename, file_type, genome_version = None, verbose = False):
     with open(filename,'r') as file:
         if file_type == 'gff':
-            import_gff(file, genome_version)
+            import_gff(file, genome_version,verbose)
         elif file_type == 'score':
-            import_scores(file)
+            import_scores(file,verbose)
         else:
             print("%s is not yet implemented" % file_type)
 
