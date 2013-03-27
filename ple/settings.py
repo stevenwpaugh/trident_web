@@ -3,8 +3,8 @@
 
 import local_settings as local 
 import os
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+DEBUG = local.DEBUG
+TEMPLATE_DEBUG = local.TEMPLATE_DEBUG
 
 ADMINS = (
      ('David Coss', 'David.Coss@stjude.org')
