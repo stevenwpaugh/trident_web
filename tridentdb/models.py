@@ -1,5 +1,8 @@
 from django.db import models
 
+class ImportException(Exception):
+    pass
+
 class MatchType(models.Model):
     """
     Table that lists names of match and base types
@@ -136,9 +139,7 @@ def insert_score(score):
         genome_version = genome_tokens[6]
     genome = Genome.objects.filter(genome_ver = genome_version)
     if len(genome) != 1:
-        error_msg("Genome, '%s', has not yet been loaded into the database." % genome_version)
-        error_msg("Hit: {0}".format(score))
-        return False
+        raise ImportException("Genome, '{0}', has not yet been loaded into the database.\nHit: {1}".format(genome_version,score))
     
     r = Results(chunkid = chunkid, chromosome = chromosome, hit_genomic_start = hit_genomic_start, hit_genomic_end = hit_genomic_end, hit_score = hit_score, hit_energy = hit_energy, hit_mir_start = hit_mir_start, hit_mir_end = hit_mir_end, query_seq = query_seq, ref_seq = ref_seq, hit_string = hit_string, is_parallel = is_parallel, match_type = match_type, base_type = base_type, microrna = microrna, genome = genome[0])
 
