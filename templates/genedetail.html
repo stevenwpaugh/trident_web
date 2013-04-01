@@ -1,0 +1,45 @@
+
+{% extends "base_generic.html" %}
+{% load mytags %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<h2>Gene</h2>
+{% if not gene_list %}
+<p>No genes found</p>
+{% endif %}
+{% for name, gene in gene_list.items %}
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+<tr class="even">
+<td>Symbol</td><td>{% if gene_list|genencbi:name %}<a href="http://www.ncbi.nlm.nih.gov/gene/{{gene_list|genencbi:name}}" target="_blank">{% endif %}{{ gene.name }}{% if gene_list|genencbi:name %}</a>{% endif %}</td>
+</tr>
+<tr>
+<tr class="odd">
+<td>Chromosome</td><td>{{ gene.chromosome }}</td>
+</tr>
+<tr class="even">
+<td>Genomic Start Position</td><td>{{ gene.genomic_start }}</td>
+</tr>
+<tr class="odd">
+<td>Genomic End Position</td><td>{{ gene.genomic_end }}</td>
+</tr>
+<tr class="even">
+<td>Positive Strand?</td><td>{% if gene.is_on_positive_strand %}Yes{% else %}No{% endif %}</td>
+</tr>
+{% if gene.synonyms %}
+<tr class="odd">
+<td>Synonyms</td><td>{{ gene.synonyms|commafy:';' }}</td>
+</tr>
+{% endif %}
+
+</table>
+{% endfor %}
+{% endblock %}

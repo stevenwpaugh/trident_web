@@ -17,7 +17,11 @@ def site_search(request):
             #userquery = form.search_interface.run_search(form.cleaned_data)
             search_result_list = MicroRNA.objects.filter(mirbase_name__icontains=userquery)
 	    affy_result_list = expression.objects.filter(gene_symbol__icontains=userquery)
-	    return render_to_response('search/search_output.html',{'msg': search_result_list, 'msg2': affy_result_list})
+            genes = Genes.objects.filter(name__icontains=userquery)
+            gene_dict = {}
+            for gene in genes:
+                gene_dict[gene.name] = gene
+            return render_to_response('search/search_output.html',{'msg': search_result_list, 'msg2': affy_result_list, 'genes': gene_dict})
     else:
         form = SearchForm()
         

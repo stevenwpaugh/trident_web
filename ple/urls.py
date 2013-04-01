@@ -27,7 +27,8 @@ urlpatterns = patterns('django.views.generic.simple',
     #url(r'^json','direct_to_template',{'template': 'test.json'}),
 )
 
-urlpatterns += patterns('', 
+urlpatterns += patterns('',
+    url(r'^gene/(?P<gene_symbol>\S+)/$', 'ple.views.genedetail'),
     url(r'^tools/$', 'ple.sequence_submission.ple_me'),
     url(r'^search/$', 'ple.site_search.site_search'),
     url(r'^myimport/$', 'plotter.views.import_start', name='import_start'),

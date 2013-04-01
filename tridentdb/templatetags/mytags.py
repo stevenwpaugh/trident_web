@@ -14,3 +14,29 @@ def complement(seq):
 @register.filter
 def keyvalue(dict, key):
 	return dict[key]
+
+@register.filter
+def genename(genes, name):
+	gene = genes[name]
+	if not gene:
+		return ""
+	else:
+		return gene.name
+	
+
+@register.filter
+def genencbi(genes, name):
+	import re
+	gene = genes[name]
+	if not gene:
+		return ""
+	db_xref = gene.db_xref
+	if not db_xref or not "GeneID" in db_xref:
+		return ""
+	m = re.search("GeneID:([^,]*),",db_xref)
+	if m and m.groups():
+		return m.groups()[0]
+
+@register.filter
+def commafy(string, replaced):
+	return string.replace(replaced,",")
