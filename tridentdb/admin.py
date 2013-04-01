@@ -9,3 +9,4 @@ class ResultsAdmin(admin.ModelAdmin):
 	#list_filter = ['hit_genomic_start']
 admin.site.register(Results,ResultsAdmin)
 admin.site.register(AffymetrixID)
+admin.site.register(Genes)

@@ -81,10 +81,14 @@ class AffymetrixID(models.Model):
     genome = models.ForeignKey(Genome)
     
 
-#class Genes(models.Model):
-#    genome = models.ForeignKey(Genome)
-#    affymetricids = models.ManyToMany(AffymetrixID)
-
+class Genes(models.Model):
+    name = models.CharField(max_length=32) # Symbolic name, not scientific name
+    genomic_start = models.PositiveIntegerField()
+    genomic_end = models.PositiveIntegerField()
+    is_on_positive_strand = models.BooleanField()
+    chromosome = models.CharField(max_length=2)
+    db_xref = models.CharField(max_length=100) # Comma separated list
+    synonyms = models.CharField(max_length=300)
 
 def insert_score(score):
     from django.db.utils import DatabaseError

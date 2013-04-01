@@ -1,5 +1,26 @@
 #!/usr/bin/env python
 
+def import_genes(filename, chromosome, verbose = False):
+    from gene_crawler import crawl_genes
+    from tridentdb.models import Genes
+    from django.db.utils import DatabaseError
+    
+    genes = crawl_genes(filename)
+
+    for gene in genes:
+        if verbose:
+            print("Importing {0}".format(gene.name))
+        (start, end) = gene.get_coords()
+        dbentry = Genes(name = gene.name, genomic_start = start, genomic_end = end,synonyms = gene.synonym, is_on_positive_strand = (gene.direction == "+"), chromosome = chromosome, db_xref = ",".join(gene.db_xref))
+        try:
+            dbentry.save()
+        except DatabaseError as de:
+            from sys import stderr
+            from gene_crawler import write_gene
+            stderr.write("Error loading gene:")
+            write_gene(gene,stderr)
+            raise de
+
 def import_scores(file, verbose = False):
     import tridentdb.models
     from trident import parser
@@ -88,14 +109,17 @@ def import_gff(file, genome_version):
             raise de
         ##end of import_gff
 
-def load_file(filename, file_type, genome_version = None, verbose = False):
-    with open(filename,'r') as file:
-        if file_type == 'gff':
-            import_gff(file, genome_version,verbose)
-        elif file_type == 'score':
-            import_scores(file,verbose)
-        else:
-            print("%s is not yet implemented" % file_type)
+def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
+    if file_type == "genes":# this function does not want a file type
+        import_genes(filename,chromosome,verbose)
+    else:
+        with open(filename,'r') as file:# these functions do want a file type
+            if file_type == 'gff':
+                import_gff(file, genome_version,verbose)
+            elif file_type == 'score':
+                import_scores(file,verbose)
+            else:
+                print("%s is not yet implemented" % file_type)
 
         
 if __name__ == "__main__":
@@ -137,5 +161,8 @@ if __name__ == "__main__":
 
     file_type = args[0]
     filename = args[1]
+    chromosome = None
+    if len(args) > 2:
+        chromosome = args[2]
 
-    load_file(filename,file_type, genome_version, verbose)
+    load_file(filename,file_type, genome_version, chromosome, verbose)

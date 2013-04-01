@@ -26,6 +26,7 @@ def detail(request, microrna_id):
 	ref = ', '.join([p.ref_seq for p in latest_result_list])
 	output = "<pre>%s<br/>%s<br/>%s</pre>" % (query,match,ref)
 	return HttpResponse(output)
+
 def resultdetailold(request, microrna_id, chr, start_pos):
 	latest_result_list = Results.objects.filter(microrna = microrna_id)[:1000]
 	myxmin = Results.objects.filter(pk__in=latest_result_list).aggregate(Min('hit_energy'))
@@ -55,15 +56,19 @@ def result_to_dict(result):
 	result_dict['chromosome'] = result.chromosome
 	result_dict['hit_genomic_start'] = result.hit_genomic_start
 	result_dict['hit_genomic_end'] = result.hit_genomic_end
-	result_dict['base_type'] = result.base_type
+	result_dict['base_type'] = result.base_type.__unicode__()
 	result_dict['hit_score'] = result.hit_score
 	result_dict['hit_energy'] = result.hit_energy
 	result_dict['query_seq'] = result.query_seq
 	result_dict['hit_string'] = result.hit_string
 	result_dict['ref_seq'] = result.ref_seq
-	result_dict['match_type'] = result.match_type
+	result_dict['match_type'] = result.match_type.__unicode__()
 	result_dict['genome'] = result.genome.__unicode__()
 
+	interp = get_interpolator()
+	if interp:
+		result_dict["grade"] = get_grade(interp(result.hit_energy,result.hit_score))
+	
 	return result_dict
 
 def get_interpolator():
@@ -160,7 +165,6 @@ def jsondetail(request, search_string):
 	mirna_list = MicroRNA.objects.filter(mirbase_name = search_string)
 
 	json_array = []
-	#interp = get_interpolator()
 	for res in mirna_list:
 		result_list = Results.objects.filter(microrna = search_string)
 		json_dict = {}
@@ -169,13 +173,29 @@ def jsondetail(request, search_string):
 			if val == None:
 				continue
 			json_dict[key] = val
-		#result_array = []
-		#for result in result_list:
-		#	result_dict = result_to_dict(result)
-		#	if interp:
-		#		result_dict['grade'] = get_grade(interp(result.hit_energy,result.hit_score))
-		#	result_array.append(result_dict)
 		json_array.append({"mirna": json_dict, "num_results": len(result_list)})
+		
 	
 	return HttpResponse(simplejson.dumps({search_string: json_array}),mimetype="application/json")
 
+def jsondetail_chr(request, search_string, chromosome):
+	from django.utils import simplejson
+
+	result_list = Results.objects.filter(microrna = search_string,chromosome = chromosome)
+	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": len(result_list)}
+		
+	return HttpResponse(simplejson.dumps({search_string: json_dict}),mimetype="application/json")
+
+def jsondetail_chr_start(request, search_string, chromosome, start_pos):
+	from django.utils import simplejson
+
+	result_list = Results.objects.filter(microrna = search_string,chromosome = chromosome,hit_genomic_start = start_pos)
+	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": len(result_list)}
+	result_array = []
+	result_dict = None
+	if result_list:
+		for item in result_list:
+			result_array.append(result_to_dict(item))
+			result_dict = result_to_dict(item)
+
+	return HttpResponse(simplejson.dumps({search_string: json_dict,"results": result_dict}),mimetype="application/json")
