@@ -30,6 +30,8 @@ def import_scores(file, verbose = False):
     result_hashes = []
     p = parser.Parser(file)
     for score in p:
+        if not score:
+            continue # non-score lines in a file will produce this
         s = parser.str_score(score)
         hash = md5(s).digest()
         if hash in result_hashes:

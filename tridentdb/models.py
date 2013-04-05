@@ -92,11 +92,19 @@ class Genes(models.Model):
 
 def insert_score(score):
     from django.db.utils import DatabaseError
-    
+    import trident.parser as TP
+
     def error_msg(err_msg):
         from sys import stderr
         stderr.write(err_msg)
         stderr.write("\n")
+
+    if len(score) != len(TP.score_keys):
+        from trident import TridentException
+        raise TridentException("Invalid score dict. Expected {0} fields. Recieved {1}".format(len(TP.score_keys),len(score)))
+    if len(score['reference_id'].split('|')) != len(TP.reference_keys):
+        from trident import TridentException
+        raise TridentException("Invalid reference dict. Expected {0} fields. Recieved {1}".format(len(TP.reference_keys),len(score['reference_id'].split(')'))))
 
     ref_id_tokens = score['reference_id'].split('|')
     chunkid = ref_id_tokens[1]
