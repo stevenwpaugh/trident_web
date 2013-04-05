@@ -53,9 +53,9 @@
 <td>Genome</td><td>{{ result|keyvalue:'genome' }}</td>
 </tr>
 {% endif %}
-{% if result|keyvalue:'grade' %}
+{%  if 'grade' in result or result|getgrade %}
 <tr class="even">
-<td>Grade</td><td>{{ result|keyvalue:'grade' }}</td>
+<td>Grade</td><td>{% if 'grade' in result %}{{ result|keyvalue:'grade' }}{% else %}{{result|getgrade}}{% endif %}</td>
 </tr>
 {% endif %}
 
