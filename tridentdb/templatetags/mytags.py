@@ -40,3 +40,12 @@ def genencbi(genes, name):
 @register.filter
 def commafy(string, replaced):
 	return string.replace(replaced,",")
+
+@register.filter
+def getgrade(result):
+	from ple.views import get_interpolator, get_grade
+	if not result:
+		return None
+	interp = get_interpolator()
+	if interp:
+		return get_grade(interp(result["energy"],result["score"]))
