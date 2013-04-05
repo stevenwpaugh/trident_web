@@ -1,7 +1,11 @@
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
+
 db_engine = 'django.db.backends.postgresql_psycopg2'
 db_name = 'ple'
 db_user = 'ple'
 db_passwd = ''
 db_host = 'localhost'
 
-template_dir = '/apps/apache-2.4.2/trident_web/templates'
+template_dir = '/path/to/trident_web/templates'
+interpolator_filename = '/path/to/trident_web/interpolator.sav'
