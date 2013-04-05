@@ -37,14 +37,15 @@ def import_scores(file, verbose = False):
                 print("Ignoring duplicate entry: {0}".format(s))
             ignore_counter += 1
             continue
-        result_hashes.append(hash)
+        else:
+            result_hashes.append(hash)
         if verbose:
             print(s)
         tridentdb.models.insert_score(score)
 
     if ignore_counter:
         print("Ignored {0} duplicate entries".format(ignore_counter))
-        
+
 
 def import_gff(file, genome_version):
     """
