@@ -27,6 +27,14 @@ def detail(request, microrna_id):
 	output = "<pre>%s<br/>%s<br/>%s</pre>" % (query,match,ref)
 	return HttpResponse(output)
 
+def result(request, microrna_id):
+        latest_result_list = Results.objects.filter(microrna = microrna_id)[:20]
+        query = ', '.join([p.query_seq for p in latest_result_list])
+        match = ', '.join([p.hit_string for p in latest_result_list])
+        ref = ', '.join([p.ref_seq for p in latest_result_list])
+        output = "<pre>%s<br/>%s<br/>%s</pre>" % (query,match,ref)
+        return HttpResponse(output)
+
 def resultdetailold(request, microrna_id, chr, start_pos):
 	latest_result_list = Results.objects.filter(microrna = microrna_id)[:1000]
 	myxmin = Results.objects.filter(pk__in=latest_result_list).aggregate(Min('hit_energy'))
@@ -40,13 +48,13 @@ def resultdetailold(request, microrna_id, chr, start_pos):
         return HttpResponse(output)
 
 def get_grade(log_value):
-	if log_value <= 1e-5:
+	if log_value <= -5:
 		return 1
-	elif log_value <= 1e-4:
+	elif log_value <= -4:
 		return 2
-	elif log_value <= 1e-3:
+	elif log_value <= -3:
 		return 3
-	elif log_value <= 1e-2:
+	elif log_value <= -2:
 		return 4
 	return 5
 

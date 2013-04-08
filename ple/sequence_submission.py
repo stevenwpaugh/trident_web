@@ -12,7 +12,7 @@ class SequenceForm(forms.Form):
     long_format = forms.BooleanField(required=False)
     use_miranda = forms.BooleanField(required=False)
     
-@login_required
+#@login_required
 def ple_me(request):
     if request.method == 'POST':
         form = SequenceForm(request.POST)

@@ -11,14 +11,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('django.views.generic.simple',
-    url(r'^$', login_required(direct_to_template), {'template': 'index.html'}),
+    url(r'^$', direct_to_template, {'template': 'index.html'}),
     
     #This line shows how to redirect to https site when we have a SSL cert
     #url(r'^$', secure_required(login_required(direct_to_template)), {'template': 'index.html'}),
     
     url(r'^about/', 'direct_to_template', {'template': 'about.html'}),
-    url(r'^api/', login_required(direct_to_template), {'template': 'api.html'}),
-    #url(r'^tools/', login_required(direct_to_template), {'template': 'tools.html'}),
+    url(r'^api/', direct_to_template, {'template': 'api.html'}),
+    #url(r'^tools/', direct_to_template, {'template': 'tools.html'}),
     url(r'^compute/$', 'direct_to_template', {'template': 'compute.html'}),
     url(r'^compute/download/', 'direct_to_template', {'template': 'downloadcompute.html'}),
     url(r'^tridentbrowse/', 'direct_to_template', {'template': 'tridentbrowse.html'}),
@@ -45,6 +45,7 @@ urlpatterns += patterns('',
    #url(r'^polls/(?P<poll_id>\d+)/$', 'polls.views.detail'),
    #url(r'^search/(?P<microrna_id>\S+)/$', 'ple.views.detail'),
    url(r'^detail/(?P<microrna_id>\S+)/(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'),
+   url(r'^result/(?P<microrna_id>\S+)/$', 'ple.views.result'),	
    url(r'^detail/(?P<microrna_id>\S+)/$', 'ple.views.micrornadetail'),
    url(r'^json/(?P<search_string>\S+)/(?P<chromosome>\S+)/(?P<start_pos>\S+)/$', 'ple.views.jsondetail_chr_start'),
    url(r'^json/(?P<search_string>\S+)/(?P<chromosome>\S+)/$', 'ple.views.jsondetail_chr'),

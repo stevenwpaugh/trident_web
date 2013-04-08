@@ -40,11 +40,6 @@
 		  <a href="/compute" class="menu">Compute</a>| 
 		  <a href="/api" class="menu">API</a>|
 		  <a href="/about" class="menu">About</a>
-		  {% if user.is_authenticated %}
-		  | <a href="/accounts/logout" class="menu">Logout</a>
-		  {% else %}
-		  |<a href="/accounts/login" class="menu">Login</a>
-		  {% endif %}
 		</div>
 		
 		<div class="span-24", id="content">

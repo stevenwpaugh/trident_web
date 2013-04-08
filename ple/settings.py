@@ -156,7 +156,6 @@ INSTALLED_APPS = (
     'profiles',
     'affyannodb',
     'drresults',
-    'plotter',
 )
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'

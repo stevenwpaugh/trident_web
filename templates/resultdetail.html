@@ -48,16 +48,17 @@
 <tr class="even">
 <td>Match Type</td><td>{{ result|keyvalue:'match_type' }}</td>
 </tr>
-{% if result|keyvalue:'genome' %}
-<tr class="odd">
-<td>Genome</td><td>{{ result|keyvalue:'genome' }}</td>
-</tr>
-{% endif %}
 {%  if 'grade' in result or result|getgrade %}
-<tr class="even">
+<tr class="odd">
 <td>Grade</td><td>{% if 'grade' in result %}{{ result|keyvalue:'grade' }}{% else %}{{result|getgrade}}{% endif %}</td>
 </tr>
 {% endif %}
+{% if result|keyvalue:'genome' %}
+<tr class="even">
+<td>Genome</td><td>{{ result|keyvalue:'genome' }}</td>
+</tr>
+{% endif %}
+
 
 </table>
 {% endfor %}
