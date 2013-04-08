@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import direct_to_template
 from ple.views import secure_required
 from ple.views import *
-from plotter.views import import_start
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -31,7 +30,6 @@ urlpatterns += patterns('',
     url(r'^gene/(?P<gene_symbol>\S+)/$', 'ple.views.genedetail'),
     url(r'^tools/$', 'ple.sequence_submission.ple_me'),
     url(r'^search/$', 'ple.site_search.site_search'),
-    url(r'^myimport/$', 'plotter.views.import_start', name='import_start'),
     #url(r'^tools2/$', 'ple.views.pletool'),
     #url(r'^$', 'direct_to_template', {'template': 'index.html'}),
     #url(r'^search/$', 'ple.views.index'),
