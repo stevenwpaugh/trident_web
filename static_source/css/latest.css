@@ -1,13 +1,55 @@
 body {
     padding:1em 0 1.5em 0; 
+    leftmargin="0";
+    topmargin="0";
+    marginwidth="0";
+    marginheight="0";
+    bgcolor="#FFFFFF";
+    background-image:url("/static/img/stripe.png");
 }
-header { 
+#menubar{
+width:950px;
+height:27px;
+background:url('http://trident.stjude.org/static/img/nav_bar.gif');
+}
+#content{
+background-color:#ffffff;
+layer-background-color:#ffffff;
+width:920px;
+padding-left:15px;
+padding-right:15px;
+padding-top: 15px;
+padding-bottom: 15px;
+min-height:100px;
+height:auto !important;
+height:100px; 
+}
+#headersmall {
+/*border-top:2px solid #222;*/
+/*border-left:2px solid #222;*/
+/*border-right:2px solid #222;*/
+/*border-bottom:2px solid #222;*/
+margin:0 auto;
+background:white;
+background-image: url('http://trident.stjude.org/static/img/small_splash.png');
+background-repeat: no-repeat;
+height: 175px;
+width: 950px;
+}
+
+
+
+#header { 
 /*border-top:2px solid #222;*/
 /*border-left:2px solid #222;*/	
 /*border-right:2px solid #222;*/
 /*border-bottom:2px solid #222;*/ 
 margin:0 auto; 
 background:white;
+background-image: url('http://trident.stjude.org/static/img/splash.png');
+background-repeat: no-repeat;
+height: 500px;
+width: 950px;
 }
 a#tridentLogo{
 float:left;
@@ -17,8 +59,22 @@ a#stjudeLogo{
 	bottom:0px;
 }
 
-p.footer{
-text-align: center 
+.footerbar{
+text-align: center;
+background:url('http://trident.stjude.org/static/img/nav_bar.gif');
+height:27px;
+}
+.footer{
+line-height:1.9em;
+/*background-color:#ddd;*/
+/*layer-background-color:#ddd;*/
+font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+font-size:14px;
+color:#333333;
+font-weight:normal;
+line-height:1.9em;
+text-decoration:none;
+text-transform:capitalize;
 }
 .codeLabel{
 font-weight:bold;
@@ -35,3 +91,18 @@ white-space:pre;
 display:inline-block;
 color:#000;
 font-size:.9em}
+
+a.menu{vertical-align:middle; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;font-size:14px;color:#333333;font-weight:normal; line-height:1.9em; text-decoration:none; text-transform:capitalize;padding-left:15px; padding-right:15px;}
+a.menu:hover{vertical-align:middle; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;font-size:14px;color:#ff8800;font-weight:normal; line-height:1.9em; text-decoration:none; text-transform:capitalize;padding-left:15px; padding-right:15px;}
+
+
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
+tbody tr.odd td {background-color:white}
+tbody tr.even td {background-color: #e5ecf9;}
