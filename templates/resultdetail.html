@@ -9,6 +9,11 @@
           {% endblock %}
 
 {% block content %}
+{% if error_message %}
+<h3>Error</h3>
+<p>{{ error_message }}</p>
+<br/>
+{% endif %}
 <h2>Result detail</h2>
 {% if not latest_result_list %}
 <p>No results found</p>

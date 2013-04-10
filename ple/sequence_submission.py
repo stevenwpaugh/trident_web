@@ -31,11 +31,17 @@ def ple_to_resultlist(parser):
 #@login_required
 def ple_them(request,mirna,dna):
     import trident.parser as TP
+    from trident import FastaError
     form_dict = {"nt1": mirna, "nt2": dna, "long_format": 0, "use_miranda": 0}
-    ple_output = ple_interface.run_ple(form_dict)
-    parser = TP.Parser(ple_output)
-    result_list = ple_to_resultlist(parser)
-    return render_to_response('resultdetail.html',{'latest_result_list': result_list})
+    errormsg = None
+    try:
+        ple_output = ple_interface.run_ple(form_dict)
+        parser = TP.Parser(ple_output)
+        result_list = ple_to_resultlist(parser)
+    except FastaError as fe:
+        errormsg = fe.message
+        result_list = []
+    return render_to_response('resultdetail.html',{'latest_result_list': result_list, 'error_message': errormsg})
             
 
 #@login_required
@@ -44,10 +50,16 @@ def ple_me(request):
         form = SequenceForm(request.POST)
         if form.is_valid():
             import trident.parser as TP
-            ple_output = ple_interface.run_ple(form.cleaned_data)
-            parser = TP.Parser(ple_output)
-            result_list = ple_to_resultlist(parser)
-            return render_to_response('resultdetail.html',{'latest_result_list': result_list})
+            from trident import FastaError
+            errormsg = None
+            try:
+                ple_output = ple_interface.run_ple(form.cleaned_data)
+                parser = TP.Parser(ple_output)
+                result_list = ple_to_resultlist(parser)
+            except FastaError as fe:
+                errormsg = fe.message
+                result_list = []
+            return render_to_response('resultdetail.html',{'latest_result_list': result_list,'error_message': errormsg})
     else:
         form = SequenceForm(default_nts)
         
