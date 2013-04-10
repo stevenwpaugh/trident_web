@@ -12,6 +12,32 @@ class SequenceForm(forms.Form):
     long_format = forms.BooleanField(required=False)
     use_miranda = forms.BooleanField(required=False)
     
+def ple_to_resultlist(parser):
+    result_list = []
+    for score in parser:
+        score['microrna'] = ""
+        score['chromosome'] = ""
+        score['hit_genomic_start'] = score['ref_start']
+        score['hit_genomic_end'] = score['ref_end']
+        score['hit_score'] = score['score']
+        score['hit_energy'] = score['energy']
+        score['hit_string'] = score['match_seq']
+        score['ref_seq'] = score['reference_seq']
+        score['genome'] = ""
+        result_list.append(score)
+        
+    return result_list
+    
+#@login_required
+def ple_them(request,mirna,dna):
+    import trident.parser as TP
+    form_dict = {"nt1": mirna, "nt2": dna, "long_format": 0, "use_miranda": 0}
+    ple_output = ple_interface.run_ple(form_dict)
+    parser = TP.Parser(ple_output)
+    result_list = ple_to_resultlist(parser)
+    return render_to_response('resultdetail.html',{'latest_result_list': result_list})
+            
+
 #@login_required
 def ple_me(request):
     if request.method == 'POST':
@@ -20,18 +46,7 @@ def ple_me(request):
             import trident.parser as TP
             ple_output = ple_interface.run_ple(form.cleaned_data)
             parser = TP.Parser(ple_output)
-            result_list = []
-            for score in parser:
-                score['microrna'] = ""
-                score['chromosome'] = ""
-                score['hit_genomic_start'] = score['ref_start']
-                score['hit_genomic_end'] = score['ref_end']
-                score['hit_score'] = score['score']
-                score['hit_energy'] = score['energy']
-                score['hit_string'] = score['match_seq']
-                score['ref_seq'] = score['reference_seq']
-                score['genome'] = ""
-                result_list.append(score)
+            result_list = ple_to_resultlist(parser)
             return render_to_response('resultdetail.html',{'latest_result_list': result_list})
     else:
         form = SequenceForm(default_nts)
