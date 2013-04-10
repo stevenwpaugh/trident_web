@@ -41,6 +41,11 @@ def footer():
     </html>""")
 
 def run_ple(form):
+    """
+    Wrapper function for trident. Requires a dict-like object with the following keys: 'nt1', 'nt2', 'long_format' and 'use_miranda'
+    
+    Raises trident.FastaError exception if there is a problem with the input sequences.
+    """
     import tempfile
     from subprocess import Popen,PIPE
     
@@ -51,14 +56,15 @@ def run_ple(form):
     tmpfiles = {}
     for i in ["nt1", "nt2"]:
         if len(re.findall(r"[^agcutnAGCUTN\s]",form[i])):
-            the_end(filenames)
-            return "ERROR: Invalid sequence \"%s\"" % form[i]
+            from trident import FastaError
+            raise FastaError("Invalid sequence \"%s\"" % form[i])
         
         try:
             file = tempfile.NamedTemporaryFile(mode="w",dir="/tmp")
         except IOError as ioe:
             from os import path
-            return "ERROR (%d): %s\nFile: \"%s\"\nCWD: \"%s\"" % (ioe.errno, ioe.strerror, path.abspath(file.name),os.getcwd())
+            from trident import FastaError
+            raise FastaError("ERROR #%d: %s\nFile: \"%s\"\nCWD: \"%s\"" % (ioe.errno, ioe.strerror, path.abspath(file.name),os.getcwd()))
         file.write(">%s\n" % file.name)
         file.write("%s" % form[i])
         file.flush()
