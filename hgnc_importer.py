@@ -18,23 +18,31 @@ def import_hgnc(file):
         hgnc_id = info[0].replace("HGNC:","")
         approved_symbol = info[1]
         approved_name = info[2]
-		status = info[3]
-		previous_symbols = info[4]
+        status = info[3]
+        previous_symbols = info[4]
         previous_names = info[5]
-		synonyms = info[6]
-		chromosome = info[7]
+        synonyms = info[6]
+        chromosome = info[7]
         accession_numbers = info[8]
-		refseq_ids = info[9]
+        refseq_ids = info[9]
 
-        hgnc_symbol = models.hgnc_symbol(hgnc_id=hgnc_id,approved_symbol=approved_symbol,approved_name=approved_name,status=status,previous_symbols=previous_symbols,previous_names=previous_names,synonyms=synonyms,chromosome=chromosome,accession_numbers=accession_numbers,refseq_ids=refseq_ids)
+        hgncsymbols = models.hgncsymbols(hgnc_id=hgnc_id,approved_symbol=approved_symbol,approved_name=approved_name,status=status,previous_symbols=previous_symbols,previous_names=previous_names,synonyms=synonyms,chromosome=chromosome,accession_numbers=accession_numbers,refseq_ids=refseq_ids)
         
         try:
-            hgnc.save()
+            hgncsymbols.save()
         except DatabaseError as de:
             from sys import stderr
             stderr.write("Error loading hgnc line: {0}\n".format(line))
             raise de
         ##end of import_hgnc
+
+def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
+    with open(filename,'r') as file:# these functions do want a file type
+        if file_type == 'hgnc':
+            import_hgnc(file)
+        else:
+            print("%s is not yet implemented" % file_type)
+
         
 if __name__ == "__main__":
     from sys import argv

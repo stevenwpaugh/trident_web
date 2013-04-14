@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'profiles',
     'affyannodb',
     'drresults',
+    'hgnc',
 )
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
