@@ -1,16 +1,22 @@
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-db_engine = 'django.db.backends.postgresql_psycopg2'
+db_engine = 'django.db.backends.sqlite3'
 db_name = 'ple'
 db_user = 'ple'
 db_passwd = ''
 db_host = 'localhost'
 
-template_dir = '/path/to/trident_web/templates'
-interpolator_filename = '/path/to/trident_web/interpolator.sav'
-static_root = '/path/to/trident_web/static'
-staticfiles_source = '/path/to/trident_web/static_source'
+# Put a string here for the base_dir (where you did the git clone)
+# like "/home/username/trident_web" or "C:/Users/username/Desktop/trident_web"
+
+#base_dir = 'C:/Users/username/Desktop/trident_web/'
+base_dir = '/home/username/trident_web/'
+
+template_dir = base_dir + 'templates'
+interpolator_filename = base_dir + 'interpolator.sav'
+static_root = base_dir + 'static'
+staticfiles_source = base_dir + 'static_source'
 
 from_email = 'trident@example.com'
 
