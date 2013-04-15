@@ -21,8 +21,8 @@ def site_search(request):
             genes = hgncsymbols.objects.filter(approved_symbol__icontains=userquery)
             #gene_dict = {}
             #for gene in genes:
-            #    gene_dict[gene.name] = gene
-            return render_to_response({'genes': gene_dict})
+            #    gene_dict[gene.approved_symbol] = gene
+            return render_to_response('search/search_output.html', {'genes': genes})
     else:
         form = SearchForm()
         

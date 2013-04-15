@@ -9,35 +9,17 @@
 
 
 {% block content %}
-{% if not msg %}
-{% endif %}
-{% if msg %}
-<table>
-<tr>
-<td>MicroRNA name</td>
-<td>MicroRNA ID</td>
-</tr>
-{% for result in msg %}
-<tr>
-<td><a href="/detail/{{ result.mirbase_name }}">{{ result.mirbase_name }}</a></td>
-<td>{{ result.mirbase_id }}</td>
-</tr>
-{% endfor %}
-</table>
-{% endif %}
 
-{% if not msg2 %}
-{% endif %}
-{% if msg2 %}
+{% if genes %}
 <table>
 <tr>
-<td>Gene Symbol</td>
-<td>Probe Set ID</td>
+<td>Approved Symbol</td>
+<td>Approved Name</td>
 </tr>
-{% for result2 in msg2 %}
+{% for gene in genes %}
 <tr>
-<td>{% if genes and result2.gene_symbol in genes %}<a href="/gene/{{result2.gene_symbol}}">{% endif %}{{ result2.gene_symbol }}{% if result2.gene_symbol in genes %}</a>{% endif %}</td>
-<td><a href="/probedetail/{{ result2.probe_set_id }}">{{ result2.probe_set_id }}</td>
+<td>{{ gene.approved_symbol }}</td>
+<td>{{ gene.approved_name }}</td>
 </tr>
 {% endfor %}
 </table>

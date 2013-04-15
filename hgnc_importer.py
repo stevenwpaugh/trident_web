@@ -36,7 +36,8 @@ def import_hgnc(file):
 def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
     with open(filename,'r') as file:# these functions do want a file type
         if file_type == 'hgnc':
-            import_hgnc(file)
+            next(file)
+	    import_hgnc(file)
         else:
             print("%s is not yet implemented" % file_type)
 
