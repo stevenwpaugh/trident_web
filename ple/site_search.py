@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 class SearchForm(forms.Form):
     search_text = forms.CharField()
+    
 #@login_required    
 def site_search(request):
     if request.method == 'POST':
