@@ -11,9 +11,6 @@ def import_hgnc(file):
         lineno += 1
         if len(line) == 0:
             continue
-        line = line.strip()
-        if line[0] == '#':
-            continue
         info = line.split('\t')
         hgnc_id = info[0].replace("HGNC:","")
         approved_symbol = info[1]
