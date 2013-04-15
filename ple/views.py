@@ -189,16 +189,16 @@ def jsondetail(request, search_string):
 def jsondetail_chr(request, search_string, chromosome):
 	from django.utils import simplejson
 
-	result_list = Results.objects.filter(microrna = search_string,chromosome = chromosome)
-	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": len(result_list)}
+	num_results = Results.objects.filter(microrna = search_string,chromosome = chromosome).count()
+	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": num_results}
 		
 	return HttpResponse(simplejson.dumps({search_string: json_dict}),mimetype="application/json")
 
 def jsondetail_chr_start(request, search_string, chromosome, start_pos):
 	from django.utils import simplejson
 
-	result_list = Results.objects.filter(microrna = search_string,chromosome = chromosome,hit_genomic_start = start_pos)
-	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": len(result_list)}
+	num_results = Results.objects.filter(microrna = search_string,chromosome = chromosome,hit_genomic_start = start_pos).count()
+	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": num_results}
 	result_array = []
 	result_dict = None
 	if result_list:
