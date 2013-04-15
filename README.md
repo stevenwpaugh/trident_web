@@ -10,6 +10,8 @@ Edit ple/local_settings.py to appropriate values
 
 The run:
 
-python manage.py collectstatic
+    python manage.py collectstatic
 
-python manage.py testserver
+    python manage.py syncdb
+
+    python manage.py testserver
