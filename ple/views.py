@@ -170,18 +170,18 @@ def secure_required(view_func):
 
 def jsondetail(request, search_string):
 	from django.utils import simplejson
-	mirna_list = MicroRNA.objects.filter(mirbase_name = search_string)
+	mirna_list = MicroRNA.objects.filter(mirbase_name__icontains = search_string)
 
 	json_array = []
 	for res in mirna_list:
-		result_list = Results.objects.filter(microrna = search_string)
+		num_results = Results.objects.filter(microrna = res.mirbase_name).count()
 		json_dict = {}
 		for key in ["mirbase_name","chromosome","genomic_mir_start","genomic_mir_end","is_primary_transcript","is_on_positive_strand","mirbase_seq","mirbase_id","mirbase_derives_from","genome_id"]:
 			val = getattr(res,key)
 			if val == None:
 				continue
 			json_dict[key] = val
-		json_array.append({"mirna": json_dict, "num_results": len(result_list)})
+		json_array.append({"mirna": json_dict, "num_results": num_results})
 		
 	
 	return HttpResponse(simplejson.dumps({search_string: json_array}),mimetype="application/json")
