@@ -1,5 +1,38 @@
 #!/usr/bin/env python
 
+def import_hgnc(file):
+    from hgnc import models
+    import re
+    from django.db.utils import DatabaseError
+        
+    lineno = 1
+    for line in file:
+        print("Line Number: %d" % lineno)
+        lineno += 1
+        if len(line) == 0:
+            continue
+        info = line.split('\t')
+        hgnc_id = info[0].replace("HGNC:","")
+        approved_symbol = info[1]
+        approved_name = info[2]
+        status = info[3]
+        previous_symbols = info[4]
+        previous_names = info[5]
+        synonyms = info[6]
+        chromosome = info[7]
+        accession_numbers = info[8]
+        refseq_ids = info[9]
+
+        hgncsymbols = models.hgncsymbols(hgnc_id=hgnc_id,approved_symbol=approved_symbol,approved_name=approved_name,status=status,previous_symbols=previous_symbols,previous_names=previous_names,synonyms=synonyms,chromosome=chromosome,accession_numbers=accession_numbers,refseq_ids=refseq_ids)
+        
+        try:
+            hgncsymbols.save()
+        except DatabaseError as de:
+            from sys import stderr
+            stderr.write("Error loading hgnc line: {0}\n".format(line))
+            raise de
+        ##end of import_hgnc
+
 def import_genes(filename, chromosome, verbose = False):
     from gene_crawler import crawl_genes
     from tridentdb.models import Genes
@@ -121,6 +154,9 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
                 import_gff(file, genome_version,verbose)
             elif file_type == 'score':
                 import_scores(file,verbose)
+            elif file_type == 'hgnc':
+                next(file)
+                import_hgnc(file)
             else:
                 print("%s is not yet implemented" % file_type)
 
@@ -143,7 +179,7 @@ if __name__ == "__main__":
     verbose = False
     genome_version = None
 
-    file_types = ['gff', 'mirna', 'dna', 'score']
+    file_types = ['dna', 'gff', 'hgnc', 'mirna', 'score']
     for (opt,val) in optlist:
         while opt[0] == '-':
             opt = opt[1:]
