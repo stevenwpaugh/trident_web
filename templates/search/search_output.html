@@ -11,18 +11,13 @@
 {% block content %}
 
 {% if genes %}
-<table>
-<tr>
-<td>Approved Symbol</td>
-<td>Approved Name</td>
-</tr>
+<ol>
 {% for gene in genes %}
-<tr>
-<td>{{ gene.approved_symbol }}</td>
-<td>{{ gene.approved_name }}</td>
-</tr>
+<li><a href=/gene/{{ gene.approved_symbol }}>{{ gene.approved_symbol }} - {{ gene.approved_name }}</a></li>
+{{ gene.approved_name }}<br>
+Other aliases: {{ gene.previous_symbols }}<br>
 {% endfor %}
-</table>
+</ol>
 {% endif %}
 
 {% endblock %}
