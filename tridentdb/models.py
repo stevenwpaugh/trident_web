@@ -99,14 +99,7 @@ def insert_score(score):
         stderr.write(err_msg)
         stderr.write("\n")
 
-    if len(score) != len(TP.score_keys):
-        from trident import TridentException
-        raise TridentException("Invalid score dict. Expected {0} fields. Recieved {1}".format(len(TP.score_keys),len(score)))
-    if len(score['reference_id'].split('|')) != len(TP.reference_keys):
-        from trident import TridentException
-        raise TridentException("Invalid reference dict. Expected {0} fields. Recieved {1}".format(len(TP.reference_keys),len(score['reference_id'].split(')'))))
-
-    ref_id_tokens = score['reference_id'].split('|')
+    ref_id_tokens = TP.get_reference(score)
     chunkid = ref_id_tokens[1]
     chromosome = ref_id_tokens[0]
     if chromosome.find("chr") > -1:
