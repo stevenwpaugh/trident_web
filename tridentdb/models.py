@@ -89,6 +89,7 @@ class Genes(models.Model):
     chromosome = models.CharField(max_length=2)
     db_xref = models.CharField(max_length=100) # Comma separated list
     synonyms = models.CharField(max_length=300)
+    genome = models.ForeignKey(Genome)
 
 def insert_score(score):
     from django.db.utils import DatabaseError

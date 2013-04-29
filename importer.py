@@ -40,21 +40,27 @@ def import_hgnc(file):
             raise de
         ##end of import_hgnc
 
-def import_genes(filename, chromosome, verbose = False):
+def import_genes(filename, chromosome, genome, verbose = False):
     from gene_crawler import crawl_genes
-    from tridentdb.models import Genes
+    from tridentdb.models import Genes,Genome
     from django.db.utils import DatabaseError
     
     if not chromosome:
         raise Exception("Missing Chromosome information")
 
+    if not genome:
+        raise Exception("Missing Genome information")
+    genome = Genome.objects.filter(genome_ver = genome)
+    if len(genome) != 1:
+        raise ImportException("Genome, '{0}', has not yet been loaded into the database.".format(genome))
+    
     genes = crawl_genes(filename)
-
+    genome = genome[0]
     for gene in genes:
         if verbose:
             print("Importing {0}".format(gene.name))
         (start, end) = gene.get_coords()
-        dbentry = Genes(name = gene.name, genomic_start = start, genomic_end = end,synonyms = gene.synonym, is_on_positive_strand = (gene.direction == "+"), chromosome = chromosome, db_xref = ",".join(gene.db_xref))
+        dbentry = Genes(name = gene.name, genomic_start = start, genomic_end = end,synonyms = gene.synonym, is_on_positive_strand = (gene.direction == "+"), chromosome = chromosome, db_xref = ",".join(gene.db_xref), genome_id = genome.id)
         try:
             dbentry.save()
         except DatabaseError as de:
@@ -157,7 +163,7 @@ def import_gff(file, genome_version):
 
 def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
     if file_type == "genes":# this function does not want a file type
-        import_genes(filename,chromosome,verbose)
+        import_genes(filename,chromosome,genome_version,verbose)
     else:
         with open(filename,'r') as file:# these functions do want a file type
             if file_type == 'gff':
