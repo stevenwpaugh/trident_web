@@ -75,7 +75,7 @@ def result_to_dict(result):
 
 	interp = get_interpolator()
 	if interp:
-		result_dict["grade"] = get_grade(interp(result.hit_energy,result.hit_score))
+		result_dict["grade"] = get_grade(interp({'query_id': result.microrna, 'energy': result.hit_energy,'score': result.hit_score})) # Supplying the necessary fields for the inerpolator as a dict (instead of full trident score dict)
 	
 	return result_dict
 
@@ -101,7 +101,7 @@ def resultdetail(request, microrna_id, chr, start_pos):
 	for result in latest_result_list:
 		result_dict = result_to_dict(result)
 		if interp:
-			result_dict['grade'] = get_grade(interp(result.hit_energy,result.hit_score))
+			result_dict["grade"] = get_grade(interp({'query_id': result.microrna, 'energy': result.hit_energy,'score': result.hit_score})) # Supplying the necessary fields for the inerpolator as a dict (instead of full trident score dict) 
 		result_list.append(result_dict)
 		
  	c = Context({
