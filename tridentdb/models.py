@@ -100,9 +100,12 @@ def insert_score(score):
         stderr.write(err_msg)
         stderr.write("\n")
 
+    if not score:
+        return
+
     ref_id_tokens = TP.get_reference(score)
-    chunkid = ref_id_tokens[1]
-    chromosome = ref_id_tokens[0]
+    chunkid = ref_id_tokens['chunk']
+    chromosome = ref_id_tokens['chromosome']
     if chromosome.find("chr") > -1:
         chromosome = chromosome.replace("chr","")
     (hit_genomic_start, hit_genomic_end) =  (score['ref_start'], score['ref_end'])
