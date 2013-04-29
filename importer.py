@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+file_types = ['dna', 'genes', 'gff', 'hgnc', 'mirna', 'score']
+def print_usage():
+    print("Usage: importer [options] <file type> <filename>")
+    print("Valid file types:")
+    print(", ".join(file_types))
+
+
 def import_hgnc(file):
     from hgnc import models
     import re
@@ -38,6 +45,9 @@ def import_genes(filename, chromosome, verbose = False):
     from tridentdb.models import Genes
     from django.db.utils import DatabaseError
     
+    if not chromosome:
+        raise Exception("Missing Chromosome information")
+
     genes = crawl_genes(filename)
 
     for gene in genes:
@@ -171,37 +181,39 @@ if __name__ == "__main__":
 
     from django.core.management import execute_from_command_line
 
-    short_opts =  'g:'
-    long_opts = ['verbose']
+    short_opts =  'c:g:h'
+    long_opts = ["chromosome","genome","help",'verbose']
     (optlist, args) = getopt(argv[1:],short_opts, long_opts)
 
 
     verbose = False
     genome_version = None
+    chromosome = None
 
-    file_types = ['dna', 'gff', 'hgnc', 'mirna', 'score']
-    for (opt,val) in optlist:
+    for (opt,optarg) in optlist:
         while opt[0] == '-':
             opt = opt[1:]
         while opt[:-1] == '=':
             opt = opt[:-1]
-        if opt == 'verbose':
-            verbose = True
+        if opt in ["c", "chromosome"]:
+            chromosome = optarg
         elif opt in ['g', 'genome']:
-            genome_version = val
+            genome_version = optarg
+        elif opt in ["h","help"]:
+            print_usage()
+            exit(0)
+        elif opt == 'verbose':
+            verbose = True
         else:
             from sys import stderr
             stderr.write("Unknown option '%s'" % opt)
             exit(1)
         
     if len(args) < 2:
-        print("Usage: importer [options] <file type> <filename>")
+        print_usage()
         exit(1)
 
     file_type = args[0]
     filename = args[1]
-    chromosome = None
-    if len(args) > 2:
-        chromosome = args[2]
 
     load_file(filename,file_type, genome_version, chromosome, verbose)
