@@ -43,6 +43,7 @@ urlpatterns += patterns('',
 	)),
    #url(r'^polls/(?P<poll_id>\d+)/$', 'polls.views.detail'),
    #url(r'^search/(?P<microrna_id>\S+)/$', 'ple.views.detail'),
+   url(r'^detail/(?P<microrna_id>\S+)/chr(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'), # Added this URL to be more flexible with chromosome labels.
    url(r'^detail/(?P<microrna_id>\S+)/(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'),
    url(r'^result/(?P<microrna_id>\S+)/$', 'ple.views.result'),	
    url(r'^detail/(?P<microrna_id>\S+)/$', 'ple.views.micrornadetail'),
