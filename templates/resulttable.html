@@ -5,42 +5,42 @@
 <th>Feature</th><th>Value</th>
 </tr>
 {% if result|keyvalue:'microrna' %}
-<tr class="even">
+<tr class="{% cycle 'even' 'odd' as rowcolor %}">
 <td>microRNA</td><td><a href="{% url ple.views.micrornadetail microrna_id=result|keyvalue:'microrna' %}">{{ result|keyvalue:'microrna' }}</a></td>
 </tr>
 <tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Chromosome</td><td>{{ result|keyvalue:'chromosome' }}</td>
 </tr>
 {% endif %}
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Genomic Start Position</td><td>{{ result|keyvalue:'hit_genomic_start' }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Genomic End Position</td><td>{{ result|keyvalue:'hit_genomic_end' }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Base Type</td><td>{{ result|keyvalue:'base_type' }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Hit Score</td><td>{{ result|keyvalue:'hit_score' }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Hit Energy</td><td>{{ result|keyvalue:'hit_energy' }}</td>
 </tr>
 <tr class="odd">
 <td>Hit structure</td><td><pre>{{ result|keyvalue:'query_seq' }}<br />{{ result|keyvalue:'hit_string' }}<br />{{ result|keyvalue:'ref_seq' }}<br />{% complement result|keyvalue:'ref_seq' %}</pre></td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Match Type</td><td>{{ result|keyvalue:'match_type' }}</td>
 </tr>
 {%  if 'grade' in result or result|getgrade %}
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Grade</td><td>{% if 'grade' in result %}{{ result|keyvalue:'grade' }}{% else %}{{result|getgrade}}{% endif %}</td>
 </tr>
 {% endif %}
 {% if result|keyvalue:'genome' %}
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Genome</td><td>{{ result|keyvalue:'genome' }}</td>
 </tr>
 {% endif %}

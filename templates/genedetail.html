@@ -18,29 +18,29 @@
 <tr>
 <th>Feature</th><th>Value</th>
 </tr>
-<tr class="even">
+<tr class="{% cycle 'even' 'odd' as rowcolor %}">
 <td>Symbol</td><td>{% if gene_list|genencbi:name %}<a href="http://www.ncbi.nlm.nih.gov/gene/{{gene_list|genencbi:name}}" target="_blank">{% endif %}{{ gene.name }}{% if gene_list|genencbi:name %}</a>{% endif %}</td>
 </tr>
 <tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Chromosome</td><td>{{ gene.chromosome }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Genomic Start Position</td><td>{{ gene.genomic_start }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Genomic End Position</td><td>{{ gene.genomic_end }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Positive Strand?</td><td>{% if gene.is_on_positive_strand %}Yes{% else %}No{% endif %}</td>
 </tr>
 {% if gene.synonyms %}
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Synonyms</td><td>{{ gene.synonyms|commafy:';' }}</td>
 </tr>
 {% endif %}
 {% if near_hits and name in near_hits %}
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Hits in genomic region</td><td>{% include 'resulttable.html' with latest_result_list=near_hits|keyvalue:name%}</td>
 </tr>
 {% endif %}
