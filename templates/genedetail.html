@@ -39,6 +39,11 @@
 <td>Synonyms</td><td>{{ gene.synonyms|commafy:';' }}</td>
 </tr>
 {% endif %}
+{% if near_hits and name in near_hits %}
+<tr class="even">
+<td>Hits in genomic region</td><td>{% include 'resulttable.html' with latest_result_list=near_hits|keyvalue:name%}</td>
+</tr>
+{% endif %}
 
 </table>
 {% endfor %}

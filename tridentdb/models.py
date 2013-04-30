@@ -71,6 +71,29 @@ class Results(models.Model):
 
         return retval
         
+    def dict(self,interp = None):
+        result_dict = {}
+        result_dict['microrna'] = self.microrna
+        result_dict['chromosome'] = self.chromosome
+        result_dict['hit_genomic_start'] = self.hit_genomic_start
+        result_dict['hit_genomic_end'] = self.hit_genomic_end
+        result_dict['base_type'] = self.base_type.__unicode__()
+        result_dict['hit_score'] = self.hit_score
+        result_dict['hit_energy'] = self.hit_energy
+        result_dict['query_seq'] = self.query_seq
+        result_dict['hit_string'] = self.hit_string
+        result_dict['ref_seq'] = self.ref_seq
+        result_dict['match_type'] = self.match_type.__unicode__()
+        result_dict['genome'] = self.genome.__unicode__()
+    
+        if interp:
+            from trident.classify import get_grade
+            if not hasattr(interp,"__call__"):
+                from trident import TridentException
+                raise TridentException("Interpolator object is not callable")
+            result_dict["grade"] = get_grade(interp({'query_id': self.microrna, 'energy': self.hit_energy,'score': self.hit_score})) # Supplying the necessary fields for the inerpolator as a dict (instead of full trident score dict)
+    
+        return result_dict
 
 class AffymetrixID(models.Model):
     probe_set_id = models.CharField(max_length=50)

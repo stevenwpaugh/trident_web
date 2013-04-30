@@ -47,38 +47,6 @@ def resultdetailold(request, microrna_id, chr, start_pos):
         #output = "var myx = [%s];\nvar myy = [%s];" % (myx,myy)
         return HttpResponse(output)
 
-def get_grade(log_value):
-	if log_value <= -5:
-		return 1
-	elif log_value <= -4:
-		return 2
-	elif log_value <= -3:
-		return 3
-	elif log_value <= -2:
-		return 4
-	return 5
-
-def result_to_dict(result):
-	result_dict = {}
-	result_dict['microrna'] = result.microrna
-	result_dict['chromosome'] = result.chromosome
-	result_dict['hit_genomic_start'] = result.hit_genomic_start
-	result_dict['hit_genomic_end'] = result.hit_genomic_end
-	result_dict['base_type'] = result.base_type.__unicode__()
-	result_dict['hit_score'] = result.hit_score
-	result_dict['hit_energy'] = result.hit_energy
-	result_dict['query_seq'] = result.query_seq
-	result_dict['hit_string'] = result.hit_string
-	result_dict['ref_seq'] = result.ref_seq
-	result_dict['match_type'] = result.match_type.__unicode__()
-	result_dict['genome'] = result.genome.__unicode__()
-
-	interp = get_interpolator()
-	if interp:
-		result_dict["grade"] = get_grade(interp({'query_id': result.microrna, 'energy': result.hit_energy,'score': result.hit_score})) # Supplying the necessary fields for the inerpolator as a dict (instead of full trident score dict)
-	
-	return result_dict
-
 def get_interpolator():
 	import os.path as OP
 	interp = None
@@ -99,9 +67,7 @@ def resultdetail(request, microrna_id, chr, start_pos):
 	t = loader.get_template('resultdetail.html')
 	result_list = []
 	for result in latest_result_list:
-		result_dict = result_to_dict(result)
-		if interp:
-			result_dict["grade"] = get_grade(interp({'query_id': result.microrna, 'energy': result.hit_energy,'score': result.hit_score})) # Supplying the necessary fields for the inerpolator as a dict (instead of full trident score dict) 
+		result_dict = result.dict(interp)
 		result_list.append(result_dict)
 		
  	c = Context({
@@ -197,25 +163,30 @@ def jsondetail_chr(request, search_string, chromosome):
 def jsondetail_chr_start(request, search_string, chromosome, start_pos):
 	from django.utils import simplejson
 
+	interp = get_interpolator()
+
 	num_results = Results.objects.filter(microrna = search_string,chromosome = chromosome,hit_genomic_start = start_pos).count()
 	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": num_results}
 	result_array = []
 	result_dict = None
 	if result_list:
 		for item in result_list:
-			result_array.append(result_to_dict(item))
+			result_array.append(item.dict(interp))
 			result_dict = result_to_dict(item)
 
 	return HttpResponse(simplejson.dumps({search_string: json_dict,"results": result_dict}),mimetype="application/json")
 
 def genedetail(request, gene_symbol):
+	interp = get_interpolator()
 	genes = Genes.objects.filter(name = gene_symbol)
 	gene_dict = {}
-
+	near_hits = {}
 	
 	for gene in genes:
 		gene_dict[gene.name] = gene
-	
-	c = Context({'gene_list': gene_dict})
+		near_hits[gene.name] = []
+		for result in Results.objects.filter(chromosome = gene.chromosome).filter(hit_genomic_start__gte = gene.genomic_start).filter(hit_genomic_end__lte = gene.genomic_end):
+			near_hits[gene.name].append(result.dict(interp))
+	c = Context({'gene_list': gene_dict, 'near_hits': near_hits})
 	t = loader.get_template("genedetail.html")
 	return HttpResponse(t.render(c))
