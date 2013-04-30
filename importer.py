@@ -98,7 +98,7 @@ def import_scores(file, verbose = False):
         print("Ignored {0} duplicate entries".format(ignore_counter))
 
 
-def import_gff(file, genome_version):
+def import_gff(file, genome_version, verbose = False):
     """
     Parses a gff file and populates the MicroRNA table.
     
@@ -121,7 +121,8 @@ def import_gff(file, genome_version):
         
     lineno = 1
     for line in file:
-        print("Line Number: %d" % lineno)
+        if verbose:
+            print("Line Number: %d" % lineno)
         lineno += 1
         if len(line) == 0:
             continue
