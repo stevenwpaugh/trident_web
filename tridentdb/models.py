@@ -18,6 +18,7 @@ class Genome(models.Model):
     genome_ver = models.CharField(max_length=20, unique=True) # In results
     genome_genus = models.CharField(max_length=20)
     genome_species = models.CharField(max_length=20)
+    browser_name = models.CharField(max_length=16, unique=True, null=True, blank=True)
     description = models.TextField(null=True)
 
     def __unicode__(self):
