@@ -1,0 +1,23 @@
+
+{% extends "base_generic.html" %}
+
+{% block title %}Download{% endblock %}
+
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<div class="span-20 last">
+<div class="span-20">
+<h2>Trident Linux</h2>
+<p>To simplify setup and use, Trident is available both as a pre-built CentOS 6 system or an ISO to be used to build a CentOS 6 system. The pre-built version is available as an OVA <a href="javascript:alert('TO BE ADDED');">appliance</a>. The virtual machine was built with <a href="https://www.virtualbox.org/" target="_blank">Virtual Box</a>.
+<br/><br/>
+The ISO used to built the system may be downloaded <a href="javascript:alert('TO BE ADDED');">here</a>. This image is the CentOS 6 Install Disk 1 with added packages and kickstart file. The extra packages are located in the <em>extras</em> subdirectory of the image. The image may be burned to a DVD and booted to run the install. In addition to the typical CentOS install, the DVD can, and will by default, run the automatic install used to build the virtual machine listed above. This automatic install will build a CentOS desktop with the extra packages installed. Most notably, this will install the trident executables in the default path as well as Python 2.7. This python may be used by running <em>python2.7</em> instead of <em>python</em>. Also, the trident web package is located in <em>/var/www/trident_web</em>. However, it is not initially set up to be used, as it requires <a href="/download#trident_web">configuration</a> from the user.
+</p>
+</div>
+</div>
+{% endblock %}
