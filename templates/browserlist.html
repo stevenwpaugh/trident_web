@@ -1,0 +1,24 @@
+
+{% extends "base_generic.html" %}
+
+{% block title %}Genome Browser{% endblock %}
+
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<div class="span-20 last">
+<div class="span-20">
+<h2>Genomes</h2>
+<ul>
+{% for genome in genomes %}
+<li><a href="/static/{{ genome.browser_name }}">{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+{% endfor %}
+</ul>
+</div>
+</div>
+{% endblock %}

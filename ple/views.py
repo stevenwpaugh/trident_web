@@ -3,7 +3,7 @@ from django.db.models import Min, Max
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django import forms
-from tridentdb.models import Results, MicroRNA,Genes
+from tridentdb.models import Results, MicroRNA,Genes,Genome
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -190,3 +190,9 @@ def genedetail(request, gene_symbol):
 	c = Context({'gene_list': gene_dict, 'near_hits': near_hits})
 	t = loader.get_template("genedetail.html")
 	return HttpResponse(t.render(c))
+
+def browse(request):
+	c = Context({'genomes': Genome.objects.filter(browser_name__isnull=False).order_by('genome_genus')})
+	t = loader.get_template("browserlist.html")
+	return HttpResponse(t.render(c))
+	
