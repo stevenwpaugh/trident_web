@@ -1,7 +1,7 @@
 
 {% extends "base_generic.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Trident API{% endblock %}
 
 
  {% block header %}
@@ -16,63 +16,22 @@
 {% block content %}
 <div class="span-20 last">
 <div class="span-20">
-<h2>Install the Trident API R package</h2>
-			<p>
-			We are offering an application programming interface for R
-				(<a href="http://www.r-project.org" target="_blank">http://www.r-project.org</a>) which can be installed using the instruction below.
-			</p>
+<h2>Trident API</h2>
+<p>Trident provides multiple APIs to the range of applications in the software suite, ranging from triplex heuristic scoring to post-processing of results. Such functions are provided in multiple languages. For C, Python and Hadoop APIs, visit the <a href="/static/tridentapi">code documentation page</a>. Additionally, most data analysis may be done using the RESTful api provided on this site.</p>
 
-			<p>
-			Use the <strong><em>trident.R</em></strong> script to install the API [TridentAPI version 1.0].
-			</p>
+<h2>Trident Web API</h2>
+<p>Data produced by trident is accessble via a REST API, providing HTML and JSON put formats. Below is a list of URIs that may be used to obtain trident data.
+<br/></p>
 
-
-			<div class="codeLabel">To install a particular package, e.g., TridentAPI, type (or copy and paste) the following in an R command window:</div>
-
-			<code>source("http://trident.stjude.org/static/trident.R");<br />tridentinstall("TridentAPI");</code>			
-
-
-
-			<div class="codeLabel">Once installed simply add the following line to the beginning of your scripts.</div>
-
-			<code>require("TridentAPI");</code>
-
-			<br />
-			<br />
-
-
-		
-
-			<h3>Examples of usage:</h3>
-
-			
-
-			<div class="codeLabel">Get all targets for a microRNA</div> 
-
-			<code>getTridentdata(microrna="hsa-miR-211-5p", datatype="targets");</code>
-
-
-			<div class="codeLabel">Get all microRNAs that target a gene</div>
-
-			<code>getTridentdata("TPMT", datatype="gene");</code>
-
-
-
-                        <div class="codeLabel">Get a listing of genomes with availble information</div>
-
-                        <code>getTridentgenomelist();</code>
-
-
-
-            		<div class="codeLabel">Get a listing of microRNAs with availble information</div>
-
-			<code>getTridentmicroRNAlist();</code>
-
-			
-
-			<div class="codeLabel">If you are interested in repackaging TridentAPI on other platforms, please download the source code using this link:  
-
-			<a href="/TridentAPI_1.0.tar.gz">Trident API Source Code</a></div>
+<ul>
+<li>{{ BASE_URL }}/gene/GENENAME/ - Provides gene information, such as genomic location, synonyms and trident results within the gene location. </li>
+<li>{{ BASE_URL }}/detail/MICRORNA/ - Provides MicroRNA information, such as genomic information and mirbase id.</li>
+<li>{{ BASE_URL }}/json/MICRORNA/ - Same as {{ BASE_URL }}/detail/MICRORNA/, but output is provided in JSON format.</li>
+<li>{{ BASE_URL }}/json/MICRORNA/CHROMOSOME NUMBER - Lists the number of trident results on a given chromosome for MICRORNA.</li>
+<li>{{ BASE_URL }}/detail/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/ - Lists trident results for MICRORNA that start at GENOMIC START LOCATION on the given chromosome.</li>
+<li>{{ BASE_URL }}/json/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/ - Same as {{ BASE_URL }}/detail/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/, but output is provided in JSON format.</li>
+<li>{{ BASE_URL }}/search/QUERY/ - REST API to the search function, searching microrna and gene data. Provides the same result given by the form on the page <a href="{{ BASE_URL }}/search/">{{ BASE_URL }}/search/</a>.</li>
+</ul>
 
 
 </div>

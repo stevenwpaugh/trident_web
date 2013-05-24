@@ -51,11 +51,8 @@ def get_interpolator():
 	import os.path as OP
 	interp = None
 	if interpolator_filename and OP.isfile(interpolator_filename):
-		import pickle
-		interp = pickle.load(open(interpolator_filename,"rb"))
-		if interp:
-			if not hasattr(interp,"__call__"):
-				interp = None
+		from trident.classify import load
+		return load(interpolator_filename)
 	return interp
 
 def resultdetail(request, microrna_id, chr, start_pos):
@@ -160,21 +157,41 @@ def jsondetail_chr(request, search_string, chromosome):
 		
 	return HttpResponse(simplejson.dumps({search_string: json_dict}),mimetype="application/json")
 
+def result_to_dict(result):
+	from trident.classify import get_grade
+	result_dict = {}
+	result_dict['microrna'] = result.microrna
+	result_dict['chromosome'] = result.chromosome
+	result_dict['hit_genomic_start'] = result.hit_genomic_start
+	result_dict['hit_genomic_end'] = result.hit_genomic_end
+	result_dict['base_type'] = result.base_type.__unicode__()
+	result_dict['hit_score'] = result.hit_score
+	result_dict['hit_energy'] = result.hit_energy
+	result_dict['query_seq'] = result.query_seq
+	result_dict['hit_string'] = result.hit_string
+	result_dict['ref_seq'] = result.ref_seq
+	result_dict['match_type'] = result.match_type.__unicode__()
+	result_dict['genome'] = result.genome.__unicode__()
+	
+	interp = get_interpolator()
+	if interp:
+		result_dict["grade"] = get_grade(interp({'query_id': result.microrna, 'energy': result.hit_energy,'score': result.hit_score})) # Supplying the necessary fields for the inerpolator as a dict (instead of full trident score dict)
+		
+	return result_dict
+
 def jsondetail_chr_start(request, search_string, chromosome, start_pos):
 	from django.utils import simplejson
 
 	interp = get_interpolator()
 
-	num_results = Results.objects.filter(microrna = search_string,chromosome = chromosome,hit_genomic_start = start_pos).count()
-	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": num_results}
+	result_list = Results.objects.filter(microrna = search_string).filter(chromosome = chromosome).filter(hit_genomic_start = start_pos)
+	json_dict = {"mirna": search_string, "chromosome": chromosome, "num_results": len(result_list)}
 	result_array = []
-	result_dict = None
 	if result_list:
 		for item in result_list:
 			result_array.append(item.dict(interp))
-			result_dict = result_to_dict(item)
 
-	return HttpResponse(simplejson.dumps({search_string: json_dict,"results": result_dict}),mimetype="application/json")
+	return HttpResponse(simplejson.dumps({search_string: json_dict,"results": result_array}),mimetype="application/json")
 
 def genedetail(request, gene_symbol):
 	interp = get_interpolator()
@@ -196,3 +213,7 @@ def browse(request):
 	t = loader.get_template("browserlist.html")
 	return HttpResponse(t.render(c))
 	
+def baseurl(request):
+	if request.is_secure():
+		return {'BASE_URL': "https://" + request.get_host()}
+	return {'BASE_URL': "http://" + request.get_host()}
