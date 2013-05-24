@@ -11,11 +11,23 @@
 {% block content %}
 
 {% if genes %}
+<h2>Gene Results</h2>
+<br/>
 <ol>
 {% for gene in genes %}
 <li><a href=/gene/{{ gene.approved_symbol }}>{{ gene.approved_symbol }} - {{ gene.approved_name }}</a></li>
 {{ gene.approved_name }}<br>
 Other aliases: {{ gene.previous_symbols }}<br>
+{% endfor %}
+</ol>
+{% endif %}
+
+{% if mirnas %}
+<h2>MicroRNA Results </h2>
+<br/>
+<ol>
+{% for mirna in mirnas %}
+<li><a href="/detail/{{ mirna.mirbase_name }}">{{ mirna.mirbase_name }}</a><br/>{{ mirna.genome }}</li>
 {% endfor %}
 </ol>
 {% endif %}
