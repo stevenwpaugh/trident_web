@@ -31,18 +31,6 @@ urlpatterns += patterns('',
     url(r'^tools/$', 'ple.sequence_submission.ple_me'),
     url(r'^tools/(?P<mirna>\S+)/(?P<dna>\S+)/$','ple.sequence_submission.ple_them'),
     url(r'^search/$', 'ple.site_search.site_search'),
-    #url(r'^tools2/$', 'ple.views.pletool'),
-    #url(r'^$', 'direct_to_template', {'template': 'index.html'}),
-    #url(r'^search/$', 'ple.views.index'),
-	(r'^search/$', ListView.as_view(
-		model=MicroRNA,
-	)),
-
-	(r'^predict/$', ListView.as_view(
-		model=Genome,
-	)),
-   #url(r'^polls/(?P<poll_id>\d+)/$', 'polls.views.detail'),
-   #url(r'^search/(?P<microrna_id>\S+)/$', 'ple.views.detail'),
    url(r'^detail/(?P<microrna_id>\S+)/chr(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'), # Added this URL to be more flexible with chromosome labels.
    url(r'^detail/(?P<microrna_id>\S+)/(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'),
    url(r'^result/(?P<microrna_id>\S+)/$', 'ple.views.result'),	
