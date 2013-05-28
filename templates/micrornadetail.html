@@ -14,34 +14,34 @@
 <tr>
 <th>Feature</th><th>Value</th>
 </tr>
-<tr class="even">
+<tr class="{% cycle 'even' 'odd' as rowcolor %}">
 <td>MicroRNA name</td><td>{{ result.mirbase_name }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Chromosome</td><td>{{ result.chromosome }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Genomic Start Position</td><td>{{ result.genomic_mir_start }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Genomic End Position</td><td>{{ result.genomic_mir_end }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Primary Transcript?</td><td>{{ result.is_primary_transcript }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Positive Strand?</td><td>{{ result.is_on_positive_strand }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>MicroRNA sequence</td><td>{{ result.mirbase_seq }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>miRBase ID</td><td>{{ result.mirbase_id }}</td>
 </tr>
-<tr class="even">
+<tr class="{% cycle rowcolor %}">
 <td>Derived from</td><td>{{ result.mirbase_derives_from }}</td>
 </tr>
-<tr class="odd">
+<tr class="{% cycle rowcolor %}">
 <td>Genome</td><td>{{ result.genome }}</td>
 </tr>
 
