@@ -11,8 +11,8 @@ class SearchForm(forms.Form):
     search_text = forms.CharField()
 
 def perform_search(query):
-    mirnas = MicroRNA.objects.filter(mirbase_name__icontains=query)
-    genes = hgncsymbols.objects.filter(approved_symbol__icontains=query)
+    mirnas = MicroRNA.objects.filter(mirbase_name__icontains=query).order_by('mirbase_name')
+    genes = hgncsymbols.objects.filter(approved_symbol__icontains=query).order_by('approved_symbol')
     return render_to_response('search/search_output.html', {'genes': genes, "mirnas": mirnas})
 
 #@login_required    
