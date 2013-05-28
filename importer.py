@@ -162,6 +162,27 @@ def import_gff(file, genome_version, verbose = False):
             raise de
         ##end of import_gff
 
+def import_mirna(infile, verbose = False):
+    from django.db.utils import DatabaseError
+    from Bio import SeqIO
+    from tridentdb.models import MicroRNA
+    for record in SeqIO.parse(infile, "fasta"):
+        if verbose:
+            print("Importing {0}".format(record.id))
+        mirnas = MicroRNA.objects.filter(mirbase_name = record.id)
+        if verbose:
+            print("found {0} microrna".format(len(mirnas)))
+        if not mirnas:
+            continue
+        for mirna in mirnas:
+            mirna.mirbase_seq = str(record.seq)
+            try:
+                mirna.save()
+            except DatabaseError as de:
+                from sys import stderr
+                stderr.write("Error loading microrna sequence: {0}".format(record))
+                raise de
+
 def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
     if file_type == "genes":# this function does not want a file type
         import_genes(filename,chromosome,genome_version,verbose)
@@ -174,6 +195,8 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
             elif file_type == 'hgnc':
                 next(file)
                 import_hgnc(file)
+            elif file_type == "mirna":
+                import_mirna(file, verbose)
             else:
                 print("%s is not yet implemented" % file_type)
 
