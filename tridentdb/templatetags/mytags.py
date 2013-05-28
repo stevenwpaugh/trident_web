@@ -49,3 +49,13 @@ def getgrade(result):
 	interp = get_interpolator()
 	if interp:
 		return get_grade(interp(result["energy"],result["score"]))
+
+@register.filter
+def ag_content(sequence):
+	from trident import get_ag_content
+	return get_ag_content(sequence)*100 # as percent
+
+@register.filter
+def gc_content(sequence):
+	from trident import get_gc_content
+	return get_gc_content(sequence)*100 # as percent

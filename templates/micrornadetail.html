@@ -1,5 +1,5 @@
-
 {% extends "base_generic.html" %}
+{% load mytags %}
 {% block header %}
           <div class="span-24" id="headersmall">
                 {% block headertext %}
@@ -35,6 +35,14 @@
 <tr class="{% cycle rowcolor %}">
 <td>MicroRNA sequence</td><td>{{ result.mirbase_seq }}</td>
 </tr>
+{% if result.mirbase_seq %}
+<tr class="{% cycle rowcolor %}">
+<td>AG Content</td><td>{{ result.mirbase_seq|ag_content|floatformat:2 }}%</td>
+</tr>
+<tr class="{% cycle rowcolor %}">
+<td>GC Content</td><td>{{ result.mirbase_seq|gc_content|floatformat:2 }}%</td>
+</tr>
+{% endif %}
 <tr class="{% cycle rowcolor %}">
 <td>miRBase ID</td><td>{{ result.mirbase_id }}</td>
 </tr>
