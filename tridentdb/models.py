@@ -35,7 +35,7 @@ class MicroRNA(models.Model):
     mirbase_acc = models.CharField(max_length=20)# accession_number field in gff column 9
     mirbase_name = models.CharField(max_length=20)# Name field in gff column 9
     mirbase_derives_from = models.CharField(max_length=20,null=True)# dervives_from field in gff column 9
-    mirbase_seq = models.CharField(max_length=100,null=True)# Parse from mature.fa and hairpin.fa
+    mirbase_seq = models.CharField(max_length=200,null=True)# Parse from mature.fa and hairpin.fa
     genome = models.ForeignKey(Genome)
     
 class Results(models.Model):
