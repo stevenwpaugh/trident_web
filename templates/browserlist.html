@@ -16,7 +16,9 @@
 <h2>Genomes</h2>
 <ul>
 {% for genome in genomes %}
+{% if genome.browser_name %}
 <li><a href="/static/{{ genome.browser_name }}">{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+{% endif %}
 {% endfor %}
 </ul>
 </div>
