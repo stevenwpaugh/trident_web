@@ -10,7 +10,7 @@
 
 <form action="." method="post">
 {% csrf_token %}
-{{ form }}
+{{ form|linebreaksbr }}
 <input type="submit" value="Submit" />
 </form>
 
