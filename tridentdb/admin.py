@@ -1,6 +1,7 @@
 from tridentdb.models import *
 from django.contrib import admin
 
+admin.site.register(TaxonomyGroup)
 admin.site.register(Genome)
 admin.site.register(MicroRNA)
 admin.site.register(MatchType)
