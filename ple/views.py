@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from ple_interface import *
 from drresults.models import *
 from local_settings import interpolator_filename
+from django.db.models import Q
 
 def index(request):
 	return HttpResponse("Hello, World!")
@@ -27,7 +28,7 @@ def detail(request, microrna_id):
 	output = "<pre>%s<br/>%s<br/>%s</pre>" % (query,match,ref)
 	return HttpResponse(output)
 
-def result(request, microrna_id):
+def resuLt(request, microrna_id):
         latest_result_list = Results.objects.filter(microrna = microrna_id)[:20]
         query = ', '.join([p.query_seq for p in latest_result_list])
         match = ', '.join([p.hit_string for p in latest_result_list])
@@ -209,7 +210,7 @@ def genedetail(request, gene_symbol):
 	return HttpResponse(t.render(c))
 
 def browse(request):
-	c = Context({'genomes': Genome.objects.filter(browser_name__isnull=False).order_by('genome_genus')})
+	c = Context({'genomes': Genome.objects.filter(Q(status__isnull=True)|Q(status="")).order_by('genome_genus')})
 	t = loader.get_template("browserlist.html")
 	return HttpResponse(t.render(c))
 	
@@ -219,7 +220,7 @@ def baseurl(request):
 	return {'BASE_URL': "http://" + request.get_host()}
 
 def genome_list(request):
-	c = Context({'genomes': Genome.objects.filter(browser_name__isnull=False).order_by('genome_genus')})
+	c = Context({'genomes': Genome.objects.order_by('genome_genus')})
 	t = loader.get_template("genomelist.html")
 	return HttpResponse(t.render(c))
 
