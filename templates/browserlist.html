@@ -19,7 +19,7 @@
 {% for genome in genomes %}
 {% if genome.browser_name %}
 <td>
-<a href="/static/{{ genome.browser_name }}"><img src="/static/img/{{ genome.browser_name }}.png"><br>{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+<a href="/static/{{ genome.browser_name }}"><img src="/static/img/icons/{{ genome.browser_name }}.png"><br>{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
 </td>
 {% endif %}
 {% endfor %}
