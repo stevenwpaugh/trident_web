@@ -106,3 +106,13 @@ border:1px solid black;
 }
 tbody tr.odd td {background-color:white}
 tbody tr.even td {background-color: #e5ecf9;}
+
+.browserlist{
+border-spacing:0;
+border-collapse: collapse;
+border-width: 1px;
+table-layout:fixed;
+border: none;
+width: auto;
+text-align: center;
+}

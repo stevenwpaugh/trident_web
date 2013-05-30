@@ -15,8 +15,8 @@
 <tr>
 {% for genome in genomes %}
 {% if genome.browser_name %}
-<td>
-<a href="/genome/{{ genome.id }}/"><img src="/static/img/{{ genome.browser_name }}.png"><br>{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+<td class="browserlist">
+<a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png"><br>{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
 </td>
 {% endif %}
 {% endfor %}
