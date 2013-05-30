@@ -1,4 +1,3 @@
-
 {% extends "base_generic.html" %}
 {% block header %}
           <div class="span-24" id="headersmall">
@@ -12,8 +11,10 @@
 <div class="span-20">
 <h2>Genomes</h2>
 <table class="browserlist">
-<tr>
 {% for genome in genomes %}
+{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:5 %}
+<tr>
+{% endif %}
 {% if genome.browser_name %}
 <td class="browserlist">
 <div id="activecontainer">
@@ -21,6 +22,9 @@
 {{ genome.genome_genus }} {{ genome.genome_species }}</a>
 </div>
 </td>
+{% if forloop.counter|divisibleby:5 %} 
+</tr>
+{% endif %}
 {% endif %}
 {% endfor %}
 <td class="browserlist">
