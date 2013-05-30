@@ -1,0 +1,29 @@
+
+{% extends "base_generic.html" %}
+{% load mytags %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<div class="span-20 last">
+<div class="span-20">
+{% if genome %}
+<table>
+<tr>
+<th>Feature</th><th>Value</th>
+</tr>
+<tr class="{% cycle 'even' 'odd' as rowcolor %}">
+<td>Species</td><td>{{ genome.genome_genus }} {{ genome.genome_species }}</td>
+</tr>
+<tr class="{% cycle rowcolor %}">
+<td>Genome Version</td><td>{% if genome.browser_name %}<a href="/static/{{ genome.browser_name }}">{% endif %}{{ genome.genome_ver }}{% if genome.browser_name %}</a>{% endif %}</td>
+</tr>
+</table>
+{% endif %}
+</div>
+</div>
+{% endblock %}

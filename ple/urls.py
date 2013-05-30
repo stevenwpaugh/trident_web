@@ -27,6 +27,8 @@ urlpatterns = patterns('django.views.generic.simple',
 
 urlpatterns += patterns('',
     url(r'^browse', 'ple.views.browse'),
+    url(r'^genome/(?P<id>\S+)/$', 'ple.views.genomedetail'),
+    url(r'^genome/', 'ple.views.genome_list'),
     url(r'^gene/(?P<gene_symbol>\S+)/$', 'ple.views.genedetail'),
     url(r'^tools/$', 'ple.sequence_submission.ple_me'),
     url(r'^tools/(?P<mirna>\S+)/(?P<dna>\S+)/$','ple.sequence_submission.ple_them'),

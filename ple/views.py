@@ -217,3 +217,14 @@ def baseurl(request):
 	if request.is_secure():
 		return {'BASE_URL': "https://" + request.get_host()}
 	return {'BASE_URL': "http://" + request.get_host()}
+
+def genome_list(request):
+	c = Context({'genomes': Genome.objects.filter(browser_name__isnull=False).order_by('genome_genus')})
+	t = loader.get_template("genomelist.html")
+	return HttpResponse(t.render(c))
+
+def genomedetail(request,id):
+	genome = Genome.objects.get(id = id)
+	c = Context({'genome': genome})
+	t = loader.get_template("genomedetail.html")
+	return HttpResponse(t.render(c))

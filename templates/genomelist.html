@@ -1,0 +1,27 @@
+
+{% extends "base_generic.html" %}
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+<div class="span-20 last">
+<div class="span-20">
+<h2>Genomes</h2>
+<table class="browserlist">
+<tr>
+{% for genome in genomes %}
+{% if genome.browser_name %}
+<td>
+<a href="/genome/{{ genome.id }}/"><img src="/static/img/{{ genome.browser_name }}.png"><br>{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+</td>
+{% endif %}
+{% endfor %}
+</tr>
+</table>
+</div>
+</div>
+{% endblock %}
