@@ -23,10 +23,9 @@ class SearchForm(forms.Form):
 
 
 def perform_search(query, species = None):
-    if species and get_hgnc_genome() in species:
+    genes = None
+    if not species or get_hgnc_genome() in species:
         genes = hgncsymbols.objects.filter(approved_symbol__icontains=query).order_by('approved_symbol')
-    else:
-        genes = None
 
     if species:
         from django.db.models import Q

@@ -14,13 +14,17 @@
 <div class="span-20 last">
 <div class="span-20">
 <h2>Genomes</h2>
-<ul>
+<table class="browserlist">
+<tr>
 {% for genome in genomes %}
 {% if genome.browser_name %}
-<li><a href="/static/{{ genome.browser_name }}">{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+<td>
+<a href="/static/{{ genome.browser_name }}"><img src="/static/img/{{ genome.browser_name }}.png"><br>{{ genome.genome_genus }} {{ genome.genome_species }}</a></li>
+</td>
 {% endif %}
 {% endfor %}
-</ul>
+</tr>
+</table>
 </div>
 </div>
 {% endblock %}
