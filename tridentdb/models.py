@@ -14,12 +14,25 @@ class MatchType(models.Model):
         return self.name
         
 
+class TaxonomyGroup(models.Model):
+    """
+    Table that lists types of genomes.
+    """
+    name = models.TextField(null=True,blank=True,max_length=16)
+    description = models.TextField(null=True,blank=True)
+
+    def __unicode__(self):
+        return self.name
+
 class Genome(models.Model): 
     genome_ver = models.CharField(max_length=20, unique=True) # In results
     genome_genus = models.CharField(max_length=20)
     genome_species = models.CharField(max_length=20)
     browser_name = models.CharField(max_length=16, null=True, blank=True)
     description = models.TextField(null=True)
+    status = models.TextField(null=True, blank=True, max_length =32)
+    priority = models.IntegerField()
+    taxonomy_group = models.ForeignKey(TaxonomyGroup)
 
     def __unicode__(self):
         rep = "%s %s (%s)" % (self.genome_genus, self.genome_species, self.genome_ver)
