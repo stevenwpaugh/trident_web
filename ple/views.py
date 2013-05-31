@@ -28,7 +28,7 @@ def detail(request, microrna_id):
 	output = "<pre>%s<br/>%s<br/>%s</pre>" % (query,match,ref)
 	return HttpResponse(output)
 
-def resuLt(request, microrna_id):
+def result(request, microrna_id):
         latest_result_list = Results.objects.filter(microrna = microrna_id)[:20]
         query = ', '.join([p.query_seq for p in latest_result_list])
         match = ', '.join([p.hit_string for p in latest_result_list])
