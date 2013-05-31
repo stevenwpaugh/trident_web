@@ -1,5 +1,13 @@
 {% extends "base_generic.html" %}
 
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+
 {% block content %}
 
 <form action="." method="post">
