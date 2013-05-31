@@ -157,6 +157,7 @@ top:0;
 }
 
 #inactivetext {
+text-decoration:none;
 z-index:100;
 position:absolute;    
 color:gray;
