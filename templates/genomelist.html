@@ -17,23 +17,27 @@
 {% endif %}
 {% if genome.browser_name %}
 <td class="browserlist">
+{% if genome.status == "" or genome.status == None %}
 <div id="activecontainer">
 <a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png"></div>
 {{ genome.genome_genus }} {{ genome.genome_species }}</a>
 </div>
+{% endif %}
+{% if genome.status != "" and genome.status != None %}
+<div id="inactivecontainer">
+<a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png" id="inactiveimage"></a>
+<div><a href="/genome/{{ genome.id }}/" id="inactivetext">{{ genome.status }}</a></div>
+</div>
+<a href="/genome/{{ genome.id }}/">{{ genome.genome_genus }} {{ genome.genome_species }}</a>
+</div>
+{% endif %}
+
 </td>
 {% if forloop.counter|divisibleby:5 %} 
 </tr>
 {% endif %}
 {% endif %}
 {% endfor %}
-<td class="browserlist">
-<div id="inactivecontainer">
-<img src="/static/img/icons/rno.png" id="inactiveimage">
-<div id="inactivetext">Queued</div>
-</div>
-Rattus norvegicus
-</td>
 </tr>
 </table>
 </div>
