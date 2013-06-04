@@ -32,6 +32,7 @@ urlpatterns += patterns('',
     url(r'^gene/(?P<gene_symbol>\S+)/$', 'ple.views.genedetail'),
     url(r'^tools/$', 'ple.sequence_submission.ple_me'),
     url(r'^tools/(?P<mirna>\S+)/(?P<dna>\S+)/$','ple.sequence_submission.ple_them'),
+    url(r'^tools_json/(?P<mirna>\S+)/(?P<dna>\S+)/$','ple.sequence_submission.json_ple_them'),
     url(r'^search/(?P<query>\S+)/$','ple.site_search.site_search_restapi'),
     url(r'^search/$', 'ple.site_search.site_search'),
    url(r'^detail/(?P<microrna_id>\S+)/chr(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'), # Added this URL to be more flexible with chromosome labels.

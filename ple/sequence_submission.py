@@ -2,6 +2,7 @@ from django import forms
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 import ple_interface
 
 default_nts = {'nt1': 'UGGAAUGUAAAGAAGUAUGUAU', 'nt2': 'CTGCTAGCTACTAGGAAAGAAAAGAAGAAAGAAACTGCTAGCTACT', 'long_format': False}
@@ -27,7 +28,7 @@ def ple_to_resultlist(parser):
         result_list.append(score)
         
     return result_list
-    
+ 
 #@login_required
 def ple_them(request,mirna,dna):
     import trident.parser as TP
@@ -43,6 +44,20 @@ def ple_them(request,mirna,dna):
         result_list = []
     return render_to_response('resultdetail.html',{'latest_result_list': result_list, 'error_message': errormsg})
             
+def json_ple_them(request,mirna,dna):
+    from django.utils import simplejson
+    import trident.parser as TP
+    from trident import FastaError
+    form_dict = {"nt1": mirna, "nt2": dna, "long_format": 0, "use_miranda": 0}
+    errormsg = None
+    try:
+        ple_output = ple_interface.run_ple(form_dict)
+        parser = TP.Parser(ple_output)
+        result_list = ple_to_resultlist(parser)
+    except FastaError as fe:
+        errormsg = fe.message
+        result_list = []
+    return HttpResponse(simplejson.dumps({'latest_result_list': result_list, 'error_message': errormsg}))
 
 #@login_required
 def ple_me(request):

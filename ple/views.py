@@ -203,7 +203,7 @@ def genedetail(request, gene_symbol):
 	for gene in genes:
 		gene_dict[gene.name] = gene
 		near_hits[gene.name] = []
-		for result in Results.objects.filter(chromosome = gene.chromosome).filter(hit_genomic_start__gte = gene.genomic_start).filter(hit_genomic_end__lte = gene.genomic_end):
+		for result in Results.objects.filter(chromosome = gene.chromosome).filter(hit_genomic_start__gte = gene.genomic_start-5000).filter(hit_genomic_end__lte = gene.genomic_end+5000):
 			near_hits[gene.name].append(result.dict(interp))
 	c = Context({'gene_list': gene_dict, 'near_hits': near_hits})
 	t = loader.get_template("genedetail.html")
