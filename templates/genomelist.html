@@ -18,13 +18,13 @@
 {% endif %}
 {% if genome.browser_name %}
 <td class="browserlist">
-{% if genome.status == "" or genome.status == None %}
+{% if not genome.status %}
 <div id="activecontainer">
 <a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png"></div>
 {{ genome.genome_genus }} {{ genome.genome_species }}</a>
 </div>
 {% endif %}
-{% if genome.status != "" and genome.status != None %}
+{% if genome.status %}
 <div id="inactivecontainer">
 <a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png" id="inactiveimage"></a>
 <div><a href="/genome/{{ genome.id }}/" id="inactivetext">{{ genome.status }}</a></div>
