@@ -66,7 +66,7 @@ class Results(models.Model):
     is_parallel = models.BooleanField()# orientation = parallel
     match_type = models.ForeignKey(MatchType, related_name='results_match_type')# match_type (direct, indirect)
     base_type = models.ForeignKey(MatchType, related_name='results_base_type')# base_type (pyrimidine, purine)
-    microrna = models.CharField(max_length=100)# query_id
+    microrna = models.CharField(max_length=100,db_index=True)# query_id
     # microrna = models.ForeignKey(MicroRNA)# query_id
     genome = models.ForeignKey(Genome)# parse reference_id, 7-th field
 
