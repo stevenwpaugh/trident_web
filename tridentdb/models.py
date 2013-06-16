@@ -53,9 +53,9 @@ class MicroRNA(models.Model):
     
 class Results(models.Model):
     chunkid = models.CharField(max_length=6)# parse from reference_id (field 2)
-    chromosome = models.CharField(max_length=2)# parse from reference_id (field 1)
-    hit_genomic_start = models.IntegerField()# ref_coords[0]
-    hit_genomic_end = models.IntegerField()# ref_coords[1]
+    chromosome = models.CharField(max_length=2, db_index=True)# parse from reference_id (field 1)
+    hit_genomic_start = models.IntegerField(db_index=True)# ref_coords[0]
+    hit_genomic_end = models.IntegerField(db_index=True)# ref_coords[1]
     hit_score = models.PositiveIntegerField()# score
     hit_energy = models.FloatField()# energy 
     hit_mir_start = models.PositiveIntegerField()# query_coords[0]
