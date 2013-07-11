@@ -1,11 +1,7 @@
 {% load static %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html>
   <head>
-<meta charset="UTF-8" />
-  <meta name="google" content="notranslate">
-  <meta http-equiv="Content-Language" content="en" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 	<title>{% block title %}Trident{% endblock %}</title>
 	{% block style %}{% endblock %}    
 	<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/screen.css" type="text/css" media="screen, projection"></link>
@@ -18,9 +14,9 @@
 	<link rel="stylesheet" href="{% get_static_prefix %}css/latest.css" type="text/css" media="screen, projection"></link>
 	<script src="{% get_static_prefix %}raphael.js"></script>
 	{% block javascript %}{% endblock %}
-	<!-- <scheduler>http://stjudeathome.stjude.org/stjudeathome_cgi/cgi</scheduler> -->
   </head>
   <body>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 	<div class="container">
 	  {% block header %}
 	  <div class="span-24" id="header">
