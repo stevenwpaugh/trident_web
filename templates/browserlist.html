@@ -23,7 +23,7 @@
 {% if genome.browser_name %}
 <td class="browserlist">
 <div id="activecontainer">
-<a href="/static/{{ genome.browser_name }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png"></div>
+<a href="/static/{{ genome.browser_name }}/?tracks=DNA,Genes,Hits"><img src="/static/img/icons/{{ genome.browser_name }}.png"></div>
 {{ genome.genome_genus }} {{ genome.genome_species }}</a>
 </div>
 </td>
