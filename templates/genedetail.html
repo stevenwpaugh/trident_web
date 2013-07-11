@@ -19,8 +19,29 @@
 <th>Feature</th><th>Value</th>
 </tr>
 <tr class="{% cycle 'even' 'odd' as rowcolor %}">
-<td>Symbol</td><td>{% if gene_list|genencbi:name %}<a href="http://www.ncbi.nlm.nih.gov/gene/{{gene_list|genencbi:name}}" target="_blank">{% endif %}{{ gene.name }}{% if gene_list|genencbi:name %}</a>{% endif %}</td>
+<td>Symbol</td><td>{{ gene.name }}</td>
 </tr>
+{% if gene_list|genencbi:name %}
+<tr class="{% cycle rowcolor %}">
+<td>
+Genomic context
+</td>
+<td>
+<a href="/static/hsa/?loc=chr{{ gene.chromosome }}%3A{{ gene.genomic_start|add:-1000 }}..{{ gene.genomic_end|add:1000 }}&tracks=DNA,Genes,Hits">Browse Trident Data (1000 basepair padding)</a>&nbsp;&nbsp;
+<a href="/static/hsa/?loc=chr{{ gene.chromosome }}%3A{{ gene.genomic_start|add:-5000 }}..{{ gene.genomic_end|add:5000 }}&tracks=DNA,Genes,Hits">Browse Trident Data (5000 basepair padding)</a>
+
+
+</td>
+</tr>
+<tr class="{% cycle rowcolor %}">
+<td>
+Linkouts
+</td>
+<td>
+<a href="http://www.ncbi.nlm.nih.gov/gene/{{gene_list|genencbi:name}}" target="_blank">NCBI</a>
+</td>
+</tr>
+{% endif %}
 <tr>
 <tr class="{% cycle rowcolor %}">
 <td>Chromosome</td><td>{{ gene.chromosome }}</td>
@@ -48,6 +69,6 @@
 </tr>
 {% endif %}
 
-</table>
+  </table>
 {% endfor %}
 {% endblock %}
