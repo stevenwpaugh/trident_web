@@ -61,7 +61,7 @@ def resultdetail(request, microrna_id, chr, start_pos):
 	
         latest_result_list = Results.objects.filter(microrna = microrna_id)
         latest_result_list = latest_result_list.filter(chromosome = chr)
-        latest_result_list = latest_result_list.filter(hit_genomic_start = start_pos)
+        latest_result_list = latest_result_list.filter(hit_genomic_start = start_pos).select_related()
 	t = loader.get_template('resultdetail.html')
 	result_list = []
 	for result in latest_result_list:
@@ -203,7 +203,7 @@ def genedetail(request, gene_symbol):
 	for gene in genes:
 		gene_dict[gene.name] = gene
 		near_hits[gene.name] = []
-		for result in Results.objects.filter(chromosome = gene.chromosome).filter(hit_genomic_start__gte = gene.genomic_start-5000).filter(hit_genomic_end__lte = gene.genomic_end+5000):
+		for result in Results.objects.filter(chromosome = gene.chromosome).filter(hit_genomic_start__gte = gene.genomic_start-5000).filter(hit_genomic_end__lte = gene.genomic_end+5000).select_related():
 			near_hits[gene.name].append(result.dict(interp))
 	c = Context({'gene_list': gene_dict, 'near_hits': near_hits})
 	t = loader.get_template("genedetail.html")
