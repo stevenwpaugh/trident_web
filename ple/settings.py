@@ -3,6 +3,7 @@
 
 import local_settings as local 
 import os
+import sys
 DEBUG = local.DEBUG
 TEMPLATE_DEBUG = local.TEMPLATE_DEBUG
 
@@ -100,8 +101,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'ple.urls'
@@ -148,7 +148,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'polls',
+    #'polls',
     'django.contrib.staticfiles',
     'django.contrib.webdesign',
     'tridentdb',
@@ -159,6 +159,39 @@ INSTALLED_APPS = (
     'drresults',
     'hgnc',
 )
+
+if DEBUG:
+    INSTALLED_APPS =  tuple(list(INSTALLED_APPS) +['debug_toolbar'])
+
+
+DEBUG_TOOLBAR_PANELS = (
+        'debug_toolbar.panels.version.VersionDebugPanel',
+        'debug_toolbar.panels.timer.TimerDebugPanel',
+        'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+        'debug_toolbar.panels.headers.HeaderDebugPanel',
+        'debug_toolbar.panels.profiling.ProfilingDebugPanel',
+        'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+        'debug_toolbar.panels.sql.SQLDebugPanel',
+        'debug_toolbar.panels.template.TemplateDebugPanel',
+        'debug_toolbar.panels.cache.CacheDebugPanel',
+        'debug_toolbar.panels.signals.SignalDebugPanel',
+        'debug_toolbar.panels.logger.LoggingPanel',
+)
+
+def show_toolbar(request):
+    return DEBUG
+
+
+SHOW_TOOLBAR_CALLBACK = show_toolbar
+
+DEBUG_TOOLBAR_CONFIG = {
+'INTERCEPT_REDIRECTS': False,
+'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+ # 'EXTRA_SIGNALS': ['myproject.signals.MySignal'],
+'HIDE_DJANGO_SQL': False,
+#  'TAG': 'html',
+#'DEBUG_TOOLBAR_MEDIA_URL' : '/usr/local/lib/python2.6/dist-packages/django_debug_toolbar-0.8.5-py2.6.egg/debug_toolbar/media'       
+    }
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
