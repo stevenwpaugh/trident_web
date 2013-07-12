@@ -39,7 +39,6 @@ class gemeth(models.Model):
 class gemir(models.Model):
     probe_set_id = models.CharField(max_length=50)
     exiqon_id = models.CharField(max_length=50)
-    microrna = models.CharField(max_length=50)
     totxv_t_p = models.CharField(max_length=100)
     totxv_t_stat = models.CharField(max_length=100)
     totxv_w_p = models.CharField(max_length=100)
@@ -50,10 +49,3 @@ class gemir(models.Model):
     totxvi_w_stat = models.CharField(max_length=100)
     meta_p = models.CharField(max_length=100)
     meta_stat = models.CharField(max_length=100)
-    gene_symbol = models.CharField(max_length=100)
-    chr = models.CharField(max_length=100)
-    energy = models.CharField(max_length=100)
-    score = models.CharField(max_length=50)
-    mirna_align = models.CharField(max_length=50)
-    align = models.CharField(max_length=50)
-    gene_align = models.CharField(max_length=50)
