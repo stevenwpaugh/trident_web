@@ -161,7 +161,47 @@ def import_gff(file, genome_version, verbose = False):
             stderr.write("Error loading GFF line: {0}\n".format(line))
             raise de
         ##end of import_gff
+#######
+def import_mirge(file, verbose = False):
+    """
+    Parses a result file from ge vs mir meta analysis and populates the mirge table.
+    
+    """
+    from drresults import models
+    import re
+    from django.db.utils import DatabaseError
+    lineno = 1
+    for line in file:
+        if verbose:
+            print("Line Number: %d" % lineno)
+        lineno += 1
+        info = line.split('\t')
+        probe_set_id = info[0]          
+        exiqon_id = info[1]
+        totxv_t_p = info[2]
+        totxv_t_stat = info[3]
+        totxv_w_p = info[4]
+        totxv_w_stat = info[5]
+	totxvi_t_p = info[6]
+        totxvi_t_stat = info[7]
+        totxvi_w_p = info[8]
+        totxvi_w_stat = info[9]
+        meta_p = info[11]
+        meta_stat = info[12]
 
+        gemir = models.gemir(probe_set_id=probe_setid, exiqon_id=exiqon_id, totxv_t_p=totxv_t_p, totxv_t_stat=totxv_t_stat, totxv_w_p=totxv_w_p, totxv_w_stat=totxv_w_stat, totxvi_t_p=totxvi_t_p, totxvi_t_stat=totxvi_t_stat, totxvi_w_p=totxvi_w_p, totxvi_w_stat=totxvi_w_stat, meta_p=meta_p, meta_stat=meta_stat)
+
+        try:
+            gemir.save()
+        except DatabaseError as de:
+            from sys import stderr
+            stderr.write("Error loading gemir file line: {0}\n".format(line))
+            raise de
+        ##end of import_mirge
+
+
+
+########
 def import_mirna(infile, verbose = False):
     from django.db.utils import DatabaseError
     from Bio import SeqIO
@@ -197,6 +237,8 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
                 import_hgnc(file)
             elif file_type == "mirna":
                 import_mirna(file, verbose)
+            elif file_type == "mirge":
+                import_mirge(file, verbose)
             else:
                 print("%s is not yet implemented" % file_type)
 
