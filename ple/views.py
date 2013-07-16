@@ -3,7 +3,7 @@ from django.db.models import Min, Max
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django import forms
-from tridentdb.models import Results, MicroRNA,Genes,Genome
+from tridentdb.models import Results, MicroRNA, Genes, Genome
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -194,9 +194,11 @@ def jsondetail_chr_start(request, search_string, chromosome, start_pos):
 
 	return HttpResponse(simplejson.dumps({search_string: json_dict,"results": result_array}),mimetype="application/json")
 
-def genedetail(request, gene_symbol):
+def genedetail(request, species, gene_symbol):
+	species = Genome.objects.get(browser_name = species)
 	interp = get_interpolator()
-	genes = Genes.objects.filter(name = gene_symbol)
+	if species:
+		genes = Genes.objects.filter(genome = species.id).filter(name = gene_symbol)
 	gene_dict = {}
 	near_hits = {}
 	
