@@ -22,7 +22,6 @@ urlpatterns = patterns('django.views.generic.simple',
     url(r'^download/', 'direct_to_template', {'template': 'download.html'}),
     url(r'^accounts/', include('registration.urls')),
     url(r'^jbrowse/','direct_to_template',{'template': 'jbrowse.html'}),
-    #url(r'^json','direct_to_template',{'template': 'test.json'}),
 )
 
 urlpatterns += patterns('',
@@ -39,7 +38,9 @@ urlpatterns += patterns('',
    url(r'^detail/(?P<microrna_id>\S+)/(?P<chr>\S+)/(?P<start_pos>\S+)/$', 'ple.views.resultdetail'),
    url(r'^result/(?P<microrna_id>\S+)/$', 'ple.views.result'),	
    url(r'^detail/(?P<microrna_id>\S+)/$', 'ple.views.micrornadetail'),
+   url(r'^json/(?P<search_string>\S+)/chr(?P<chromosome>\S+)/(?P<start_pos>\S+)/$', 'ple.views.jsondetail_chr_start'), # Added this URL to be more flexible with chromosome labels.
    url(r'^json/(?P<search_string>\S+)/(?P<chromosome>\S+)/(?P<start_pos>\S+)/$', 'ple.views.jsondetail_chr_start'),
+   url(r'^json/(?P<search_string>\S+)/chr(?P<chromosome>\S+)/$', 'ple.views.jsondetail_chr'), # Added this URL to be more flexible with chromosome labels.
    url(r'^json/(?P<search_string>\S+)/(?P<chromosome>\S+)/$', 'ple.views.jsondetail_chr'),
    url(r'^json/(?P<search_string>\S+)/$', 'ple.views.jsondetail'),
 	#url(r'^ple/', 'ple.sequence_submission.ple_me', name='home'),   
