@@ -138,14 +138,13 @@ def jsondetail(request, search_string):
 
 	json_array = []
 	for res in mirna_list:
-		num_results = Results.objects.filter(microrna = res.mirbase_name).count()
 		json_dict = {}
 		for key in ["mirbase_name","chromosome","genomic_mir_start","genomic_mir_end","is_primary_transcript","is_on_positive_strand","mirbase_seq","mirbase_id","mirbase_derives_from","genome_id"]:
 			val = getattr(res,key)
 			if val == None:
 				continue
 			json_dict[key] = val
-		json_array.append({"mirna": json_dict, "num_results": num_results})
+		json_array.append({"mirna": json_dict})
 		
 	
 	return HttpResponse(simplejson.dumps({search_string: json_array}),mimetype="application/json")
@@ -222,7 +221,7 @@ def baseurl(request):
 	return {'BASE_URL': "http://" + request.get_host()}
 
 def genome_list(request):
-	c = Context({'genomes': Genome.objects.order_by('genome_genus')})
+	c = Context({'genomes': Genome.objects.exclude(status = "Queued").exclude(status = "Missing").order_by('genome_genus')})
 	t = loader.get_template("genomelist.html")
 	return HttpResponse(t.render(c))
 
