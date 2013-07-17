@@ -30,7 +30,7 @@ def import_hgnc(file):
         accession_numbers = info[8]
         refseq_ids = info[9]
 
-        hgncsymbols = models.hgncsymbols(hgnc_id=hgnc_id,approved_symbol=approved_symbol,approved_name=approved_name,status=status,previous_symbols=previous_symbols,previous_names=previous_names,synonyms=synonyms,chromosome=chromosome,accession_numbers=accession_numbers,refseq_ids=refseq_ids)
+        hgncsymbols = models.hgncsymbols(hgnc_id=hgnc_id, approved_symbol=approved_symbol, approved_name=approved_name, status=status, previous_symbols=previous_symbols, previous_names=previous_names, synonyms=synonyms, chromosome=chromosome, accession_numbers=accession_numbers, refseq_ids=refseq_ids)
         
         try:
             hgncsymbols.save()
@@ -42,7 +42,7 @@ def import_hgnc(file):
 
 def import_genes(filename, chromosome, genome, verbose = False):
     from gene_crawler import crawl_genes
-    from tridentdb.models import Genes,Genome
+    from tridentdb.models import Genes, Genome
     from django.db.utils import DatabaseError
     
     if not chromosome:
@@ -67,7 +67,7 @@ def import_genes(filename, chromosome, genome, verbose = False):
             from sys import stderr
             from gene_crawler import write_gene
             stderr.write("Error loading gene:")
-            write_gene(gene,stderr)
+            write_gene(gene, stderr)
             raise de
 
 def import_scores(file, verbose = False):
@@ -124,13 +124,13 @@ def import_gff(file, genome_version, verbose = False):
         if verbose:
             print("Line Number: %d" % lineno)
         lineno += 1
-        if len(line) == 0:
+        if not line:
             continue
         line = line.strip()
         if line[0] == '#':
             continue
         info = line.split('\t')
-        chromosome = info[0].replace("chr","")
+        chromosome = info[0].replace("chr", "")
         is_primary_transcript = (info[2] == 'miRNA_primary_transcript')
         genomic_mir_start = info[3]
         genomic_mir_end = info[4]
@@ -139,11 +139,16 @@ def import_gff(file, genome_version, verbose = False):
         mirbase_id = mirbase_acc = mirbase_name = mirbase_derives_from = None
         mirbase = info[8].split(';')
         for tag in mirbase:
-            (name,val) = tag.split('=')
+            (name, val) = tag.split('=')
             if name == "ID":
                 mirbase_id = val
             elif name == "accession_number":
                 mirbase_acc = val
+            elif name == "Alias":
+                # Use alias for accession_number IFF accession_number
+                # is not used
+                if not mirbase_acc:
+                    mirbase_acc = val
             elif name == "Name":
                 mirbase_name = val
             elif name == "derives_from":
@@ -225,13 +230,13 @@ def import_mirna(infile, verbose = False):
 
 def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
     if file_type == "genes":# this function does not want a file type
-        import_genes(filename,chromosome,genome_version,verbose)
+        import_genes(filename, chromosome, genome_version, verbose)
     else:
-        with open(filename,'r') as file:# these functions do want a file type
+        with open(filename, 'r') as file:# these functions do want a file type
             if file_type == 'gff':
-                import_gff(file, genome_version,verbose)
+                import_gff(file, genome_version, verbose)
             elif file_type == 'score':
-                import_scores(file,verbose)
+                import_scores(file, verbose)
             elif file_type == 'hgnc':
                 next(file)
                 import_hgnc(file)
@@ -244,17 +249,18 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
 
         
 if __name__ == "__main__":
-    from sys import argv
+    from sys import argv, version
     from getopt import getopt
     from trident import parser
     
     import os
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ple.settings")
 
     from django.core.management import execute_from_command_line
 
     short_opts =  'c:g:h'
-    long_opts = ["chromosome","genome","help",'verbose']
+    long_opts = ["chromosome", "genome", "help", 'verbose']
     (optlist, args) = getopt(argv[1:],short_opts, long_opts)
 
 
@@ -262,7 +268,7 @@ if __name__ == "__main__":
     genome_version = None
     chromosome = None
 
-    for (opt,optarg) in optlist:
+    for (opt, optarg) in optlist:
         while opt[0] == '-':
             opt = opt[1:]
         while opt[:-1] == '=':
@@ -271,7 +277,7 @@ if __name__ == "__main__":
             chromosome = optarg
         elif opt in ['g', 'genome']:
             genome_version = optarg
-        elif opt in ["h","help"]:
+        elif opt in ["h", "help"]:
             print_usage()
             exit(0)
         elif opt == 'verbose':
@@ -288,4 +294,4 @@ if __name__ == "__main__":
     file_type = args[0]
     filename = args[1]
 
-    load_file(filename,file_type, genome_version, chromosome, verbose)
+    load_file(filename, file_type, genome_version, chromosome, verbose)
