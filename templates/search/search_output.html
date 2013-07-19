@@ -9,15 +9,14 @@
 
 
 {% block content %}
-
 {% if genes %}
 <h2>Gene Results</h2>
 <br/>
 <ol>
 {% for gene in genes %}
-<li><a href=/gene/{{ gene.approved_symbol }}>{{ gene.approved_symbol }} - {{ gene.approved_name }}</a></li>
-{{ gene.approved_name }}<br>
-Other aliases: {{ gene.previous_symbols }}<br>
+<li><a href="/gene/{{ gene.browser_name }}/{{ gene.name }}">{{ gene.name }}{% if gene.approved_name %} - {{ gene.approved_name }}{% endif %}</a></li>
+{% if gene.approved_name %}{{ gene.approved_name }}<br/>{% endif %}
+{%if gene.previous_symbols %}Other aliases: {{ gene.previous_symbols }}<br/>{% endif %}
 {% endfor %}
 </ol>
 {% endif %}

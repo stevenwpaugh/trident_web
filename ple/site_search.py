@@ -2,6 +2,7 @@ from django import forms
 from django.forms import widgets
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.db.models import Q
 import ple_interface
 from tridentdb.models import *
 from affyannodb.models import *
@@ -9,7 +10,7 @@ from hgnc.models import *
 from django.contrib.auth.decorators import login_required
 
 def get_species_choices():
-    genomes = Genome.objects.all()
+    genomes = Genome.objects.filter(Q(status__isnull=True)|Q(status="")).all()
     genome_list = []
     for genome in genomes:
         genome_list.append( (genome.genome_ver,"{0} {1}".format(genome.genome_genus, genome.genome_species)))
@@ -24,11 +25,20 @@ class SearchForm(forms.Form):
 
 def perform_search(query, species = None):
     genes = None
-    if not species or get_hgnc_genome() in species:
-        genes = hgncsymbols.objects.filter(approved_symbol__icontains=query).order_by('approved_symbol')
+    #if not species or get_hgnc_genome() in species:
+    #    genes = hgncsymbols.objects.filter(approved_symbol__icontains=query).order_by('approved_symbol')
 
+    # Query genes. If species is H. sapiens, join with hgnc data
+    where_stmt = " TRUE "
+    if query:
+        genes = Genes.objects.raw("select tridentdb_genes.*, hgnc_hgncsymbols.approved_name, hgnc_hgncsymbols.previous_symbols, tridentdb_genome.browser_name from tridentdb_genes left join hgnc_hgncsymbols on tridentdb_genes.name = hgnc_hgncsymbols.approved_symbol left join tridentdb_genome on tridentdb_genes.genome_id = tridentdb_genome.id where lower(name) like %s;", ["%{0}%".format(query)])
+        if species:
+            genes = genes.filter(genome=search)
+
+    # Query Mirna
     if species:
         from django.db.models import Q
+
         g = Genome.objects.get(genome_ver = species[0])
         q = Q(genome_id = g.id)
         for s in species[1:]:
