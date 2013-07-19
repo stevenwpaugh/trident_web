@@ -25,15 +25,15 @@ class SearchForm(forms.Form):
 
 def perform_search(query, species = None):
     genes = None
-    #if not species or get_hgnc_genome() in species:
-    #    genes = hgncsymbols.objects.filter(approved_symbol__icontains=query).order_by('approved_symbol')
 
     # Query genes. If species is H. sapiens, join with hgnc data
     where_stmt = " TRUE "
     if query:
-        genes = Genes.objects.raw("select tridentdb_genes.*, hgnc_hgncsymbols.approved_name, hgnc_hgncsymbols.previous_symbols, tridentdb_genome.browser_name from tridentdb_genes left join hgnc_hgncsymbols on tridentdb_genes.name = hgnc_hgncsymbols.approved_symbol left join tridentdb_genome on tridentdb_genes.genome_id = tridentdb_genome.id where lower(name) like %s;", ["%{0}%".format(query)])
+        main_query = "select tridentdb_genes.*, hgnc_hgncsymbols.approved_name, hgnc_hgncsymbols.previous_symbols, tridentdb_genome.browser_name from tridentdb_genes left join hgnc_hgncsymbols on tridentdb_genes.name = hgnc_hgncsymbols.approved_symbol left join tridentdb_genome on tridentdb_genes.genome_id = tridentdb_genome.id"
         if species:
-            genes = genes.filter(genome=search)
+            genes = Genes.objects.raw("{0} where lower(name) like %s and tridentdb_genome.genome_ver like %s;".format(main_query), ["%{0}%".format(query), species[0]])
+        else:
+            genes = Genes.objects.raw("{0} where lower(name) like %s;".format(main_query), ["%{0}%".format(query)])
 
     # Query Mirna
     if species:
