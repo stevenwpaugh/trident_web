@@ -39,7 +39,7 @@ class Genome(models.Model):
         return rep
 
 class MicroRNA(models.Model):
-    chromosome = models.CharField(max_length=2)# gff file, field 1
+    chromosome = models.CharField(max_length=8)# gff file, field 1
     is_primary_transcript = models.BooleanField()# parsed from gff file, field 3
     genomic_mir_start = models.PositiveIntegerField()# gff file filed 4
     genomic_mir_end = models.PositiveIntegerField()# gff file filed 4
@@ -112,7 +112,7 @@ class Results(models.Model):
 class AffymetrixID(models.Model):
     probe_set_id = models.CharField(max_length=50)
     gene_symbol = models.CharField(max_length=50)
-    chromosome =  models.CharField(max_length=2)
+    chromosome =  models.CharField(max_length=8)
     probe_start =  models.IntegerField()
     probe_end =  models.IntegerField()
     genome = models.ForeignKey(Genome)
@@ -123,7 +123,7 @@ class Genes(models.Model):
     genomic_start = models.PositiveIntegerField()
     genomic_end = models.PositiveIntegerField()
     is_on_positive_strand = models.BooleanField()
-    chromosome = models.CharField(max_length=2)
+    chromosome = models.CharField(max_length=8)
     db_xref = models.CharField(max_length=100) # Comma separated list
     synonyms = models.CharField(max_length=300)
     genome = models.ForeignKey(Genome)

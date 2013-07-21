@@ -158,10 +158,8 @@ INSTALLED_APPS = (
     'affyannodb',
     'drresults',
     'hgnc',
-)
-
-if DEBUG:
-    INSTALLED_APPS =  tuple(list(INSTALLED_APPS) +['debug_toolbar'])
+    'debug_toolbar',
+    )
 
 
 DEBUG_TOOLBAR_PANELS = (

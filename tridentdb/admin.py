@@ -5,9 +5,13 @@ admin.site.register(TaxonomyGroup)
 admin.site.register(Genome)
 admin.site.register(MicroRNA)
 admin.site.register(MatchType)
-class ResultsAdmin(admin.ModelAdmin):
-	search_fields = ['hit_genomic_start']
-	#list_filter = ['hit_genomic_start']
-admin.site.register(Results,ResultsAdmin)
+#class ResultsAdmin(admin.ModelAdmin):
+#	search_fields = ['hit_genomic_start']
+#	#list_filter = ['hit_genomic_start']
+#admin.site.register(Results,ResultsAdmin)
 admin.site.register(AffymetrixID)
-admin.site.register(Genes)
+
+
+class GenesAdmin(admin.ModelAdmin):
+    list_display = ("name", "genome")
+admin.site.register(Genes, GenesAdmin)

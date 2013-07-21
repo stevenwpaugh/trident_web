@@ -10,7 +10,7 @@
 <div class="span-20 last">
 <div class="span-20">
 <h2>Genomes</h2>
-<div>We aim to provide information on a variety of different species.  Below are genomes planned and their processing status.</div><br>
+<div>We aim to provide results and data on a variety of different species.  Highlighted genomes below are availble for <a href="/browse">browsing</a>, <a href="/search">searching</a> and download with other genomes having bulk data download availble.</div><br>
 <table class="browserlist">
 {% for genome in genomes %}
 {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:5 %}
@@ -20,16 +20,16 @@
 <td class="browserlist">
 {% if not genome.status %}
 <div id="activecontainer">
-<a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png"></div>
+<a href="/genomes/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png"></div>
 {{ genome.genome_genus }} {{ genome.genome_species }}</a>
 </div>
 {% endif %}
 {% if genome.status %}
 <div id="inactivecontainer">
-<a href="/genome/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png" id="inactiveimage"></a>
-<div><a href="/genome/{{ genome.id }}/" id="inactivetext">{{ genome.status }}</a></div>
+<a href="/genomes/{{ genome.id }}/"><img src="/static/img/icons/{{ genome.browser_name }}.png" id="inactiveimage"></a>
+<div><a href="/genomes/{{ genome.id }}/" id="inactivetext">{{ genome.status }}</a></div>
 </div>
-<a href="/genome/{{ genome.id }}/">{{ genome.genome_genus }} {{ genome.genome_species }}</a>
+<a href="/genomes/{{ genome.id }}/">{{ genome.genome_genus }} {{ genome.genome_species }}</a>
 </div>
 {% endif %}
 
