@@ -29,6 +29,8 @@ class Genome(models.Model):
     genome_genus = models.CharField(max_length=20)
     genome_species = models.CharField(max_length=20)
     browser_name = models.CharField(max_length=16, null=True, blank=True)
+    # Whether or not jbrowse has been setup for this genome
+    has_browser = models.BooleanField(default=False)
     description = models.TextField(null=True)
     status = models.TextField(null=True, blank=True, max_length =32)
     priority = models.IntegerField()

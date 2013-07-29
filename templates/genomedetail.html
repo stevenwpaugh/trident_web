@@ -20,7 +20,7 @@
 <td>Species</td><td>{{ genome.genome_genus }} {{ genome.genome_species }}</td>
 </tr>
 <tr class="{% cycle rowcolor %}">
-<td>Genome Version</td><td>{% if genome.browser_name %}<a href="/static/{{ genome.browser_name }}">{% endif %}{{ genome.genome_ver }}{% if genome.browser_name %}</a>{% endif %}</td>
+<td>Genome Version</td><td>{% if genome.has_browser and genome.browser_name %}<a href="/static/{{ genome.browser_name }}">{% endif %}{{ genome.genome_ver }}{% if genome.browser_name %}</a>{% endif %}</td>
 </tr>
 </table>
 {% endif %}

@@ -17,7 +17,7 @@
 Select a genome below to browse results.  Bulk downloads are availble for the <a href="/genomes">genomes</a> of other species.<br><br>
 <table class="browserlist">
 {% for genome in genomes %}
-{% if genome.status == None or genome.status == "" %}
+{% if genome.has_browser %}
 {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:5 %}
 <tr>
 {% endif %}
