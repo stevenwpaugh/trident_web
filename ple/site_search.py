@@ -31,9 +31,9 @@ def perform_search(query, species = None):
     if query:
         main_query = "select tridentdb_genes.*, hgnc_hgncsymbols.approved_name, hgnc_hgncsymbols.previous_symbols, tridentdb_genome.browser_name from tridentdb_genes left join hgnc_hgncsymbols on tridentdb_genes.name = hgnc_hgncsymbols.approved_symbol left join tridentdb_genome on tridentdb_genes.genome_id = tridentdb_genome.id"
         if species:
-            genes = Genes.objects.raw("{0} where lower(name) like %s and tridentdb_genome.genome_ver like %s;".format(main_query), ["%{0}%".format(query), species[0]])
+            genes = Genes.objects.raw("{0} where lower(name) like %s and tridentdb_genome.genome_ver like %s;".format(main_query), ["%{0}%".format(query.lower()), species[0]])
         else:
-            genes = Genes.objects.raw("{0} where lower(name) like %s;".format(main_query), ["%{0}%".format(query)])
+            genes = Genes.objects.raw("{0} where lower(name) like %s;".format(main_query), ["%{0}%".format(query.lower())])
 
     # Query Mirna
     if species:
