@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/ie.css" type="text/css" media="screen, projection"></link>
 	<![endif]-->
 	
-	<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection"></link>
+<link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection"></link>
 	<link rel="stylesheet" href="{% get_static_prefix %}css/latest.css" type="text/css" media="screen, projection"></link>
 	<script src="{% get_static_prefix %}raphael.js"></script>
 	{% block javascript %}{% endblock %}
@@ -22,10 +22,8 @@
 	  <div class="span-24" id="header">
 		{% block headertext %}
 		<div style="position:relative; top: 300px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
-		  <h2>We're helping treat<br />Childhood Cancer.</h2>
 		</div>
 		<div style="position:relative; top: 325px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
-		  <h3>You can help!</h3>
 		</div>
 		{% endblock %}
 	  </div>
@@ -43,6 +41,9 @@
 		</div>
 		
 		<div class="span-24", id="content">
+		<!--[if lt IE 9]>
+		<p>Hm. You should upgrade your copy of Internet Explorer.</p>
+		<![endif]-->
 		{% if user.is_authenticated %}
 		<h5 style="text-align:right;">Logged in as: {{ user.email}}</h5>
 		{% else %}
