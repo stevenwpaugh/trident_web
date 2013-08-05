@@ -212,7 +212,7 @@ def genedetail(request, species, gene_symbol):
 	return HttpResponse(t.render(c))
 
 def browse(request):
-	c = Context({'genomes': Genome.objects.filter(Q(status__isnull=True)|Q(status="")).order_by('genome_genus')})
+	c = Context({'genomes': Genome.objects.filter(has_browser = True).order_by('genome_genus')})
 	t = loader.get_template("browserlist.html")
 	return HttpResponse(t.render(c))
 	
