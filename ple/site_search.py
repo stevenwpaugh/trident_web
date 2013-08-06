@@ -9,13 +9,6 @@ from affyannodb.models import *
 from hgnc.models import *
 from django.contrib.auth.decorators import login_required
 
-def get_species_choices():
-    genomes = Genome.objects.filter(Q(status__isnull=True)|Q(status="")).all()
-    genome_list = []
-    for genome in genomes:
-        genome_list.append( (genome.genome_ver,"{0} {1}".format(genome.genome_genus, genome.genome_species)))
-    return forms.MultipleChoiceField(required=False, widget=widgets.CheckboxSelectMultiple(),choices=genome_list)
-
 class SearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SearchForm, self).__init__(*args, **kwargs)

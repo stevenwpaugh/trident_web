@@ -202,3 +202,15 @@ def insert_score(score):
     return True
 
 
+def get_species_choices():
+    from django.db.models import Q
+    from django.forms import widgets
+    from django import forms
+    
+    genomes = Genome.objects.filter(Q(status__isnull=True)|Q(status="")).all()
+    genome_list = []
+    for genome in genomes:
+        genome_list.append( (genome.genome_ver,"{0} {1}".format(genome.genome_genus, genome.genome_species)))
+    return forms.MultipleChoiceField(required=False, widget=widgets.CheckboxSelectMultiple(),choices=genome_list)
+
+
