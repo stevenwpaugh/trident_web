@@ -8,7 +8,8 @@ import ple_interface
 from tridentdb.models import get_species_choices
 
 
-default_nts = {'nt1': 'UGGAAUGUAAAGAAGUAUGUAU', 'nt2': 'CTGCTAGCTACTAGGAAAGAAAAGAAGAAAGAAACTGCTAGCTACT', 'long_format': False}
+
+default_nts = {'nt1': 'AAGACGGGAGGAAAGAAGGGAG', 'nt2': 'CTGCTAGCTACTGGGGGAAGAAGAGGGGGCAGAGCTGCTAGCTACT', 'long_format': False}
 
 class SequenceForm(forms.Form):
     nt1 = forms.CharField(max_length=30,widget=forms.Textarea(attrs={'cols':30,'rows':10}))
