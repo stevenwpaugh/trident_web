@@ -9,7 +9,11 @@ from ple.views import *
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('django.views.generic.simple',
+urlpatterns = patterns('',
+    url(r'^download/data/(?P<genome_ver>\S+)/$', 'ple.views.downloaddata'),
+)
+
+urlpatterns += patterns('django.views.generic.simple',
     url(r'^$', direct_to_template, {'template': 'index.html'}),
     
     #This line shows how to redirect to https site when we have a SSL cert
@@ -20,12 +24,11 @@ urlpatterns = patterns('django.views.generic.simple',
     #url(r'^tools/', direct_to_template, {'template': 'tools.html'}),
     url(r'^accounts/', include('registration.urls')),
     url(r'^jbrowse/','direct_to_template',{'template': 'jbrowse.html'}),
+    url(r'^download/linux', 'direct_to_template', {'template': 'downloadlinux.html'}),
+    url(r'^download/', 'direct_to_template', {'template': 'download.html'}),
 )
 
 urlpatterns += patterns('',
-    url(r'^download/data/(?P<genome_ver>\S+)/$', 'ple.views.downloaddata'),
-    url(r'^download/linux', 'direct_to_template', {'template': 'downloadlinux.html'}),
-    url(r'^download/', 'direct_to_template', {'template': 'download.html'}),
     url(r'^browse', 'ple.views.browse'),
     url(r'^genomes/(?P<id>\S+)/$', 'ple.views.genomedetail'),
     url(r'^genomes/', 'ple.views.genome_list'),
