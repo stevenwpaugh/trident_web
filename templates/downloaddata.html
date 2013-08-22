@@ -1,0 +1,15 @@
+
+{% extends "base_generic.html" %}
+
+{% block title %}Download Data for {{ genome.genome_genus }} {{ genome.genome_species }}  {% endblock %}
+
+{% block header %}
+          <div class="span-24" id="headersmall">
+                {% block headertext %}
+                {% endblock %}
+          </div>
+          {% endblock %}
+
+{% block content %}
+Download data for genome {{ genome }}
+{% endblock %}

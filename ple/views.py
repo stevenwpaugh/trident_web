@@ -231,3 +231,11 @@ def genomedetail(request,id):
 	c = Context({'genome': genome})
 	t = loader.get_template("genomedetail.html")
 	return HttpResponse(t.render(c))
+
+
+def downloaddata(request, genome_ver):
+	genome = Genome.objects.get(genome_ver = genome_ver)
+	c = Context({'genome': genome})
+	t = loader.get_template("downloaddata.html")
+	return HttpResponse(t.render(c))
+	
