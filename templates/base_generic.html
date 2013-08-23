@@ -14,6 +14,13 @@
 	<link rel="stylesheet" href="{% get_static_prefix %}css/latest.css" type="text/css" media="screen, projection"></link>
 	<script src="{% get_static_prefix %}raphael.js"></script>
 	{% block javascript %}{% endblock %}
+	<style>
+#ieproblems {
+	font-size: 14px;
+	background-color: #888888;
+	border: 2em ridge;
+}
+	</style>
   </head>
   <body>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
@@ -41,8 +48,14 @@
 		</div>
 		
 		<div class="span-24", id="content">
-		<!--[if lt IE 9]>
-		<p>Hm. You should upgrade your copy of Internet Explorer.</p>
+		<!--[if IE]>
+		<div id="ieproblems"><p>You are currently using Internet Explorer. To take advantage of all of the features of Trident, we suggest you use any other browser. May we suggest:</p>
+		<ul>
+			<li><a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a></li>
+			<li><a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a></li>
+			<li><a href="http://www.opera.com/" target="_blank">Opera</a></li>
+		</ul>
+		</div>
 		<![endif]-->
 		{% if user.is_authenticated %}
 		<h5 style="text-align:right;">Logged in as: {{ user.email}}</h5>
