@@ -48,15 +48,6 @@
 		</div>
 		
 		<div class="span-24", id="content">
-		<!--[if IE]>
-		<div id="ieproblems"><p>You are currently using Internet Explorer. To take advantage of all of the features of Trident, we suggest you use any other browser. May we suggest:</p>
-		<ul>
-			<li><a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a></li>
-			<li><a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a></li>
-			<li><a href="http://www.opera.com/" target="_blank">Opera</a></li>
-		</ul>
-		</div>
-		<![endif]-->
 		{% if user.is_authenticated %}
 		<h5 style="text-align:right;">Logged in as: {{ user.email}}</h5>
 		{% else %}
