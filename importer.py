@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-file_types = ['dna', 'genes', 'gff', 'hgnc', 'mirna', 'score']
+file_types = ['dna', 'gene_association', 'genes', 'gff', 'hgnc', 'mirna', 'score']
 def print_usage():
     print("Usage: importer [options] <file type> <filename>")
     print("Valid file types:")
@@ -228,22 +228,81 @@ def import_mirna(infile, verbose = False):
                 stderr.write("Error loading microrna sequence: {0}".format(record))
                 raise de
 
+
+def import_gene_association(infile, genome_version, verbose = False):
+    from django.core.exceptions import ObjectDoesNotExist
+    from django.db.utils import DatabaseError
+    from tridentdb.models import Genes, MicroRNA, MicroRNAGeneAssociation
+    from django.db import transaction
+    
+    if not genome_version:
+        raise Exception("Genome Version is required to import Gene-MicroRNA Association Data")
+    
+    import_counter = 0
+    
+    with transaction.commit_on_success():
+        for line in infile:
+            # Comments be
+            if not line or line[0] == "#":
+                continue
+            pair_frequency = line.split()
+            if len(pair_frequency) < 2 or not pair_frequency[1].isdigit():
+                raise Exception("Invalid Gene-MicoRNA association data: " + line)
+            frequency = pair_frequency[1]
+            
+            gene_microrna = pair_frequency[0].split(":")
+            if len(gene_microrna) != 2:
+                raise Exception("Invalid Gene-MicoRNA association data: " + line)
+            
+            # Get Gene & MicroRNA Data
+            try:
+                # Genes and MicroRNA may be encoded at different genomic locations
+                genes = Genes.objects.filter(name = gene_microrna[0])
+                micrornas = MicroRNA.objects.filter(mirbase_name = gene_microrna[1])
+            except ObjectDoesNotExist as dne:
+                from sys import stderr
+                if verbose:
+                    stderr.write("Missing Gene or MicroRNA data for {0}. Skipping...\n".format(line))
+                continue
+            except Exception as e:
+                from sys import stderr
+                if verbose:
+                    stderr.write("Error loading information for: " + line)
+                raise e
+         
+            # Save Association
+            try:
+                for microrna in micrornas:
+                    for gene in genes:
+                        association = MicroRNAGeneAssociation(gene = gene, microrna = microrna, frequency = int(frequency))
+                        association.save()
+                        import_counter += 1
+            except DatabaseError as de:
+                from sys import stderr
+                stderr.write("Error loading Gene-MicroRNA Association: {0}\n".format(line))
+                raise de
+        
+    print("Imported {0} Gene-MicroRNA Associations".format(import_counter))
+
+
 def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
     if file_type == "genes":# this function does not want a file type
         import_genes(filename, chromosome, genome_version, verbose)
     else:
-        with open(filename, 'r') as file:# these functions do want a file type
+        with open(filename, 'r') as infile:# these functions do want a file type
             if file_type == 'gff':
-                import_gff(file, genome_version, verbose)
+                import_gff(infile, genome_version, verbose)
             elif file_type == 'score':
-                import_scores(file, verbose)
+                import_scores(infile, verbose)
             elif file_type == 'hgnc':
-                next(file)
-                import_hgnc(file)
+                next(infile)
+                import_hgnc(infile)
             elif file_type == "mirna":
-                import_mirna(file, verbose)
+                import_mirna(infile, verbose)
             elif file_type == "mirge":
-                import_mirge(file, verbose)
+                import_mirge(infile, verbose)
+            elif file_type == "gene_association":
+                import_gene_association(infile, genome_version, verbose)
             else:
                 print("%s is not yet implemented" % file_type)
 

@@ -53,6 +53,10 @@ class MicroRNA(models.Model):
     mirbase_seq = models.CharField(max_length=200,null=True)# Parse from mature.fa and hairpin.fa
     genome = models.ForeignKey(Genome)
     
+    def __unicode__(self):
+        return self.mirbase_name
+
+
 class Results(models.Model):
     chunkid = models.CharField(max_length=6)# parse from reference_id (field 2)
     chromosome = models.CharField(max_length=8, db_index=True)# parse from reference_id (field 1)
@@ -130,6 +134,16 @@ class Genes(models.Model):
     db_xref = models.CharField(max_length=100) # Comma separated list
     synonyms = models.CharField(max_length=300)
     genome = models.ForeignKey(Genome)
+    
+    def __unicode__(self):
+        return "{0} ({1})".format(self.name, self.genome)
+    
+    
+class MicroRNAGeneAssociation(models.Model):
+    microrna = models.ForeignKey(MicroRNA)
+    gene = models.ForeignKey(Genes)
+    frequency = models.PositiveIntegerField()
+
 
 def insert_score(score):
     from django.db.utils import DatabaseError
