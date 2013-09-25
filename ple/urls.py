@@ -2,7 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import ListView
 from tridentdb.models import *
 from django.contrib.auth.decorators import login_required
-from django.views.generic.simple import direct_to_template
+#from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 from ple.views import secure_required
 from ple.views import *
 # Uncomment the next two lines to enable the admin:
@@ -14,18 +15,13 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('django.views.generic.simple',
-    url(r'^$', direct_to_template, {'template': 'index.html'}),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
     
-    #This line shows how to redirect to https site when we have a SSL cert
-    #url(r'^$', secure_required(login_required(direct_to_template)), {'template': 'index.html'}),
-    
-    url(r'^about/', 'direct_to_template', {'template': 'about.html'}),
-    url(r'^api/', direct_to_template, {'template': 'api.html'}),
-    #url(r'^tools/', direct_to_template, {'template': 'tools.html'}),
-    url(r'^accounts/', include('registration.urls')),
-    url(r'^jbrowse/','direct_to_template',{'template': 'jbrowse.html'}),
-    url(r'^download/linux', 'direct_to_template', {'template': 'downloadlinux.html'}),
-    url(r'^download/', 'direct_to_template', {'template': 'download.html'}),
+    url(r'^about/', TemplateView.as_view(template_name='about.html')),
+    url(r'^api/', TemplateView.as_view(template_name='api.html')),
+    #url(r'^accounts/', include('registration.urls')),
+    url(r'^download/linux', TemplateView.as_view(template_name='downloadlinux.html')),
+    url(r'^download/', TemplateView.as_view(template_name='download.html')),
 )
 
 urlpatterns += patterns('',
@@ -59,7 +55,6 @@ urlpatterns += patterns('',
     url(r'^polls/$','polls.views.index'),
     url(r'^polls/(?P<poll_id>\d+)/$','polls.views.detail'),
     url(r'^polls/a/(?P<msg>\S+)/$','polls.views.msg'),
-    (r'^profiles/', include('profiles.urls')),
 
 )
 
