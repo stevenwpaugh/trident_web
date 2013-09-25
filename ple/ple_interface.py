@@ -15,14 +15,6 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 
 
-rev_string = "$Id$"
-
-def get_rev():
-    try:
-        return rev_string.split(" ")[2]
-    except IndexError:
-        return ""
-
 def init():
     print("Content-type: text/html\n\n");
 
@@ -48,9 +40,12 @@ def run_ple(form):
     """
     import tempfile
     from subprocess import Popen,PIPE
+    from local_settings import TRIDENT_EXE_PATH
     
     pid = os.getpid()
-    ple_path = "/opt/miranda/trident/bin/trident"
+    ple_path = TRIDENT_EXE_PATH
+    if not ple_path:
+        ple_path = "trident"
     init()
     
     tmpfiles = {}

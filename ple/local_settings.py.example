@@ -18,3 +18,5 @@ staticfiles_source = base_dir + '/static_source'
 from_email = 'trident@example.com'
 
 secret_key = 'shouldbeuniqueandverylongandrandomseedjangodocs'
+
+TRIDENT_EXE_PATH = "/usr/bin/trident"
