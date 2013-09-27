@@ -7,6 +7,8 @@ import sys
 DEBUG = local.DEBUG
 TEMPLATE_DEBUG = local.TEMPLATE_DEBUG
 
+ALLOWED_HOSTS = local.ALLOWED_HOSTS
+
 ADMINS = (
      ('David Coss', 'David.Coss@stjude.org')
 )
@@ -223,3 +225,4 @@ LOGGING = {
         },
     }
 }
+
