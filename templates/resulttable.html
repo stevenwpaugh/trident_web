@@ -1,6 +1,8 @@
 {% load mytags %}
 {% for result in latest_result_list %}
+{% if 'id' in result %}
 <!-- result id {{result|keyvalue:'id'}} -->
+{% endif %}
 <table>
 <tr>
 <th>Feature</th><th>Value</th>
