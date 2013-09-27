@@ -25,6 +25,8 @@ def ple_to_resultlist(parser, browser_name=None, genome=None):
     
     result_list = []
     for score in parser:
+        if score is None:
+            raise Exception("Error in trident output")
         score['microrna'] = ""
         score['chromosome'] = ""
         score['hit_genomic_start'] = score['ref_start']
