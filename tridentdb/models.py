@@ -106,6 +106,7 @@ class Results(models.Model):
         result_dict['match_type'] = self.match_type.__unicode__()
         result_dict['genome'] = self.genome.__unicode__()
         result_dict["browser_name"] = self.genome.browser_name
+        result_dict['id'] = self.id
     
         if interp:
             from trident.classify import get_grade
