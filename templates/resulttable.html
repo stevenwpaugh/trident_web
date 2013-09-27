@@ -7,7 +7,7 @@
 </tr>
 {% if result|keyvalue:'microrna' %}
 <tr class="{% cycle 'even' 'odd' as rowcolor %}">
-<td>microRNA</td><td><a href="{% url ple.views.micrornadetail microrna_id=result|keyvalue:'microrna' %}">{{ result|keyvalue:'microrna' }}</a></td>
+<td>microRNA</td><td><a href="{% url 'ple.views.micrornadetail' microrna_id=result|keyvalue:'microrna' %}">{{ result|keyvalue:'microrna' }}</a></td>
 </tr>
 <tr>
 <tr class="{% cycle rowcolor %}">
