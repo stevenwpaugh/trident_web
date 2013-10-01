@@ -12,6 +12,7 @@ progress_bar = None
 
 
 def init_progress_bar(num_steps):
+    from progressbar import ProgressBar, Percentage, Bar
     global progress_counter
     global progress_bar
     progress_counter = 0
