@@ -1,4 +1,3 @@
-
 {% extends "base_generic.html" %}
 
 {% block title %}Genome Browser{% endblock %}
@@ -14,7 +13,7 @@
 <div class="span-20 last">
 <div class="span-20">
 <h2>Browse</h2>
-Select a genome below to browse results.  Bulk downloads are availble for the <a href="/genomes">genomes</a> of other species.<br><br>
+Select a genome below to browse results.  Bulk downloads are available for the <a href="/genomes">genomes</a> of other species.<br><br>
 <table class="browserlist">
 {% for genome in genomes %}
 {% if genome.has_browser %}
