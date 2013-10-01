@@ -70,7 +70,7 @@ def import_genes(filename, chromosome, genome, verbose = False):
             write_gene(gene, stderr)
             raise de
 
-def import_scores(file, verbose = False):
+def import_scores(file, verbose = False, do_duplicate_check = True):
     import tridentdb.models
     from trident import parser
     from hashlib import md5
@@ -82,19 +82,20 @@ def import_scores(file, verbose = False):
         if not score:
             continue # non-score lines in a file will produce this
         s = parser.str_score(score)
-        hash = md5(s).digest()
-        if hash in result_hashes:
-            if verbose:
-                print("Ignoring duplicate entry: {0}".format(s))
-            ignore_counter += 1
-            continue
-        else:
-            result_hashes.append(hash)
+        if do_duplicate_check:
+            hash = md5(s).digest()
+            if hash in result_hashes:
+                if verbose:
+                    print("Ignoring duplicate entry: {0}".format(s))
+                ignore_counter += 1
+                continue
+            else:
+                result_hashes.append(hash)
         if verbose:
             print(s)
         tridentdb.models.insert_score(score)
 
-    if ignore_counter:
+    if do_duplicate_check and ignore_counter:
         print("Ignored {0} duplicate entries".format(ignore_counter))
 
 
@@ -285,7 +286,7 @@ def import_gene_association(infile, genome_version, verbose = False):
     print("Imported {0} Gene-MicroRNA Associations".format(import_counter))
 
 
-def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False):
+def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False, do_duplicate_check = True):
     if file_type == "genes":# this function does not want a file type
         import_genes(filename, chromosome, genome_version, verbose)
     else:
@@ -293,7 +294,7 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
             if file_type == 'gff':
                 import_gff(infile, genome_version, verbose)
             elif file_type == 'score':
-                import_scores(infile, verbose)
+                import_scores(infile, verbose, do_duplicate_check)
             elif file_type == 'hgnc':
                 next(infile)
                 import_hgnc(infile)
@@ -319,13 +320,14 @@ if __name__ == "__main__":
     from django.core.management import execute_from_command_line
 
     short_opts =  'c:g:h'
-    long_opts = ["chromosome", "genome", "help", 'verbose']
+    long_opts = ["chromosome", "genome", "help", "no_duplicate_check", 'verbose']
     (optlist, args) = getopt(argv[1:],short_opts, long_opts)
 
 
     verbose = False
     genome_version = None
     chromosome = None
+    do_duplicate_check = True
 
     for (opt, optarg) in optlist:
         while opt[0] == '-':
@@ -339,6 +341,8 @@ if __name__ == "__main__":
         elif opt in ["h", "help"]:
             print_usage()
             exit(0)
+        elif opt == "no_duplicate_check":
+            do_duplicate_check = False
         elif opt == 'verbose':
             verbose = True
         else:
@@ -353,4 +357,4 @@ if __name__ == "__main__":
     file_type = args[0]
     filename = args[1]
 
-    load_file(filename, file_type, genome_version, chromosome, verbose)
+    load_file(filename, file_type, genome_version, chromosome, verbose, do_duplicate_check)
