@@ -7,6 +7,28 @@ def print_usage():
     print(", ".join(file_types))
 
 
+progress_counter = 0
+progress_bar = None
+
+
+def init_progress_bar(num_steps):
+    global progress_counter
+    global progress_bar
+    progress_counter = 0
+    progress_bar = ProgressBar(widgets = [Percentage(), Bar()], maxval=progress_length).start()
+
+
+def update_progress():
+    global progress_counter
+    global progress_bar
+
+    if progress_bar is None:
+        return
+
+    progress_counter += 1
+    progress_bar.update(progress_counter)
+
+
 def import_hgnc(file):
     from hgnc import models
     import re
@@ -81,6 +103,7 @@ def import_scores(file, verbose = False, do_duplicate_check = True):
     for score in p:
         if not score:
             continue # non-score lines in a file will produce this
+        update_progress()
         s = parser.str_score(score)
         if do_duplicate_check:
             hash = md5(s).digest()
@@ -320,7 +343,7 @@ if __name__ == "__main__":
     from django.core.management import execute_from_command_line
 
     short_opts =  'c:g:h'
-    long_opts = ["chromosome", "genome", "help", "no_duplicate_check", 'verbose']
+    long_opts = ["chromosome", "genome", "help", "no_duplicate_check", "progress=", 'verbose']
     (optlist, args) = getopt(argv[1:],short_opts, long_opts)
 
 
@@ -343,6 +366,8 @@ if __name__ == "__main__":
             exit(0)
         elif opt == "no_duplicate_check":
             do_duplicate_check = False
+        elif opt == "progress":
+            init_progress_bar(int(optarg))
         elif opt == 'verbose':
             verbose = True
         else:
@@ -358,3 +383,7 @@ if __name__ == "__main__":
     filename = args[1]
 
     load_file(filename, file_type, genome_version, chromosome, verbose, do_duplicate_check)
+
+    global progress_bar
+    if progress_bar is not None:
+        print("") # reset stdout
