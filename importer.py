@@ -385,6 +385,5 @@ if __name__ == "__main__":
 
     load_file(filename, file_type, genome_version, chromosome, verbose, do_duplicate_check)
 
-    global progress_bar
     if progress_bar is not None:
         print("") # reset stdout
