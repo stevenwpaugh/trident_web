@@ -16,7 +16,7 @@ def init_progress_bar(num_steps):
     global progress_counter
     global progress_bar
     progress_counter = 0
-    progress_bar = ProgressBar(widgets = [Percentage(), Bar()], maxval=progress_length).start()
+    progress_bar = ProgressBar(widgets = [Percentage(), Bar()], maxval=num_steps).start()
 
 
 def update_progress():
