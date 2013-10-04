@@ -104,6 +104,7 @@ def import_scores(file, verbose = False, do_duplicate_check = True, genome=None)
     for score in p:
         if not score:
             continue # non-score lines in a file will produce this
+        extras = {}
         update_progress()
         s = p.last_line
         if do_duplicate_check:
@@ -119,9 +120,9 @@ def import_scores(file, verbose = False, do_duplicate_check = True, genome=None)
             print(s)
         
         if genome:
-            score['genome'] = genome
+            extras['genome'] = genome
         
-        tridentdb.models.insert_score(score)
+        tridentdb.models.insert_score(score, extras)
 
     if do_duplicate_check and ignore_counter:
         print("Ignored {0} duplicate entries".format(ignore_counter))

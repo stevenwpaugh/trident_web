@@ -146,7 +146,7 @@ class MicroRNAGeneAssociation(models.Model):
     frequency = models.PositiveIntegerField()
 
 
-def insert_score(score):
+def insert_score(score, extras={}):
     from django.db.utils import DatabaseError
     import trident.parser as TP
 
@@ -196,11 +196,11 @@ def insert_score(score):
         base_type = base_type[0]
 
     # Get Genome.
-    # There are two options, explicitly specifying it in the score dict
+    # There are two options, explicitly specifying it in the extras dict
     # Or extracting it from the reference id
     # The former is preferred.
-    if "genome" in score:
-        genome_version = score["genome"]
+    if "genome" in extras:
+        genome_version = extras["genome"]
     else:
         genome_tokens = score['reference_id'].split('|')
         if len(genome_tokens) < 6:
