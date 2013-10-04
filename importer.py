@@ -105,7 +105,7 @@ def import_scores(file, verbose = False, do_duplicate_check = True, genome=None)
         if not score:
             continue # non-score lines in a file will produce this
         update_progress()
-        s = parser.last_line
+        s = p.last_line
         if do_duplicate_check:
             hash = md5(s).digest()
             if hash in result_hashes:
