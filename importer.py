@@ -93,7 +93,7 @@ def import_genes(filename, chromosome, genome, verbose = False):
             write_gene(gene, stderr)
             raise de
 
-def import_scores(file, verbose = False, do_duplicate_check = True):
+def import_scores(file, verbose = False, do_duplicate_check = True, genome=None):
     import tridentdb.models
     from trident import parser
     from hashlib import md5
@@ -105,7 +105,7 @@ def import_scores(file, verbose = False, do_duplicate_check = True):
         if not score:
             continue # non-score lines in a file will produce this
         update_progress()
-        s = parser.str_score(score)
+        s = parser.last_line
         if do_duplicate_check:
             hash = md5(s).digest()
             if hash in result_hashes:
@@ -117,6 +117,10 @@ def import_scores(file, verbose = False, do_duplicate_check = True):
                 result_hashes.append(hash)
         if verbose:
             print(s)
+        
+        if genome:
+            score['genome'] = genome
+        
         tridentdb.models.insert_score(score)
 
     if do_duplicate_check and ignore_counter:
@@ -318,7 +322,7 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
             if file_type == 'gff':
                 import_gff(infile, genome_version, verbose)
             elif file_type == 'score':
-                import_scores(infile, verbose, do_duplicate_check)
+                import_scores(infile, verbose, do_duplicate_check,genome_version)
             elif file_type == 'hgnc':
                 next(infile)
                 import_hgnc(infile)
