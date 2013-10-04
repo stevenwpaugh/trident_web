@@ -195,12 +195,19 @@ def insert_score(score):
     else:
         base_type = base_type[0]
 
-    genome_tokens = score['reference_id'].split('|')
-    if len(genome_tokens) < 6:
-        error_msg("Reference data is missing the genome version information.\nReference Data: %s" % score['reference_id'])
-        exit(1)
+    # Get Genome.
+    # There are two options, explicitly specifying it in the score dict
+    # Or extracting it from the reference id
+    # The former is preferred.
+    if "genome" in score:
+        genome_version = score["genome"]
     else:
-        genome_version = genome_tokens[6]
+        genome_tokens = score['reference_id'].split('|')
+        if len(genome_tokens) < 6:
+            error_msg("Reference data is missing the genome version information.\nReference Data: %s" % score['reference_id'])
+            exit(1)
+        else:
+            genome_version = genome_tokens[6]
     genome = Genome.objects.filter(genome_ver = genome_version)
     if len(genome) != 1:
         raise ImportException("Genome, '{0}', has not yet been loaded into the database.\nHit: {1}".format(genome_version,score))
