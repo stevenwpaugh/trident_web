@@ -1,21 +1,38 @@
 {% extends "base_generic.html" %}
 {% block header %}
-   <div class="span-24" id="header">
-<div class="cycle-slideshow">
+<div class="span-24" id="header">
+  <div class="cycle-slideshow" data-cycle-slides="> a">
 
-    <img src="/static/img/splash_dist.png">
-    <img src="/static/img/splash_helix.png">
-    <img src="/static/img/splash_triplet.png">
+    <a href="/tools", style="color:black;"><div style="background-image: url(/static/img/splash_dist.png); height: 500px; width: 950px;" class="span-24">
+        <div style="position:relative; top: 300px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif; font-size:20px;">Use the online prediction tool to find triplex binding sites
+	</div>
+	<div style="position:relative; top: 325px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
+	</div>
+      </div>
+    </a>
+
+    <a href="/download", style="color:black;">
+      <div style="background-image: url(/static/img/splash_helix.png); height: 500px; width: 950px;" class="span-24">
+	<div style="position:relative; top: 300px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif; font-size:20px;">Download the Trident source code and postprocessing pipeline
+	</div>
+	<div style="position:relative; top: 325px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif; font-size:20px;">
+	</div>
+      </div>
+    </a>
+
+    <a href="/browse", style="color:black;">
+      <div style="background-image: url(/static/img/splash_triplet.png); height: 500px; width: 950px;" class="span-24">
+	<div style="position:relative; top: 300px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif; font-size:20px;">Browse Trident results
+	</div>
+	<div style="position:relative; top: 325px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
+	</div>
+      </div>
+    </a>
+    
+  </div>
+  {% block headertext %}
+  {% endblock %}
 </div>
-                {% block headertext %}
-                <div style="position:relative; top: 300px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
-                </div>
-                <div style="position:relative; top: 325px; left:50px; text-align:left; font-family:'Times New Roman', Times, serif;">
-                </div>
-{% endblock %}
-          </div>
-
-
 {% endblock %}
 
 {% block content %}
