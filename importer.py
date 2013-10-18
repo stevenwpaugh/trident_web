@@ -93,14 +93,14 @@ def import_genes(filename, chromosome, genome, verbose = False):
             write_gene(gene, stderr)
             raise de
 
-def import_scores(file, verbose = False, do_duplicate_check = True, genome=None):
+def import_scores(file, verbose = False, do_duplicate_check = True, genome=None, ignore_offset=False):
     import tridentdb.models
     from trident import parser
     from hashlib import md5
     
     ignore_counter = 0
     result_hashes = []
-    p = parser.Parser(file)
+    p = parser.Parser(file, ignore_offset)
     for score in p:
         if not score:
             continue # non-score lines in a file will produce this
@@ -315,7 +315,8 @@ def import_gene_association(infile, genome_version, verbose = False):
     print("Imported {0} Gene-MicroRNA Associations".format(import_counter))
 
 
-def load_file(filename, file_type, genome_version = None, chromosome = None, verbose = False, do_duplicate_check = True):
+def load_file(filename, file_type, genome_version = None, chromosome = None,
+                verbose = False, do_duplicate_check = True, ignore_offset=False):
     if file_type == "genes":# this function does not want a file type
         import_genes(filename, chromosome, genome_version, verbose)
     else:
@@ -323,7 +324,7 @@ def load_file(filename, file_type, genome_version = None, chromosome = None, ver
             if file_type == 'gff':
                 import_gff(infile, genome_version, verbose)
             elif file_type == 'score':
-                import_scores(infile, verbose, do_duplicate_check,genome_version)
+                import_scores(infile, verbose, do_duplicate_check,genome_version, ignore_offset)
             elif file_type == 'hgnc':
                 next(infile)
                 import_hgnc(infile)
@@ -349,7 +350,7 @@ if __name__ == "__main__":
     from django.core.management import execute_from_command_line
 
     short_opts =  'c:g:h'
-    long_opts = ["chromosome", "genome", "help", "no_duplicate_check", "progress=", 'verbose']
+    long_opts = ["chromosome", "genome", "help", "ignore_offset", "no_duplicate_check", "progress=", 'verbose']
     (optlist, args) = getopt(argv[1:],short_opts, long_opts)
 
 
@@ -370,6 +371,8 @@ if __name__ == "__main__":
         elif opt in ["h", "help"]:
             print_usage()
             exit(0)
+        elif opt == "ignore_offset":
+            ignore_offset = True
         elif opt == "no_duplicate_check":
             do_duplicate_check = False
         elif opt == "progress":
@@ -388,7 +391,7 @@ if __name__ == "__main__":
     file_type = args[0]
     filename = args[1]
 
-    load_file(filename, file_type, genome_version, chromosome, verbose, do_duplicate_check)
+    load_file(filename, file_type, genome_version, chromosome, verbose, do_duplicate_check, ignore_offset)
 
     if progress_bar is not None:
         print("") # reset stdout
