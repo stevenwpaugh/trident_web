@@ -230,7 +230,7 @@ def get_species_choices():
     from django.forms import widgets
     from django import forms
     
-    genomes = Genome.objects.filter(Q(status__isnull=True)|Q(status="")).all()
+    genomes = Genome.objects.filter(Q(status__isnull=True)|Q(status="")|Q(status="Download")).all()
     genome_list = []
     for genome in genomes:
         genome_list.append( (genome.genome_ver,"{0} {1}".format(genome.genome_genus, genome.genome_species)))
