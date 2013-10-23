@@ -117,6 +117,11 @@ class Results(models.Model):
     
         return result_dict
 
+    class Meta:
+        index_together = [
+            ["chromosome", "hit_genomic_start", "hit_genomic_end"],
+        ]
+
 class AffymetrixID(models.Model):
     probe_set_id = models.CharField(max_length=50)
     gene_symbol = models.CharField(max_length=50)
