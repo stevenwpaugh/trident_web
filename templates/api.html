@@ -24,13 +24,13 @@
 <br/></p>
 
 <ul>
-<li>{{ BASE_URL }}/gene/GENENAME/ - Provides gene information, such as genomic location, synonyms and trident results within the gene location. </li>
-<li>{{ BASE_URL }}/detail/MICRORNA/ - Provides MicroRNA information, such as genomic information and mirbase id.</li>
-<li>{{ BASE_URL }}/json/MICRORNA/ - Same as {{ BASE_URL }}/detail/MICRORNA/, but output is provided in JSON format.</li>
-<li>{{ BASE_URL }}/json/MICRORNA/CHROMOSOME NUMBER - Lists the number of trident results on a given chromosome for MICRORNA.</li>
-<li>{{ BASE_URL }}/detail/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/ - Lists trident results for MICRORNA that start at GENOMIC START LOCATION on the given chromosome.</li>
-<li>{{ BASE_URL }}/json/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/ - Same as {{ BASE_URL }}/detail/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/, but output is provided in JSON format.</li>
-<li>{{ BASE_URL }}/search/QUERY/ - REST API to the search function, searching microrna and gene data. Provides the same result given by the form on the page <a href="{{ BASE_URL }}/search/">{{ BASE_URL }}/search/</a>.</li>
+<li>{{ BASE_URL }}/gene/SPECIESABBR/GENENAME/ - Provides gene information, such as genomic location, synonyms and trident results within the gene location. Example: <a href="{{ BASE_URL }}/gene/hsa/TP53/">{{ BASE_URL }}/gene/hsa/TP53/</a></li>
+<li>{{ BASE_URL }}/detail/MICRORNA/ - Provides MicroRNA information, such as genomic information and mirbase id. Example: <a href="{{ BASE_URL }}/detail/hsa-miR-4644/">{{ BASE_URL }}/detail/hsa-miR-4644/</a></li>
+<li>{{ BASE_URL }}/json/MICRORNA/ - Same as {{ BASE_URL }}/detail/MICRORNA/, but output is provided in JSON format. Example: <a href="{{ BASE_URL }}/json/hsa-miR-4644/">{{ BASE_URL }}/json/hsa-miR-4644/</a></li>
+<li>{{ BASE_URL }}/json/MICRORNA/CHROMOSOME NUMBER - Lists the number of trident results on a given chromosome for MICRORNA. Example: <a href="{{ BASE_URL }}/json/mmu-miR-328-5p/1/">{{ BASE_URL }}/json/mmu-miR-328-5p/1/</a></li>
+<li>{{ BASE_URL }}/detail/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/ - Lists trident results for MICRORNA that start at GENOMIC START LOCATION on the given chromosome. Example: <a href="{{ BASE_URL }}/detail/hsa-miR-4716-5p/chr1/120023035/">{{ BASE_URL }}/detail/hsa-miR-4716-5p/chr1/120023035/</a></li>
+<li>{{ BASE_URL }}/json/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/ - Same as {{ BASE_URL }}/detail/MICRORNA/CHROMOSOME NUMBER/GENOMIC START LOCATION/, but output is provided in JSON format. Example: <a href="{{ BASE_URL }}/json/hsa-miR-4644/chr1/120010564/">{{ BASE_URL }}/json/hsa-miR-4644/chr1/120010564/</a></li>
+<li>{{ BASE_URL }}/search/QUERY/ - REST API to the search function, searching microrna and gene data. Provides the same result given by the form on the page <a href="{{ BASE_URL }}/search/">{{ BASE_URL }}/search/</a>. Example: <a href="{{ BASE_URL }}/search/CASP9/">{{ BASE_URL }}/search/CASP9/</a></li>
 </ul>
 
 
