@@ -14,11 +14,11 @@
 <div class="span-20 last">
 <div class="span-20">
 <h2>Download Options</h2>
-<p>There are three main components to Trident. Initial results are produced with a single executable written in C. Additionally, there are a set of post-processing tools available to analyze trident data. Finally, data may be presented using the web user interface presented here. All three are available under the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> version 3. These components may be obtained individually (below) or together in a pre-built Linux <a href="/download/linux">system</a>. Trident was built and tested on CentOS 6. However, the trident executable has been used on Mac OSX 1.6 and Windows XP and 7, with the Windows version being built using Cygwin.</p>
+<p>There are three main components to Trident. Initial results are produced with a single executable written in C. Additionally, there are a set of post-processing tools available to analyze trident data. Finally, data may be presented using the web user interface presented here. All three are available under the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> version 3. These components can be obtained individually (below).  Trident was built and tested on CentOS 6. However, the trident executable has been used on Mac OSX 1.6 and Windows XP and 7, with the Windows version being built using Cygwin.</p>
 
 <h2>Trident Executable</h2>
 <h3>Obtaining Trident</h3>
-<p>The Trident executable is available as source code or a prebuilt linux <a href="download/binary">package</a>. The current release may be downloaded <a href="https://code.stjude.org/gitweb/?p=explore-R.git;a=snapshot;h=refs/tags/v0.1">here</a>. 
+<p>The Trident executable is available as source code.  The current release may be downloaded <a href="https://code.stjude.org/gitweb/?p=trident.git">here</a>. 
 
 Also, the source code repository is available using git. A copy of the source code be obtained by cloning the repository, using the command:<code>git clone https://code.stjude.org/apps/trident.git</code></p>
 
@@ -26,19 +26,17 @@ Also, the source code repository is available using git. A copy of the source co
 <p>Trident is written in C and is built using <a href="http://en.wikipedia.org/wiki/GNU_build_system" target="_blank">GNU Autotools</a>. To build trident, in a terminal, change to the top Trident source directory. Then run<code>./configure && make</code></p>
 
 <h2>Trident Hadoop</h2>
-<p>Depending on the score threshold, trident output can be very lengthy. To facilitate efficient and simple data extraction and analysis, the trident package comes with Hadoop Map Reduce programs. The latest trident score map reduce program is available as a <a href="javascript:alert('TO BE ADDED');">jar file</a>. Also, the hadoop code is located in the <em>hadoop</em> subdirectory of the main source code distribution. The java main class is TridentScoreMR. This program requires an input file name as a command line argument. For example, to count the number of Energy-Score pairs, run:<br/><code>hadoop jar TridentScoreMR.jar TridentScoreMR /user/dcoss/hs/chr18/chr18.out</code></p>
+<p>Depending on the score threshold, trident output can be very lengthy. To facilitate efficient and simple data extraction and analysis, the trident package comes with Hadoop Map Reduce programs. The latest trident score map reduce program is available as a <a href="{% get_static_prefix %}TridentScoreMR.jar">jar file</a>. Also, the hadoop code is located in the <em>hadoop</em> subdirectory of the main source code distribution. The java main class is TridentScoreMR. This program requires an input file name as a command line argument. For example, to count the number of Energy-Score pairs, run:<br/><code>hadoop jar TridentScoreMR.jar TridentScoreMR /user/dcoss/hs/chr18/chr18.out</code></p>
 
 <h2>Trident Python</h2>
-<p>Multiple python script are available for preparing and analyzing data from trident. For a detailed description of the trident modules available, see the trident python <a href="/api/python">api page</a>. The python code is located in the <em>python</em> subdirectory of the main source code distribution. Also, for linux, the trident python package and scripts may be downloaded <a href="javascript:alert('TO BE ADDED');">here</a> as a Python Egg.
+<p>Multiple python script are available for preparing and analyzing data from trident. For a detailed description of the trident modules available, see the trident python <a href="/api/python">api page</a>. The python code is located in the <em>python</em> subdirectory of the main source code distribution. Also, for linux, the trident python package and scripts may be downloaded <a href="/download/python">here</a> as a Python Egg.
 <br/><br/>
 The trident python code may be build from source using <a href="https://pypi.python.org/pypi/setuptools" target="_blank">setuptools</a>. To build and install the python code, in the <em>python</em> subdirectory, run:<br/><code>python setup.py install</code></p>.
 
 <h2><a name="trident_web"></a>Trident Web</h2>
-<p>This website was developed to allow the user to search and visualize trident results. A template trident website is available as a django application. The source may downloaded as a source <a href="https://code.stjude.org/gitweb/?p=explore-R.git;a=snapshot;h=refs/tags/v0.1">package</a> or cloned from the git repository: by running:<br/><code>git clone https://code.stjude.org/apps/trident.git</code>
+<p>This website was developed to allow the user to search and visualize trident results. A template trident website is available as a django application. The source may downloaded as a source <a href="https://code.stjude.org/gitweb/?p=trident_web.git">package</a> or cloned from the git repository: by running:<br/><code>git clone https://code.stjude.org/apps/trident_web.git</code>
 <br/><br/>
-Additionally, the trident linux <a href="/download/linux">system</a> contains a working copy of trident web.
-<br/><br/>
-The website requires Apache, Python 2.7 and Django 1.4. To setup Apache to run trident web, the apache configuration files must be changed to include the trident web path. An example apache configuration file is located in the <em>apache</em> subdirectory of the Trident Web directory.</p>
+The website requires Apache, Python 2.7 and Django 1.5. To setup Apache to run trident web, the apache configuration files must be changed to include the trident web path. An example apache configuration file is located in the <em>apache</em> subdirectory of the Trident Web directory.</p>
 </div>
 </div>
 {% endblock %}
