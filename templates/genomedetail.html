@@ -23,7 +23,7 @@
 <td>Genome Version</td><td>{% if genome.has_browser and genome.browser_name %}<a href="/static/{{ genome.browser_name }}">{% endif %}{{ genome.genome_ver }}{% if genome.browser_name %}</a>{% endif %}</td>
 </tr>
 <tr class="{% cycle rowcolor %}">
-<td>Download <a href="/download/data/{{ genome.genome_ver }}/">Data</a></td>
+<td>Download <a href="/download/data/{{ genome.browser_name }}/">Data</a></td>
 </table>
 {% endif %}
 </div>
