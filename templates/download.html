@@ -1,4 +1,3 @@
-
 {% extends "base_generic.html" %}
 
 {% block title %}Download{% endblock %}
@@ -26,7 +25,7 @@ Also, the source code repository is available using git. A copy of the source co
 <p>Trident is written in C and is built using <a href="http://en.wikipedia.org/wiki/GNU_build_system" target="_blank">GNU Autotools</a>. To build trident, in a terminal, change to the top Trident source directory. Then run<code>./configure && make</code></p>
 
 <h2>Trident Hadoop</h2>
-<p>Depending on the score threshold, trident output can be very lengthy. To facilitate efficient and simple data extraction and analysis, the trident package comes with Hadoop Map Reduce programs. The latest trident score map reduce program is available as a <a href="{% get_static_prefix %}TridentScoreMR.jar">jar file</a>. Also, the hadoop code is located in the <em>hadoop</em> subdirectory of the main source code distribution. The java main class is TridentScoreMR. This program requires an input file name as a command line argument. For example, to count the number of Energy-Score pairs, run:<br/><code>hadoop jar TridentScoreMR.jar TridentScoreMR /user/dcoss/hs/chr18/chr18.out</code></p>
+<p>Depending on the score threshold, trident output can be very lengthy. To facilitate efficient and simple data extraction and analysis, the trident package comes with Hadoop Map Reduce programs. The latest trident score map reduce program is available as a <a href="/download/hadoop">jar file</a>. Also, the hadoop code is located in the <em>hadoop</em> subdirectory of the main source code distribution. The java main class is TridentScoreMR. This program requires an input file name as a command line argument. For example, to count the number of Energy-Score pairs, run:<br/><code>hadoop jar TridentScoreMR.jar TridentScoreMR /user/dcoss/hs/chr18/chr18.out</code></p>
 
 <h2>Trident Python</h2>
 <p>Multiple python script are available for preparing and analyzing data from trident. For a detailed description of the trident modules available, see the trident python <a href="/api/python">api page</a>. The python code is located in the <em>python</em> subdirectory of the main source code distribution. Also, for linux, the trident python package and scripts may be downloaded <a href="/download/python">here</a> as a Python Egg.

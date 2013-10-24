@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from tridentdb.models import *
 from django.contrib.auth.decorators import login_required
 #from django.views.generic.simple import direct_to_template
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from ple.views import secure_required
 from ple.views import *
 # Uncomment the next two lines to enable the admin:
@@ -21,6 +21,8 @@ urlpatterns += patterns('django.views.generic.simple',
     url(r'^api/', TemplateView.as_view(template_name='api.html')),
     #url(r'^accounts/', include('registration.urls')),
     url(r'^download/linux', TemplateView.as_view(template_name='downloadlinux.html')),
+    url(r'^download/python', RedirectView.as_view(url="ftp://trident.stjude.org/binaries/python")),
+    url(r'^download/hadoop', RedirectView.as_view(url="ftp://trident.stjude.org/binaries/java")),
     url(r'^download/', TemplateView.as_view(template_name='download.html')),
 )
 
