@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block header %}
+ <style type="text/css">  
+   #holder {  
+   width: 500px;  
+   border: 1px solid #aaa;  
+   }  
+ </style>  
+ <script src="{% get_static_prefix %}js/plot.js"></script>
+
+{% endblock %}
+
+
+{% block body %}
+<div id="holder"></div>
+{% endblock %}

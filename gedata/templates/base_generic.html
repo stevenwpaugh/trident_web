@@ -1,0 +1,79 @@
+{% load static %}
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+    <title>Django</title>
+    <script src="{% get_static_prefix %}js/jquery-1.10.2.min.js"></script>
+    <script src="{% get_static_prefix %}js/jquery.cycle2.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/screen.css" type="text/css" media="screen, projection"></link>
+    <link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/print.css" type="text/css" media="print"> </link>
+    <!--[if lt IE 8]><link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/ie.css" type="text/css" media="screen, projection"></link><![endif]-->
+    <link rel="stylesheet" href="{% get_static_prefix %}css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection"></link>
+    <script src="{% get_static_prefix %}js/raphael.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+      var dt_table = $('.datatable').dataTable({
+      "bProcessing": true,
+      "bServerSide": true,
+      "sAjaxSource": "http://127.0.0.1:8000/dataview/"
+      });
+      var snp_table = $('.snptable').dataTable({
+      "bProcessing": true,
+      "bServerSide": true,
+      "sAjaxSource": "http://127.0.0.1:8000/dataview/LC50/SNP/"
+      });
+            
+  });
+      
+    </script>
+    {% block header %}
+    {% endblock %}
+  </head>
+  <body>
+    <div class="span-24" id="menubar">
+      <a href="/" class="menu">Home</a>| 
+      <a href="/data" class="menu">Data</a>
+      <a href="/dataview" class="menu">Dataview</a>
+    </div>
+    
+    {% block body %}
+    {% endblock %}
+<table class="datatable">
+  <thead>
+    <tr>
+      <th>pid</th>
+      <th>probe_set_id</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Row 1</td>
+      <td>Row 1</td>
+      <td>Row 1</td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="snptable">
+  <thead>
+    <tr>
+      <th>pid</th>
+      <th>probe_set_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Row 1</td>
+      <td>Row 1</td>
+    </tr>
+  </tbody>
+</table>
+
+
+  </body>
+</html>	
+
+
+
