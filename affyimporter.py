@@ -22,7 +22,7 @@ if __name__ == "__main__":
     from getopt import getopt
     
     import os
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ple.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "trident_web.settings")
     from django.db import models
     from django.core.management import execute_from_command_line
     filename = sys.argv[1]
